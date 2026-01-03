@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { toast } from '@/app/components/ui/use-toast';
-import { IconAlertCircle } from '@tabler/icons-react';
+import { AlertCircle } from 'lucide-react';
 import React from 'react';
 
 interface UseConnectDriveOptions {

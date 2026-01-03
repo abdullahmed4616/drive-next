@@ -1,4 +1,4 @@
-import { IconCheck } from '@tabler/icons-react'
+import { Check } from 'lucide-react'
 import { SubscriptionPlan, BillingCycle } from '../types/types'
 import { marketingPlans } from '../config/market'
 
@@ -108,7 +108,7 @@ export const PricingCard = ({
                                     flexShrink: 0,
                                 }}
                             >
-                                <IconCheck size={14} stroke={3} color={PRIMARY_COLOR} />
+                                <Check size={14} stroke={3} color={PRIMARY_COLOR} />
                             </div>
                             <span style={{ fontSize: '14px', fontWeight: 600, color: '#444', lineHeight: '22px' }}>
                                 {feature}
