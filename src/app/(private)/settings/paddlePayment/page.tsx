@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { Info, Crown } from 'lucide-react'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { SettingsSidebar } from '@/app/(private)/settings/_components/sidebar'
 import { PricingCard } from '@/app/(private)/settings/paddlePayment/_components/PricingCard'
 import { PaddleLoader, usePaddle } from '@/app/(private)/settings/paddlePayment/_components/Loader'
@@ -12,8 +11,6 @@ import {useUserId} from "@/app/(private)/hooks/useAuthStatus";
 
 const PRIMARY_COLOR = '#6B9ADF'
 const BORDER_COLOR = 'rgba(107, 154, 223, 0.3)'
-
-const queryClient = new QueryClient()
 
 function SubscriptionPageContent() {
     const [billingCycle, setBillingCycle] = useState<BillingCycle>('monthly')
@@ -268,9 +265,5 @@ function SubscriptionPageContent() {
 }
 
 export default function SubscriptionPage() {
-    return (
-        <QueryClientProvider client={queryClient}>
-            <SubscriptionPageContent />
-        </QueryClientProvider>
-    )
+    return <SubscriptionPageContent />
 }

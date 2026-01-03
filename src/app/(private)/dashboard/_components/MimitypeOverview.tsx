@@ -1,6 +1,6 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import useSWR from "swr";
 import {
   FileText,
   Image as ImageIcon,
