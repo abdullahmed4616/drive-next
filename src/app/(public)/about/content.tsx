@@ -2,28 +2,11 @@
 
 import React, { ReactNode } from 'react';
 import Image from 'next/image';
-import {
-    Container,
-    Title,
-    Text,
-    Button,
-    Grid,
-    Card,
-    Stack,
-    Group,
-    Box,
-    Badge,
-    ThemeIcon,
-} from '@mantine/core';
-import {
-    IconX,
-    IconCheck,
-    IconBulb,
-    IconShield,
-    IconTrendingUp,
-    IconSparkles,
-} from '@tabler/icons-react';
+import { X, Check, Lightbulb, Shield, TrendingUp, Sparkles } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { Button } from "@/app/components/ui/button";
+import { Badge } from "@/app/components/ui/badge";
+import { Card } from "@/app/components/ui/card";
 
 const PRIMARY_COLOR = '#6B9ADF';
 const ACCENT_BG_COLOR = 'rgba(0,0,0, 0.2)';
@@ -49,8 +32,8 @@ export default function AboutPage() {
     };
 
     return (
-        <Box style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden', paddingBottom: 100 }}>
-            <Box
+        <div style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden', paddingBottom: 100 }}>
+            <div
                 style={{
                     position: 'fixed',
                     top: '-10%',
@@ -64,7 +47,7 @@ export default function AboutPage() {
                     zIndex: 0,
                 }}
             />
-            <Box
+            <div
                 style={{
                     position: 'fixed',
                     bottom: '-10%',
@@ -79,17 +62,13 @@ export default function AboutPage() {
                 }}
             />
 
-            <Container size="lg" py={80}>
-                <Stack gap="xl" align="center" ta="center" style={{ position: 'relative', zIndex: 1 }}>
+            <div className="container mx-auto px-4 py-20">
+                <div className="flex flex-col gap-8 items-center text-center" style={{ position: 'relative', zIndex: 1 }}>
                     <Badge
-                        size="lg"
-                        radius="xl"
+                        className="text-white border-none font-semibold"
                         style={{
                             background: PRIMARY_COLOR,
-                            color: 'white',
-                            border: 'none',
                             padding: '8px 20px',
-                            fontWeight: 600,
                             boxShadow: `0 4px 16px ${PRIMARY_COLOR}50`,
                             animation: 'pulse 2s ease-in-out infinite',
                         }}
@@ -97,93 +76,77 @@ export default function AboutPage() {
                         About DriveUnity
                     </Badge>
 
-                    <Title order={1} size={52} fw={800} style={{ lineHeight: 1.2, maxWidth: 700 }}>
+                    <h1 className="text-5xl font-bold max-w-2xl" style={{ lineHeight: 1.2 }}>
                         Learn About{' '}
-                        <Text component="span" style={gradientText}>
+                        <span style={gradientText}>
                             DriveUnity
-                        </Text>
-                    </Title>
+                        </span>
+                    </h1>
 
-                    <Text size="xl" c="dimmed" ta="center" maw={700} style={{ lineHeight: 1.8 }}>
+                    <p className="text-xl text-gray-600 text-center max-w-2xl" style={{ lineHeight: 1.8 }}>
                         DriveUnity unifies all your cloud drives in one dashboard. Simplify, organize, and secure your digital world with modern automation.
-                    </Text>
-                </Stack>
-            </Container>
+                    </p>
+                </div>
+            </div>
 
-            <Container size="xl" py={60}>
-                <Grid gutter="xl">
-                    <Grid.Col span={{ base: 12, md: 6 }}>
-                        <Card style={glassCard} shadow="sm">
-                            <Stack gap="md">
-                                <Title order={3} style={gradientText}>Our Mission & Vision</Title>
-                                <Text c="dimmed">
-                                    Our mission is to revolutionize how users manage multiple cloud drives efficiently.
-                                </Text>
-                                <Text c="dimmed">
-                                    Our vision is to become the most trusted platform for unified cloud storage management.
-                                </Text>
-                            </Stack>
-                        </Card>
-                    </Grid.Col>
+            <div className="container mx-auto px-4 py-16">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <Card className="shadow-sm" style={glassCard}>
+                        <div className="flex flex-col gap-4">
+                            <h3 className="text-2xl font-bold" style={gradientText}>Our Mission & Vision</h3>
+                            <p className="text-gray-600">
+                                Our mission is to revolutionize how users manage multiple cloud drives efficiently.
+                            </p>
+                            <p className="text-gray-600">
+                                Our vision is to become the most trusted platform for unified cloud storage management.
+                            </p>
+                        </div>
+                    </Card>
 
-                    <Grid.Col span={{ base: 12, md: 6 }}>
-                        <Card style={glassCard} shadow="sm">
-                            <Image
-                                src="/images/architecture.png"
-                                alt="Cloud Unity Architecture"
-                                width={500}
-                                height={400}
-                                style={{ width: '100%', borderRadius: '18px' }}
-                            />
-                        </Card>
-                    </Grid.Col>
-                </Grid>
-            </Container>
+                    <Card className="shadow-sm" style={glassCard}>
+                        <Image
+                            src="/images/architecture.png"
+                            alt="Cloud Unity Architecture"
+                            width={500}
+                            height={400}
+                            style={{ width: '100%', borderRadius: '18px' }}
+                        />
+                    </Card>
+                </div>
+            </div>
 
-            <Container size="xl" py={60}>
-                <Stack gap="xl">
-                    <Title order={2} ta="center" style={gradientText}>Challenges & Solutions</Title>
-                    <Grid gutter="xl">
-                        <Grid.Col span={{ base: 12, md: 6 }}>
-                            <GlassColumn title="The Challenges You Face">
-                                <ChallengeCard icon={<IconX size={20}/>} iconColor="red" title="Fragmented Storage" description="Multiple cloud drives scattered across platforms." />
-                                <ChallengeCard icon={<IconX size={20}/>} iconColor="red" title="Lost Productivity" description="Inefficient management slows down workflows." />
-                                <ChallengeCard icon={<IconX size={20}/>} iconColor="red" title="Duplicate Data" description="Unnecessary file copies consume storage." />
-                            </GlassColumn>
-                        </Grid.Col>
+            <div className="container mx-auto px-4 py-16">
+                <div className="flex flex-col gap-8">
+                    <h2 className="text-center text-4xl font-bold" style={gradientText}>Challenges & Solutions</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <GlassColumn title="The Challenges You Face">
+                            <ChallengeCard icon={<X size={20}/>} iconColor="red" title="Fragmented Storage" description="Multiple cloud drives scattered across platforms." />
+                            <ChallengeCard icon={<X size={20}/>} iconColor="red" title="Lost Productivity" description="Inefficient management slows down workflows." />
+                            <ChallengeCard icon={<X size={20}/>} iconColor="red" title="Duplicate Data" description="Unnecessary file copies consume storage." />
+                        </GlassColumn>
 
-                        <Grid.Col span={{ base: 12, md: 6 }}>
-                            <GlassColumn title="DriveUnity's Seamless Solutions">
-                                <ChallengeCard icon={<IconCheck size={20}/>} iconColor={PRIMARY_COLOR} title="Unified Access" description="One dashboard for all drives." />
-                                <ChallengeCard icon={<IconCheck size={20}/>} iconColor={PRIMARY_COLOR} title="Smart Automation" description="Manage files efficiently and remove duplicates." />
-                                <ChallengeCard icon={<IconCheck size={20}/>} iconColor={PRIMARY_COLOR} title="Optimized Storage" description="Maximize storage efficiency." />
-                            </GlassColumn>
-                        </Grid.Col>
-                    </Grid>
-                </Stack>
-            </Container>
+                        <GlassColumn title="DriveUnity's Seamless Solutions">
+                            <ChallengeCard icon={<Check size={20}/>} iconColor={PRIMARY_COLOR} title="Unified Access" description="One dashboard for all drives." />
+                            <ChallengeCard icon={<Check size={20}/>} iconColor={PRIMARY_COLOR} title="Smart Automation" description="Manage files efficiently and remove duplicates." />
+                            <ChallengeCard icon={<Check size={20}/>} iconColor={PRIMARY_COLOR} title="Optimized Storage" description="Maximize storage efficiency." />
+                        </GlassColumn>
+                    </div>
+                </div>
+            </div>
 
-            <Container size="xl" py={60}>
-                <Stack gap="xl">
-                    <Title order={2} ta="center" style={gradientText}>Our Core Values</Title>
-                    <Grid gutter="xl">
-                        <Grid.Col span={{ base: 12, sm: 6, md: 3 }}>
-                            <ValueCard icon={<IconBulb size={32}/>} iconColor={PRIMARY_COLOR} title="Simplicity" description="Intuitive and easy-to-use tools." />
-                        </Grid.Col>
-                        <Grid.Col span={{ base: 12, sm: 6, md: 3 }}>
-                            <ValueCard icon={<IconShield size={32}/>} iconColor={PRIMARY_COLOR} title="Security" description="Your data is safe with us." />
-                        </Grid.Col>
-                        <Grid.Col span={{ base: 12, sm: 6, md: 3 }}>
-                            <ValueCard icon={<IconTrendingUp size={32}/>} iconColor={PRIMARY_COLOR} title="Efficiency" description="Boost productivity and save time." />
-                        </Grid.Col>
-                        <Grid.Col span={{ base: 12, sm: 6, md: 3 }}>
-                            <ValueCard icon={<IconSparkles size={32}/>} iconColor={PRIMARY_COLOR} title="Innovation" description="Cutting-edge features." gradient />
-                        </Grid.Col>
-                    </Grid>
-                </Stack>
-            </Container>
+            <div className="container mx-auto px-4 py-16">
+                <div className="flex flex-col gap-8">
+                    <h2 className="text-center text-4xl font-bold" style={gradientText}>Our Core Values</h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+                        <ValueCard icon={<Lightbulb size={32}/>} iconColor={PRIMARY_COLOR} title="Simplicity" description="Intuitive and easy-to-use tools." />
+                        <ValueCard icon={<Shield size={32}/>} iconColor={PRIMARY_COLOR} title="Security" description="Your data is safe with us." />
+                        <ValueCard icon={<TrendingUp size={32}/>} iconColor={PRIMARY_COLOR} title="Efficiency" description="Boost productivity and save time." />
+                        <ValueCard icon={<Sparkles size={32}/>} iconColor={PRIMARY_COLOR} title="Innovation" description="Cutting-edge features." gradient />
+                    </div>
+                </div>
+            </div>
 
-            <Container size="xl" py={80}>
+            <div className="container mx-auto px-4 py-20">
                 <Card
                     style={{
                         background: PRIMARY_COLOR,
@@ -192,22 +155,22 @@ export default function AboutPage() {
                         boxShadow: `0 15px 40px ${PRIMARY_COLOR}40`,
                     }}
                 >
-                    <Stack gap="lg" align="center" ta="center">
-                        <Title order={2} c="white">Ready to Simplify Your Cloud?</Title>
-                        <Text size="lg" c="white" maw={700}>
+                    <div className="flex flex-col gap-6 items-center text-center">
+                        <h2 className="text-white text-4xl font-bold">Ready to Simplify Your Cloud?</h2>
+                        <p className="text-lg text-white max-w-2xl">
                             Join thousands of users transforming their multi-cloud experience.
-                        </Text>
-                        <Group gap="md">
-                            <Button size="lg" variant="white" color="dark" onClick={() => router.push('/auth')}>
+                        </p>
+                        <div className="flex gap-4">
+                            <Button size="lg" variant="secondary" onClick={() => router.push('/auth')}>
                                 Connect Your Drive
                             </Button>
-                            <Button size="lg" variant="white" color="dark" onClick={() => router.push('/price')}>
+                            <Button size="lg" variant="secondary" onClick={() => router.push('/price')}>
                                 Explore Plans
                             </Button>
-                        </Group>
-                    </Stack>
+                        </div>
+                    </div>
                 </Card>
-            </Container>
+            </div>
 
             <style jsx global>{`
                 @keyframes floating {
@@ -219,7 +182,7 @@ export default function AboutPage() {
                     50% { opacity: 0.8; transform: scale(1.05); }
                 }
             `}</style>
-        </Box>
+        </div>
     );
 }
 
@@ -229,16 +192,16 @@ interface GlassColumnProps {
 }
 function GlassColumn({ title, children }: GlassColumnProps) {
     return (
-        <Stack gap="md" style={{
+        <div className="flex flex-col gap-4" style={{
             padding: 24,
             borderRadius: 20,
             backdropFilter: 'blur(16px)',
             background: BORDER_COLOR,
             border: `1px solid ${BORDER_COLOR}`,
         }}>
-            <Title order={3} size="h4">{title}</Title>
-            <Stack gap="sm">{children}</Stack>
-        </Stack>
+            <h3 className="text-xl font-bold">{title}</h3>
+            <div className="flex flex-col gap-2">{children}</div>
+        </div>
     );
 }
 
@@ -250,7 +213,7 @@ interface ChallengeCardProps {
 }
 function ChallengeCard({ icon, iconColor, title, description }: ChallengeCardProps) {
     return (
-        <Card withBorder shadow="sm" style={{
+        <Card className="border shadow-sm" style={{
             backdropFilter: 'blur(14px)',
             background: BORDER_COLOR,
             border: `1px solid ${BORDER_COLOR}`,
@@ -263,13 +226,21 @@ function ChallengeCard({ icon, iconColor, title, description }: ChallengeCardPro
             e.currentTarget.style.transform = 'translateY(0)';
             e.currentTarget.style.boxShadow = '';
         }}>
-            <Group gap="md" align="flex-start">
-                <ThemeIcon size="lg" radius="xl" variant="light" color={iconColor}>{icon}</ThemeIcon>
-                <Stack gap={4} style={{ flex: 1 }}>
-                    <Text fw={600} size="sm">{title}</Text>
-                    <Text size="sm" c="dimmed">{description}</Text>
-                </Stack>
-            </Group>
+            <div className="flex gap-4 items-start p-4">
+                <div
+                    className="flex items-center justify-center rounded-full p-2"
+                    style={{
+                        backgroundColor: `${iconColor}20`,
+                        color: iconColor
+                    }}
+                >
+                    {icon}
+                </div>
+                <div className="flex flex-col gap-1 flex-1">
+                    <p className="font-semibold text-sm">{title}</p>
+                    <p className="text-sm text-gray-600">{description}</p>
+                </div>
+            </div>
         </Card>
     );
 }
@@ -283,18 +254,28 @@ interface ValueCardProps {
 }
 function ValueCard({ icon, iconColor, title, description, gradient = false }: ValueCardProps) {
     return (
-        <Card shadow="sm" padding="lg" radius="lg" style={{
+        <Card className="shadow-sm p-6 rounded-lg" style={{
             backdropFilter: 'blur(14px)',
             background: gradient ? `linear-gradient(135deg, ${PRIMARY_COLOR}20, ${BORDER_COLOR}, ${PRIMARY_COLOR}15)` : BORDER_COLOR,
             border: `1px solid ${BORDER_COLOR}`,
             transition: '0.3s',
             cursor: 'pointer',
         }}>
-            <Stack gap="md" align="center" ta="center">
-                <ThemeIcon size={60} radius="md" variant="light" color={iconColor}>{icon}</ThemeIcon>
-                <Title order={4} size="h5">{title}</Title>
-                <Text size="sm" c="dimmed">{description}</Text>
-            </Stack>
+            <div className="flex flex-col gap-4 items-center text-center">
+                <div
+                    className="flex items-center justify-center rounded-lg"
+                    style={{
+                        width: 60,
+                        height: 60,
+                        backgroundColor: `${iconColor}20`,
+                        color: iconColor
+                    }}
+                >
+                    {icon}
+                </div>
+                <h4 className="text-lg font-bold">{title}</h4>
+                <p className="text-sm text-gray-600">{description}</p>
+            </div>
         </Card>
     );
 }

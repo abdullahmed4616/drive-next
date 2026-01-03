@@ -1,34 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import {
-    Container,
-    Title,
-    Text,
-    Button,
-    Grid,
-    Card,
-    Stack,
-    Group,
-    List,
-    Box,
-    Badge,
-    Center,
-    Switch,
-} from '@mantine/core';
-import {
-    IconCheck,
-    IconSparkles,
-    IconRocket,
-    IconCrown,
-    IconBolt,
-    IconShield,
-    IconTrendingUp,
-    IconStar,
-    IconArrowRight,
-    IconBrandZapier,
-} from '@tabler/icons-react';
+import { Check, Sparkles, Rocket, Crown, Zap, Shield, TrendingUp, Star, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import { Button } from "@/app/components/ui/button";
+import { Badge } from "@/app/components/ui/badge";
+import { Card } from "@/app/components/ui/card";
+import { Switch } from "@/app/components/ui/switch";
 
 const PRIMARY_COLOR = '#6B9ADF';
 const ACCENT_BG_COLOR = 'rgba(0,0,0, 0.2)';
@@ -41,7 +19,7 @@ const pricingPlans = [
         subtitle: 'Perfect for getting started',
         monthlyPrice: 0,
         yearlyPrice: 0,
-        icon: IconSparkles,
+        icon: Sparkles,
         iconColor: PRIMARY_COLOR,
         borderColor: BORDER_COLOR,
         features: [
@@ -61,7 +39,7 @@ const pricingPlans = [
         subtitle: 'Best for small teams',
         monthlyPrice: 9.99,
         yearlyPrice: 99.99,
-        icon: IconRocket,
+        icon: Rocket,
         iconColor: PRIMARY_COLOR,
         borderColor: BORDER_COLOR,
         features: [
@@ -84,7 +62,7 @@ const pricingPlans = [
         subtitle: 'For power users & agencies',
         monthlyPrice: 19.99,
         yearlyPrice: 199.99,
-        icon: IconCrown,
+        icon: Crown,
         iconColor: PRIMARY_COLOR,
         borderColor: BORDER_COLOR,
         features: [
@@ -104,22 +82,22 @@ const pricingPlans = [
 
 const features = [
     {
-        icon: IconBolt,
+        icon: Zap,
         title: 'Lightning Fast',
         description: 'Instant file search across all drives',
     },
     {
-        icon: IconShield,
+        icon: Shield,
         title: 'Bank-Level Security',
         description: 'Your data is encrypted and secure',
     },
     {
-        icon: IconTrendingUp,
+        icon: TrendingUp,
         title: 'Smart Analytics',
         description: 'Detailed insights into your storage',
     },
     {
-        icon: IconBrandZapier,
+        icon: Zap,
         title: 'AI-Powered',
         description: 'Intelligent file organization',
     },
@@ -129,8 +107,8 @@ export default function PricingPage() {
     const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
 
     return (
-        <Box style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden' }}>
-            <Box
+        <div style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden' }}>
+            <div
                 style={{
                     position: 'fixed',
                     top: '-10%',
@@ -144,7 +122,7 @@ export default function PricingPage() {
                     zIndex: 0,
                 }}
             />
-            <Box
+            <div
                 style={{
                     position: 'fixed',
                     bottom: '-10%',
@@ -159,256 +137,210 @@ export default function PricingPage() {
                 }}
             />
 
-            <Box
-                py={80}
+            <div
+                className="py-20"
                 style={{
                     background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(245, 247, 250, 0.9) 100%)',
                     position: 'relative',
                     zIndex: 1,
                 }}
             >
-                <Container size="lg">
-                    <Stack gap="xl" align="center">
+                <div className="container mx-auto px-4 max-w-5xl">
+                    <div className="flex flex-col gap-8 items-center">
                         <Badge
-                            size="lg"
-                            radius="xl"
-                            leftSection={<IconSparkles size={16} />}
+                            className="text-white border-none font-semibold"
                             style={{
                                 background: PRIMARY_COLOR,
-                                color: 'white',
-                                border: 'none',
                                 padding: '8px 20px',
-                                fontWeight: 600,
                                 boxShadow: `0 4px 16px ${BORDER_COLOR}`,
                                 animation: 'pulse 2s ease-in-out infinite',
                             }}
                         >
+                            <Sparkles className="inline mr-2" size={16} />
                             Simple, Transparent Pricing
                         </Badge>
 
-                        <Title
-                            order={1}
-                            size={52}
-                            fw={800}
-                            ta="center"
+                        <h1
+                            className="text-5xl font-bold text-center max-w-2xl"
                             style={{
                                 fontFamily: "'Outfit', sans-serif",
                                 lineHeight: 1.2,
-                                maxWidth: 700,
                             }}
                         >
                             Choose the{' '}
-                            <Text
-                                component="span"
-                                style={{
-                                    color: PRIMARY_COLOR,
-                                }}
-                            >
+                            <span style={{ color: PRIMARY_COLOR }}>
                                 Perfect Plan
-                            </Text>{' '}
+                            </span>{' '}
                             for Your Needs
-                        </Title>
+                        </h1>
 
-                        <Text size="xl" c="dimmed" ta="center" maw={600} style={{ lineHeight: 1.8 }}>
+                        <p className="text-xl text-gray-600 text-center max-w-2xl" style={{ lineHeight: 1.8 }}>
                             Start with a free plan and upgrade as you grow. All plans include
                             our core features with no hidden fees.
-                        </Text>
+                        </p>
 
-                        <Group
-                            gap="md"
+                        <div
+                            className="flex items-center gap-4 bg-white p-2 px-6 rounded-full border"
                             style={{
-                                background: 'white',
-                                padding: '8px 24px',
-                                borderRadius: '50px',
                                 border: `1px solid ${BORDER_COLOR}`,
                                 boxShadow: `0 4px 16px ${BORDER_COLOR}`,
                             }}
                         >
-                            <Text
-                                fw={billingCycle === 'monthly' ? 700 : 500}
-                                c={billingCycle === 'monthly' ? PRIMARY_COLOR : 'dimmed'}
-                                size="sm"
+                            <span
+                                className="text-sm"
+                                style={{
+                                    fontWeight: billingCycle === 'monthly' ? 700 : 500,
+                                    color: billingCycle === 'monthly' ? PRIMARY_COLOR : '#9ca3af',
+                                }}
                             >
                                 Monthly
-                            </Text>
+                            </span>
                             <Switch
-                                size="lg"
                                 checked={billingCycle === 'yearly'}
-                                onChange={(event) =>
-                                    setBillingCycle(event.currentTarget.checked ? 'yearly' : 'monthly')
+                                onCheckedChange={(checked) =>
+                                    setBillingCycle(checked ? 'yearly' : 'monthly')
                                 }
-                                styles={{
-                                    track: {
-                                        background: billingCycle === 'yearly'
-                                            ? PRIMARY_COLOR
-                                            : '#e9ecef',
-                                        cursor: 'pointer',
-                                    },
-                                }}
                             />
-                            <Group gap="xs">
-                                <Text
-                                    fw={billingCycle === 'yearly' ? 700 : 500}
-                                    c={billingCycle === 'yearly' ? PRIMARY_COLOR : 'dimmed'}
-                                    size="sm"
+                            <div className="flex items-center gap-2">
+                                <span
+                                    className="text-sm"
+                                    style={{
+                                        fontWeight: billingCycle === 'yearly' ? 700 : 500,
+                                        color: billingCycle === 'yearly' ? PRIMARY_COLOR : '#9ca3af',
+                                    }}
                                 >
                                     Yearly
-                                </Text>
+                                </span>
                                 <Badge
-                                    size="sm"
-                                    radius="xl"
+                                    className="text-white border-none"
                                     style={{
                                         background: PRIMARY_COLOR,
-                                        color: 'white',
-                                        border: 'none',
                                     }}
                                 >
                                     Save 17%
                                 </Badge>
-                            </Group>
-                        </Group>
-                    </Stack>
-                </Container>
-            </Box>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            {/* Pricing Cards */}
-            <Container size="xl" py={60} style={{ position: 'relative', zIndex: 1 }}>
-                <Grid gutter="xl">
+            <div className="container mx-auto px-4 py-16" style={{ position: 'relative', zIndex: 1 }}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                     {pricingPlans.map((plan, index) => (
-                        <Grid.Col key={plan.id} span={{ base: 12, sm: 6, md: 4 }}>
-                            <PricingCard
-                                plan={plan}
-                                billingCycle={billingCycle}
-                                index={index}
-                            />
-                        </Grid.Col>
+                        <PricingCard
+                            key={plan.id}
+                            plan={plan}
+                            billingCycle={billingCycle}
+                            index={index}
+                        />
                     ))}
-                </Grid>
-            </Container>
+                </div>
+            </div>
 
-            {/* Features Grid */}
-            <Box
-                py={80}
+            <div
+                className="py-20"
                 style={{
                     background: ACCENT_BG_COLOR,
                     position: 'relative',
                     zIndex: 1,
                 }}
             >
-                <Container size="xl">
-                    <Stack gap="xl" mb={60}>
-                        <Center>
+                <div className="container mx-auto px-4">
+                    <div className="flex flex-col gap-8 mb-16">
+                        <div className="flex justify-center">
                             <Badge
-                                size="lg"
-                                radius="xl"
+                                variant="outline"
+                                className="text-lg font-semibold"
                                 style={{
                                     background: 'rgba(255, 255, 255, 0.9)',
                                     color: PRIMARY_COLOR,
                                     border: `1px solid ${BORDER_COLOR}`,
-                                    fontWeight: 600,
+                                    padding: '8px 20px',
                                 }}
                             >
                                 ALL PLANS INCLUDE
                             </Badge>
-                        </Center>
-                        <Title order={2} ta="center" size={42} fw={800} style={{ fontFamily: "'Outfit', sans-serif" }}>
+                        </div>
+                        <h2 className="text-center text-5xl font-bold" style={{ fontFamily: "'Outfit', sans-serif" }}>
                             Powerful Features for{' '}
-                            <Text
-                                component="span"
-                                style={{
-                                    color: PRIMARY_COLOR,
-                                }}
-                            >
+                            <span style={{ color: PRIMARY_COLOR }}>
                                 Everyone
-                            </Text>
-                        </Title>
-                    </Stack>
+                            </span>
+                        </h2>
+                    </div>
 
-                    <Grid gutter="xl">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
                         {features.map((feature, index) => {
                             const Icon = feature.icon;
                             return (
-                                <Grid.Col key={index} span={{ base: 12, sm: 6, md: 3 }}>
-                                    <Card
-                                        shadow="sm"
-                                        padding="xl"
-                                        radius="xl"
-                                        withBorder
-                                        h="100%"
-                                        style={{
-                                            border: `1px solid ${BORDER_COLOR}`,
-                                            transition: 'all 0.3s ease',
-                                            cursor: 'pointer',
-                                            background: 'white',
-                                        }}
-                                        onMouseEnter={(e) => {
-                                            e.currentTarget.style.transform = 'translateY(-8px)';
-                                            e.currentTarget.style.boxShadow = `0 20px 40px ${BORDER_COLOR}`;
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.currentTarget.style.transform = 'translateY(0)';
-                                            e.currentTarget.style.boxShadow = '';
-                                        }}
-                                    >
-                                        <Stack gap="lg" align="center" ta="center">
-                                            <Box
-                                                style={{
-                                                    width: 70,
-                                                    height: 70,
-                                                    borderRadius: '18px',
-                                                    background: PRIMARY_COLOR,
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    justifyContent: 'center',
-                                                    boxShadow: `0 8px 24px ${BORDER_COLOR}`,
-                                                }}
-                                            >
-                                                <Icon size={32} color="white" stroke={2} />
-                                            </Box>
-                                            <Title order={4} size="h5" fw={700} style={{ fontFamily: "'Outfit', sans-serif" }}>
-                                                {feature.title}
-                                            </Title>
-                                            <Text size="sm" c="dimmed">
-                                                {feature.description}
-                                            </Text>
-                                        </Stack>
-                                    </Card>
-                                </Grid.Col>
+                                <Card
+                                    key={index}
+                                    className="shadow-sm p-8 rounded-xl border bg-white"
+                                    style={{
+                                        border: `1px solid ${BORDER_COLOR}`,
+                                        transition: 'all 0.3s ease',
+                                        cursor: 'pointer',
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.transform = 'translateY(-8px)';
+                                        e.currentTarget.style.boxShadow = `0 20px 40px ${BORDER_COLOR}`;
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.transform = 'translateY(0)';
+                                        e.currentTarget.style.boxShadow = '';
+                                    }}
+                                >
+                                    <div className="flex flex-col gap-6 items-center text-center">
+                                        <div
+                                            className="flex items-center justify-center rounded-2xl"
+                                            style={{
+                                                width: 70,
+                                                height: 70,
+                                                background: PRIMARY_COLOR,
+                                                boxShadow: `0 8px 24px ${BORDER_COLOR}`,
+                                            }}
+                                        >
+                                            <Icon size={32} color="white" strokeWidth={2} />
+                                        </div>
+                                        <h4 className="text-lg font-bold" style={{ fontFamily: "'Outfit', sans-serif" }}>
+                                            {feature.title}
+                                        </h4>
+                                        <p className="text-sm text-gray-600">
+                                            {feature.description}
+                                        </p>
+                                    </div>
+                                </Card>
                             );
                         })}
-                    </Grid>
-                </Container>
-            </Box>
+                    </div>
+                </div>
+            </div>
 
-            <Container size="md" py={80} style={{ position: 'relative', zIndex: 1 }}>
-                <Stack gap="xl">
-                    <Center>
+            <div className="container mx-auto px-4 py-20" style={{ position: 'relative', zIndex: 1 }}>
+                <div className="flex flex-col gap-8 max-w-3xl mx-auto">
+                    <div className="flex justify-center">
                         <Badge
-                            size="lg"
-                            radius="xl"
+                            variant="outline"
+                            className="text-lg font-semibold"
                             style={{
                                 background: ACCENT_BG_COLOR,
                                 color: PRIMARY_COLOR,
                                 border: `1px solid ${BORDER_COLOR}`,
-                                fontWeight: 600,
+                                padding: '8px 20px',
                             }}
                         >
                             FAQ
                         </Badge>
-                    </Center>
-                    <Title order={2} ta="center" size={42} fw={800} style={{ fontFamily: "'Outfit', sans-serif" }}>
+                    </div>
+                    <h2 className="text-center text-5xl font-bold" style={{ fontFamily: "'Outfit', sans-serif" }}>
                         Common{' '}
-                        <Text
-                            component="span"
-                            style={{
-                                color: PRIMARY_COLOR,
-                            }}
-                        >
+                        <span style={{ color: PRIMARY_COLOR }}>
                             Questions
-                        </Text>
-                    </Title>
+                        </span>
+                    </h2>
 
-                    <Stack gap="md" mt="xl">
+                    <div className="flex flex-col gap-4 mt-8">
                         <FAQItem
                             question="Can I change my plan later?"
                             answer="Yes! You can upgrade or downgrade your plan at any time. Changes take effect immediately and we'll prorate the difference."
@@ -425,19 +357,19 @@ export default function PricingPage() {
                             question="Can I cancel anytime?"
                             answer="Absolutely. You can cancel your subscription at any time with no questions asked. Your data remains accessible until the end of your billing period."
                         />
-                    </Stack>
-                </Stack>
-            </Container>
+                    </div>
+                </div>
+            </div>
 
-            <Box
-                py={100}
+            <div
+                className="py-24"
                 style={{
                     background: PRIMARY_COLOR,
                     position: 'relative',
                     overflow: 'hidden',
                 }}
             >
-                <Box
+                <div
                     style={{
                         position: 'absolute',
                         top: '-20%',
@@ -450,31 +382,28 @@ export default function PricingPage() {
                     }}
                 />
 
-                <Container size="md" style={{ position: 'relative', zIndex: 1 }}>
-                    <Stack gap="xl" align="center" ta="center">
-                        <IconStar size={48} color="white" style={{ animation: 'pulse 2s ease-in-out infinite' }} />
-                        <Title order={2} c="white" size={48} fw={800} style={{ fontFamily: "'Outfit', sans-serif" }}>
+                <div className="container mx-auto px-4" style={{ position: 'relative', zIndex: 1 }}>
+                    <div className="flex flex-col gap-8 items-center text-center">
+                        <Star size={48} color="white" style={{ animation: 'pulse 2s ease-in-out infinite' }} />
+                        <h2 className="text-white text-5xl font-bold" style={{ fontFamily: "'Outfit', sans-serif" }}>
                             Still Have Questions?
-                        </Title>
-                        <Text size="xl" c="white" maw={600} style={{ opacity: 0.95 }}>
+                        </h2>
+                        <p className="text-xl text-white max-w-2xl" style={{ opacity: 0.95 }}>
                             Our team is here to help you find the perfect plan for your needs.
                             Get in touch and we'll guide you through the process.
-                        </Text>
+                        </p>
 
-                        <Group gap="md" mt="md">
+                        <div className="flex gap-4 mt-4">
                             <Button
-                                component={Link}
-                                href="/contact"
-                                size="xl"
-                                radius="xl"
-                                rightSection={<IconArrowRight size={20} />}
+                                asChild
+                                size="lg"
+                                className="text-lg px-10"
                                 style={{
                                     background: 'white',
                                     color: PRIMARY_COLOR,
-                                    border: 'none',
+                                    borderRadius: '9999px',
                                     boxShadow: '0 8px 24px rgba(0, 0, 0, 0.2)',
                                     fontWeight: 700,
-                                    padding: '0 40px',
                                     transition: 'all 0.3s ease',
                                 }}
                                 onMouseEnter={(e) => {
@@ -486,12 +415,15 @@ export default function PricingPage() {
                                     e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.2)';
                                 }}
                             >
-                                Contact Sales
+                                <Link href="/contact" className="flex items-center gap-2">
+                                    Contact Sales
+                                    <ArrowRight size={20} />
+                                </Link>
                             </Button>
-                        </Group>
-                    </Stack>
-                </Container>
-            </Box>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <style jsx global>{`
                 @keyframes floating {
@@ -523,7 +455,7 @@ export default function PricingPage() {
                     }
                 }
             `}</style>
-        </Box>
+        </div>
     );
 }
 
@@ -540,21 +472,14 @@ function PricingCard({ plan, billingCycle, index }: PricingCardProps) {
 
     return (
         <Card
-            shadow="sm"
-            padding={0}
-            radius="xl"
-            withBorder
-            h="100%"
+            className="shadow-sm rounded-xl border overflow-hidden bg-white"
             style={{
                 border: plan.popular ? `2px solid ${plan.borderColor}` : `1px solid ${BORDER_COLOR}`,
                 transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                 cursor: 'pointer',
-                background: 'white',
-                overflow: 'hidden',
                 position: 'relative',
                 animationDelay: `${index * 0.1}s`,
             }}
-            className="fade-in"
             onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-12px) scale(1.02)';
                 e.currentTarget.style.boxShadow = `0 24px 48px ${BORDER_COLOR}`;
@@ -564,8 +489,7 @@ function PricingCard({ plan, billingCycle, index }: PricingCardProps) {
                 e.currentTarget.style.boxShadow = '';
             }}
         >
-            {/* Header */}
-            <Box
+            <div
                 style={{
                     background: PRIMARY_COLOR,
                     padding: '32px 24px',
@@ -573,9 +497,8 @@ function PricingCard({ plan, billingCycle, index }: PricingCardProps) {
                     overflow: 'hidden',
                 }}
             >
-                {/* Shimmer Effect */}
                 {plan.popular && (
-                    <Box
+                    <div
                         style={{
                             position: 'absolute',
                             top: 0,
@@ -591,82 +514,66 @@ function PricingCard({ plan, billingCycle, index }: PricingCardProps) {
 
                 {plan.popular && (
                     <Badge
-                        size="sm"
-                        radius="xl"
+                        className="absolute top-4 right-4 z-10 text-white border-white/50"
                         style={{
                             background: 'rgba(255, 255, 255, 0.3)',
-                            color: 'white',
-                            border: '1px solid rgba(255, 255, 255, 0.5)',
                             backdropFilter: 'blur(10px)',
                             fontWeight: 700,
-                            position: 'absolute',
-                            top: 16,
-                            right: 16,
-                            zIndex: 1,
                         }}
                     >
                         ⭐ {plan.badge}
                     </Badge>
                 )}
 
-                <Stack gap="md" style={{ position: 'relative', zIndex: 1 }}>
-                    <Box
+                <div className="flex flex-col gap-4 relative z-10">
+                    <div
+                        className="flex items-center justify-center rounded-2xl border-2 border-white/30"
                         style={{
                             width: 60,
                             height: 60,
-                            borderRadius: '16px',
                             background: 'rgba(255, 255, 255, 0.2)',
                             backdropFilter: 'blur(10px)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            border: '2px solid rgba(255, 255, 255, 0.3)',
                         }}
                     >
-                        <Icon size={32} color="white" stroke={2} />
-                    </Box>
+                        <Icon size={32} color="white" strokeWidth={2} />
+                    </div>
 
-                    <Stack gap={4}>
-                        <Title order={3} c="white" fw={800} size="h2" style={{ fontFamily: "'Outfit', sans-serif" }}>
+                    <div className="flex flex-col gap-1">
+                        <h3 className="text-white text-3xl font-bold" style={{ fontFamily: "'Outfit', sans-serif" }}>
                             {plan.title}
-                        </Title>
-                        <Text size="sm" c="white" style={{ opacity: 0.9 }}>
+                        </h3>
+                        <p className="text-sm text-white" style={{ opacity: 0.9 }}>
                             {plan.subtitle}
-                        </Text>
-                    </Stack>
+                        </p>
+                    </div>
 
-                    <Group gap={8} align="baseline">
-                        <Text size="3.5rem" c="white" fw={800} lh={1} style={{ fontFamily: "'Outfit', sans-serif" }}>
+                    <div className="flex items-baseline gap-2">
+                        <span className="text-white text-6xl font-bold leading-none" style={{ fontFamily: "'Outfit', sans-serif" }}>
                             ${monthlyPrice}
-                        </Text>
-                        <Stack gap={0}>
-                            <Text size="lg" c="white" fw={600}>
+                        </span>
+                        <div className="flex flex-col">
+                            <span className="text-lg text-white font-semibold">
                                 /month
-                            </Text>
+                            </span>
                             {billingCycle === 'yearly' && (
-                                <Text size="xs" c="white" style={{ opacity: 0.8 }}>
+                                <span className="text-xs text-white" style={{ opacity: 0.8 }}>
                                     ${price}/year
-                                </Text>
+                                </span>
                             )}
-                        </Stack>
-                    </Group>
-                </Stack>
-            </Box>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            {/* Card Body */}
-            <Stack gap="xl" p="xl">
+            <div className="flex flex-col gap-8 p-8">
                 <Button
-                    component={Link}
-                    href="/auth"
+                    asChild
                     size="lg"
-                    radius="xl"
-                    fullWidth
-                    rightSection={<IconArrowRight size={18} />}
+                    className="w-full rounded-xl font-bold"
                     style={{
                         background: plan.popular ? PRIMARY_COLOR : 'white',
                         color: plan.popular ? 'white' : plan.iconColor,
                         border: plan.popular ? 'none' : `2px solid ${plan.iconColor}`,
-                        fontWeight: 700,
                         boxShadow: plan.popular ? `0 8px 24px ${BORDER_COLOR}` : 'none',
                         transition: 'all 0.3s ease',
                     }}
@@ -689,42 +596,37 @@ function PricingCard({ plan, billingCycle, index }: PricingCardProps) {
                         e.currentTarget.style.boxShadow = plan.popular ? `0 8px 24px ${BORDER_COLOR}` : 'none';
                     }}
                 >
-                    {plan.id === 'free' ? 'Get Started' : 'Start Free Trial'}
+                    <Link href="/auth" className="flex items-center justify-center gap-2">
+                        {plan.id === 'free' ? 'Get Started' : 'Start Free Trial'}
+                        <ArrowRight size={18} />
+                    </Link>
                 </Button>
 
-                <Stack gap="md">
-                    <Text size="sm" fw={700} tt="uppercase" c="dimmed" style={{ letterSpacing: '0.5px' }}>
+                <div className="flex flex-col gap-4">
+                    <p className="text-sm font-bold text-gray-500 uppercase" style={{ letterSpacing: '0.5px' }}>
                         What's Included
-                    </Text>
-                    <List
-                        spacing="sm"
-                        size="sm"
-                        icon={
-                            <Box
-                                style={{
-                                    width: 20,
-                                    height: 20,
-                                    borderRadius: '50%',
-                                    background: PRIMARY_COLOR,
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                }}
-                            >
-                                <IconCheck size={12} color="white" stroke={3} />
-                            </Box>
-                        }
-                    >
+                    </p>
+                    <ul className="flex flex-col gap-3">
                         {plan.features.map((feature, idx) => (
-                            <List.Item key={idx}>
-                                <Text size="sm" fw={500}>
+                            <li key={idx} className="flex items-start gap-3">
+                                <div
+                                    className="flex items-center justify-center rounded-full flex-shrink-0"
+                                    style={{
+                                        width: 20,
+                                        height: 20,
+                                        background: PRIMARY_COLOR,
+                                    }}
+                                >
+                                    <Check size={12} color="white" strokeWidth={3} />
+                                </div>
+                                <span className="text-sm font-medium">
                                     {feature}
-                                </Text>
-                            </List.Item>
+                                </span>
+                            </li>
                         ))}
-                    </List>
-                </Stack>
-            </Stack>
+                    </ul>
+                </div>
+            </div>
         </Card>
     );
 }
@@ -737,15 +639,11 @@ interface FAQItemProps {
 function FAQItem({ question, answer }: FAQItemProps) {
     return (
         <Card
-            shadow="sm"
-            padding="xl"
-            radius="xl"
-            withBorder
+            className="shadow-sm p-8 rounded-xl border bg-white"
             style={{
                 border: `1px solid ${BORDER_COLOR}`,
                 transition: 'all 0.3s ease',
                 cursor: 'pointer',
-                background: 'white',
             }}
             onMouseEnter={(e) => {
                 e.currentTarget.style.boxShadow = `0 12px 32px ${BORDER_COLOR}`;
@@ -756,14 +654,14 @@ function FAQItem({ question, answer }: FAQItemProps) {
                 e.currentTarget.style.borderColor = BORDER_COLOR;
             }}
         >
-            <Stack gap="sm">
-                <Text fw={700} size="lg" style={{ fontFamily: "'Outfit', sans-serif" }}>
+            <div className="flex flex-col gap-2">
+                <p className="font-bold text-lg" style={{ fontFamily: "'Outfit', sans-serif" }}>
                     {question}
-                </Text>
-                <Text size="sm" c="dimmed" style={{ lineHeight: 1.7 }}>
+                </p>
+                <p className="text-sm text-gray-600" style={{ lineHeight: 1.7 }}>
                     {answer}
-                </Text>
-            </Stack>
+                </p>
+            </div>
         </Card>
     );
 }
