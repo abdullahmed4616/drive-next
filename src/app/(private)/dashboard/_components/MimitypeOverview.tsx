@@ -2,33 +2,30 @@
 
 import { useQuery } from "@tanstack/react-query";
 import {
-  Paper,
-  Text,
-  Stack,
-  Group,
-  Badge,
-  Skeleton,
-  Box,
-  Center,
-  SimpleGrid,
-  Select,
-} from "@mantine/core";
-import {
-  IconFileText,
-  IconPhoto,
-  IconVideo,
-  IconMusic,
-  IconArchive,
-  IconCode,
-  IconTable,
-  IconPresentation,
-  IconFolder,
-  IconQuestionMark,
-  IconChevronDown,
-} from "@tabler/icons-react";
+  FileText,
+  Image as ImageIcon,
+  Video,
+  Music,
+  Archive,
+  Code,
+  Table as TableIcon,
+  Presentation,
+  Folder,
+  HelpCircle,
+  ChevronDown,
+} from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { useState, useEffect, useMemo } from "react";
-import { useMediaQuery } from "@mantine/hooks";
+import { Card, CardContent } from "@/app/components/ui/card";
+import { Badge } from "@/app/components/ui/badge";
+import { Skeleton } from "@/app/components/ui/skeleton";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/app/components/ui/select";
 
 interface MimeTypeInfo {
   value: string;
@@ -59,18 +56,18 @@ const fetchMimeTypes = async (userId: string, driveId: string): Promise<MimeType
 
 const getCategoryIcon = (category: string) => {
   const iconMap: Record<string, React.ReactNode> = {
-    Documents: <IconFileText size={18} stroke={2} />,
-    Images: <IconPhoto size={18} stroke={2} />,
-    Videos: <IconVideo size={18} stroke={2} />,
-    Audio: <IconMusic size={18} stroke={2} />,
-    Archives: <IconArchive size={18} stroke={2} />,
-    Code: <IconCode size={18} stroke={2} />,
-    Spreadsheets: <IconTable size={18} stroke={2} />,
-    Presentations: <IconPresentation size={18} stroke={2} />,
-    Folders: <IconFolder size={18} stroke={2} />,
-    Other: <IconQuestionMark size={18} stroke={2} />,
+    Documents: <FileText size={18} strokeWidth={2} />,
+    Images: <ImageIcon size={18} strokeWidth={2} />,
+    Videos: <Video size={18} strokeWidth={2} />,
+    Audio: <Music size={18} strokeWidth={2} />,
+    Archives: <Archive size={18} strokeWidth={2} />,
+    Code: <Code size={18} strokeWidth={2} />,
+    Spreadsheets: <TableIcon size={18} strokeWidth={2} />,
+    Presentations: <Presentation size={18} strokeWidth={2} />,
+    Folders: <Folder size={18} strokeWidth={2} />,
+    Other: <HelpCircle size={18} strokeWidth={2} />,
   };
-  return iconMap[category] || <IconFileText size={18} stroke={2} />;
+  return iconMap[category] || <FileText size={18} strokeWidth={2} />;
 };
 
 const getCategoryColor = (category: string): string => {
@@ -92,55 +89,42 @@ const getCategoryColor = (category: string): string => {
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
     return (
-      <Paper
-        p="md"
-        shadow="xl"
-        withBorder
-        radius="md"
-        style={{
-          borderColor: payload[0].fill,
-          borderWidth: 2,
-        }}
-      >
-        <Stack gap={6}>
-          <Group gap="xs" align="center">
-            <Box
-              w={14}
-              h={14}
-              style={{
-                borderRadius: "50%",
-                backgroundColor: payload[0].fill,
-                boxShadow: `0 0 12px ${payload[0].fill}60`,
-              }}
-            />
-            <Text size="sm" fw={600}>
-              {payload[0].name}
-            </Text>
-          </Group>
-          <Text size="xs" c="dimmed">
-            {payload[0].value} types ({payload[0].payload.percentage}%)
-          </Text>
-        </Stack>
-      </Paper>
+      <Card className="border-2" style={{ borderColor: payload[0].fill }}>
+        <CardContent className="p-3">
+          <div className="flex flex-col gap-1.5">
+            <div className="flex gap-2 items-center">
+              <div
+                className="w-3.5 h-3.5 rounded-full"
+                style={{
+                  backgroundColor: payload[0].fill,
+                  boxShadow: `0 0 12px ${payload[0].fill}60`,
+                }}
+              />
+              <span className="text-sm font-semibold">
+                {payload[0].name}
+              </span>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              {payload[0].value} types ({payload[0].payload.percentage}%)
+            </p>
+          </div>
+        </CardContent>
+      </Card>
     );
   }
   return null;
 };
 
-export default function MimeTypeOverview({ 
-  userId, 
-  accounts 
-}: { 
+export default function MimeTypeOverview({
+  userId,
+  accounts
+}: {
   userId: any;
   accounts: DriveAccount[];
 }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [selectedDriveId, setSelectedDriveId] = useState<string>("");
 
-  const isMobile = useMediaQuery("(max-width: 576px)");
-  const isTablet = useMediaQuery("(max-width: 768px)");
-
-  
   useEffect(() => {
     if (accounts && accounts.length > 0 && !selectedDriveId) {
       setSelectedDriveId(accounts[0].id);
@@ -177,7 +161,6 @@ export default function MimeTypeOverview({
     return {};
   }, [data]);
 
-  
   const driveOptions = accounts.map(account => ({
     value: account.id,
     label: account.gmailAccount,
@@ -185,28 +168,32 @@ export default function MimeTypeOverview({
 
   if (isError) {
     return (
-      <Paper p="xl" radius="lg" withBorder shadow="sm" h="100%">
-        <Text c="red" size="sm">
-          Failed to load file types
-        </Text>
-      </Paper>
+      <Card className="border shadow-sm h-full">
+        <CardContent className="p-6">
+          <p className="text-sm text-destructive">
+            Failed to load file types
+          </p>
+        </CardContent>
+      </Card>
     );
   }
 
   if (isLoading || !selectedDriveId) {
     return (
-      <Paper p="xl" radius="lg" withBorder shadow="sm" h="100%">
-        <Stack gap="md">
-          <Skeleton height={24} width="50%" />
-          <Skeleton height={40} width="100%" />
-          <Skeleton height={isMobile ? 200 : 350} />
-          <SimpleGrid cols={isMobile ? 2 : 3}>
-            <Skeleton height={60} />
-            <Skeleton height={60} />
-            <Skeleton height={60} />
-          </SimpleGrid>
-        </Stack>
-      </Paper>
+      <Card className="border shadow-sm h-full">
+        <CardContent className="p-6">
+          <div className="flex flex-col gap-4">
+            <Skeleton className="h-6 w-1/2" />
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-[300px]" />
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+              <Skeleton className="h-15" />
+              <Skeleton className="h-15" />
+              <Skeleton className="h-15" />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     );
   }
 
@@ -216,46 +203,38 @@ export default function MimeTypeOverview({
 
   if (!hasData) {
     return (
-      <Paper p={isMobile ? "md" : "xl"} radius="lg" withBorder shadow="sm" h="100%">
-        <Stack gap="md">
-          {driveOptions.length > 1 && (
-            <Select
-              placeholder="Select a drive"
-              data={driveOptions}
-              value={selectedDriveId}
-              onChange={(value) => setSelectedDriveId(value || "")}
-              rightSection={<IconChevronDown size={16} />}
-              styles={{
-                input: {
-                  fontWeight: 500,
-                },
-              }}
-            />
-          )}
-          <Center h={isMobile ? 200 : 300}>
-            <Stack align="center" gap="md">
-              <Box
-                style={{
-                  width: 64,
-                  height: 64,
-                  borderRadius: 16,
-                  backgroundColor: "#f3f4f6",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <IconFileText size={32} stroke={1.5} color="#9ca3af" />
-              </Box>
-              <Text size="sm" c="dimmed" ta="center">
-                No file type data available yet.
-                <br />
-                Connect a drive and sync files to see the distribution.
-              </Text>
-            </Stack>
-          </Center>
-        </Stack>
-      </Paper>
+      <Card className="border shadow-sm h-full">
+        <CardContent className="p-6">
+          <div className="flex flex-col gap-4">
+            {driveOptions.length > 1 && (
+              <Select value={selectedDriveId} onValueChange={setSelectedDriveId}>
+                <SelectTrigger className="font-medium">
+                  <SelectValue placeholder="Select a drive" />
+                </SelectTrigger>
+                <SelectContent>
+                  {driveOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+            <div className="flex items-center justify-center h-[300px]">
+              <div className="flex flex-col items-center gap-4">
+                <div className="w-16 h-16 rounded-2xl bg-gray-100 flex items-center justify-center">
+                  <FileText size={32} strokeWidth={1.5} className="text-gray-400" />
+                </div>
+                <p className="text-sm text-muted-foreground text-center max-w-md">
+                  No file type data available yet.
+                  <br />
+                  Connect a drive and sync files to see the distribution.
+                </p>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     );
   }
 
@@ -282,193 +261,160 @@ export default function MimeTypeOverview({
     setActiveIndex(null);
   };
 
-  const chartHeight = isMobile ? 240 : isTablet ? 280 : 320;
-  const innerRadius = isMobile ? 60 : isTablet ? 70 : 85;
-  const outerRadius = isMobile ? 95 : isTablet ? 110 : 130;
-
   return (
-    <Paper
-      p={isMobile ? "md" : "xl"}
-      radius="lg"
-      withBorder
-      shadow="sm"
-      h="100%"
-      style={{
-        borderColor: "var(--mantine-color-gray-3)",
-      }}
-    >
-      <Stack gap={isMobile ? "lg" : "xl"}>
-        <Group justify="space-between" align="flex-start" wrap="wrap" gap="md">
-          <Box style={{ flex: 1 }}>
-            <Text size={isMobile ? "md" : "lg"} fw={600} mb={4} c="dark.8">
-              File Type Distribution
-            </Text>
-            <Text size="sm" c="dimmed">
-              {totalTypes} different types across {categories.length} categories
-            </Text>
-          </Box>
-          <Group gap="sm" align="center">
-            {driveOptions.length > 1 && (
-              <Select
-                placeholder="Select a drive"
-                data={driveOptions}
-                value={selectedDriveId}
-                onChange={(value) => setSelectedDriveId(value || "")}
-                rightSection={<IconChevronDown size={16} />}
-                styles={{
-                  input: {
-                    fontWeight: 500,
-                  },
-                }}
-                w={isMobile ? "100%" : 220}
-              />
-            )}
-            <Badge
-              size={isMobile ? "md" : "lg"}
-              variant="light"
-              color="blue"
-              style={{ textTransform: "none" }}
-            >
-              {categories.length} Categories
-            </Badge>
-          </Group>
-        </Group>
+    <Card className="border shadow-sm h-full">
+      <CardContent className="p-6">
+        <div className="flex flex-col gap-6">
+          <div className="flex justify-between items-start flex-wrap gap-4">
+            <div className="flex-1">
+              <h3 className="text-lg font-semibold mb-1 text-gray-900">
+                File Type Distribution
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                {totalTypes} different types across {categories.length} categories
+              </p>
+            </div>
+            <div className="flex gap-2 items-center">
+              {driveOptions.length > 1 && (
+                <Select value={selectedDriveId} onValueChange={setSelectedDriveId}>
+                  <SelectTrigger className="w-[220px] font-medium">
+                    <SelectValue placeholder="Select a drive" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {driveOptions.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+              <Badge variant="secondary">
+                {categories.length} Categories
+              </Badge>
+            </div>
+          </div>
 
-        <Box pos="relative">
-          <ResponsiveContainer width="100%" height={chartHeight}>
-            <PieChart>
-              <Pie
-                data={chartData}
-                cx="50%"
-                cy="50%"
-                innerRadius={innerRadius}
-                outerRadius={outerRadius}
-                fill="#8884d8"
-                dataKey="value"
-                paddingAngle={2}
-                onMouseEnter={onPieEnter}
-                onMouseLeave={onPieLeave}
-                animationDuration={800}
-                animationBegin={0}
+          <div className="relative">
+            <ResponsiveContainer width="100%" height={320}>
+              <PieChart>
+                <Pie
+                  data={chartData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={85}
+                  outerRadius={130}
+                  fill="#8884d8"
+                  dataKey="value"
+                  paddingAngle={2}
+                  onMouseEnter={onPieEnter}
+                  onMouseLeave={onPieLeave}
+                  animationDuration={800}
+                  animationBegin={0}
+                >
+                  {chartData.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={entry.color}
+                      opacity={activeIndex === null || activeIndex === index ? 1 : 0.4}
+                      style={{
+                        cursor: "pointer",
+                        filter: activeIndex === index ? `drop-shadow(0 0 8px ${entry.color}80)` : 'none',
+                        transition: "all 0.3s ease",
+                      }}
+                    />
+                  ))}
+                </Pie>
+                <Tooltip content={<CustomTooltip />} />
+              </PieChart>
+            </ResponsiveContainer>
+
+            <div
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+            >
+              <div className="flex items-center justify-center">
+                <div className="flex flex-col gap-0.5 items-center">
+                  {activeData ? (
+                    <>
+                      <div
+                        className="w-12 h-12 rounded-xl flex items-center justify-center mb-2"
+                        style={{
+                          backgroundColor: `${activeData.color}15`,
+                          color: activeData.color,
+                        }}
+                      >
+                        {getCategoryIcon(activeData.name)}
+                      </div>
+                      <p className="text-3xl font-bold leading-none" style={{ color: activeData.color }}>
+                        {activeData.value}
+                      </p>
+                      <p className="text-xs text-muted-foreground font-semibold uppercase tracking-wider">
+                        {activeData.name}
+                      </p>
+                      <Badge
+                        variant="secondary"
+                        className="text-xs mt-1"
+                        style={{
+                          backgroundColor: `${activeData.color}15`,
+                          color: activeData.color,
+                          border: `1px solid ${activeData.color}30`,
+                        }}
+                      >
+                        {activeData.percentage}%
+                      </Badge>
+                    </>
+                  ) : (
+                    <>
+                      <p className="text-4xl font-bold leading-none text-blue-600">
+                        {totalTypes}
+                      </p>
+                      <p className="text-xs text-muted-foreground font-semibold uppercase tracking-wider">
+                        Total Types
+                      </p>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+            {chartData.map((item, index) => (
+              <div
+                key={item.name}
+                className="p-2 rounded-md border transition-all duration-200 cursor-pointer"
+                style={{
+                  borderColor: activeIndex === index ? item.color : 'rgb(229 231 235)',
+                  backgroundColor: activeIndex === index ? `${item.color}08` : 'transparent',
+                }}
+                onMouseEnter={() => setActiveIndex(index)}
+                onMouseLeave={() => setActiveIndex(null)}
               >
-                {chartData.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={entry.color}
-                    opacity={activeIndex === null || activeIndex === index ? 1 : 0.4}
+                <div className="flex gap-2 items-start">
+                  <div
+                    className="w-2 h-2 rounded-full flex-shrink-0 mt-1"
                     style={{
-                      cursor: "pointer",
-                      filter: activeIndex === index ? `drop-shadow(0 0 8px ${entry.color}80)` : 'none',
-                      transition: "all 0.3s ease",
+                      backgroundColor: item.color,
+                      boxShadow: activeIndex === index ? `0 0 8px ${item.color}80` : 'none',
                     }}
                   />
-                ))}
-              </Pie>
-              <Tooltip content={<CustomTooltip />} />
-            </PieChart>
-          </ResponsiveContainer>
-
-          <Box
-            pos="absolute"
-            top="50%"
-            left="50%"
-            style={{
-              transform: "translate(-50%, -50%)",
-              pointerEvents: "none",
-            }}
-          >
-            <Center>
-              <Stack gap={2} align="center">
-                {activeData ? (
-                  <>
-                    <Box
-                      style={{
-                        width: isMobile ? 40 : 48,
-                        height: isMobile ? 40 : 48,
-                        borderRadius: 12,
-                        backgroundColor: `${activeData.color}15`,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        marginBottom: 8,
-                        color: activeData.color,
-                      }}
+                  <div className="flex-1 min-w-0">
+                    <p
+                      className="text-xs font-medium truncate"
+                      style={{ color: activeIndex === index ? item.color : 'rgb(55 65 81)' }}
                     >
-                      {getCategoryIcon(activeData.name)}
-                    </Box>
-                    <Text size={isMobile ? "xl" : "1.75rem"} fw={700} c={activeData.color} lh={1}>
-                      {activeData.value}
-                    </Text>
-                    <Text size="xs" c="dimmed" fw={600} tt="uppercase" style={{ letterSpacing: 1 }}>
-                      {activeData.name}
-                    </Text>
-                    <Badge
-                      variant="light"
-                      size="sm"
-                      style={{
-                        backgroundColor: `${activeData.color}15`,
-                        color: activeData.color,
-                        border: `1px solid ${activeData.color}30`,
-                      }}
-                    >
-                      {activeData.percentage}%
-                    </Badge>
-                  </>
-                ) : (
-                  <>
-                    <Text size={isMobile ? "2rem" : "2.5rem"} fw={700} c="blue.6" lh={1}>
-                      {totalTypes}
-                    </Text>
-                    <Text size="xs" c="dimmed" fw={600} tt="uppercase" style={{ letterSpacing: 1 }}>
-                      Total Types
-                    </Text>
-                  </>
-                )}
-              </Stack>
-            </Center>
-          </Box>
-        </Box>
-
-        <SimpleGrid cols={isMobile ? 2 : isTablet ? 3 : 4} spacing="xs">
-          {chartData.map((item, index) => (
-            <Paper
-              key={item.name}
-              p="xs"
-              radius="md"
-              withBorder
-              style={{
-                borderColor: activeIndex === index ? item.color : "var(--mantine-color-gray-2)",
-                backgroundColor: activeIndex === index ? `${item.color}08` : "transparent",
-                transition: "all 0.2s ease",
-                cursor: "pointer",
-              }}
-              onMouseEnter={() => setActiveIndex(index)}
-              onMouseLeave={() => setActiveIndex(null)}
-            >
-              <Group gap="xs" wrap="nowrap">
-                <Box
-                  style={{
-                    width: 8,
-                    height: 8,
-                    borderRadius: "50%",
-                    backgroundColor: item.color,
-                    flexShrink: 0,
-                    boxShadow: activeIndex === index ? `0 0 8px ${item.color}80` : 'none',
-                  }}
-                />
-                <Box style={{ flex: 1, minWidth: 0 }}>
-                  <Text size="xs" fw={500} truncate c={activeIndex === index ? item.color : "dark.7"}>
-                    {item.name}
-                  </Text>
-                  <Text size="xs" c="dimmed">
-                    {item.value} ({item.percentage}%)
-                  </Text>
-                </Box>
-              </Group>
-            </Paper>
-          ))}
-        </SimpleGrid>
-      </Stack>
-    </Paper>
+                      {item.name}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {item.value} ({item.percentage}%)
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

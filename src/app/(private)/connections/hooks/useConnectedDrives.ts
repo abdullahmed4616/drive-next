@@ -1,6 +1,9 @@
 // useConnectedDrives.ts - Updated types and hooks
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { notifications } from '@mantine/notifications';
+"use client";
+
+import useSWR, { mutate as globalMutate } from 'swr';
+import { useState } from 'react';
+import { toast } from '@/app/components/ui/use-toast';
 
 export interface ConnectedDrive {
   id: string;
@@ -29,10 +32,10 @@ interface DeleteDriveParams {
 }
 
 export function useConnectedDrives() {
-  return useQuery<DrivesResponse>({
-    queryKey: ['connected-drives'],
-    queryFn: async () => {
-      const response = await fetch('/api/googleDrive/connect', {
+  const { data, error, isLoading, mutate } = useSWR<DrivesResponse>(
+    '/api/googleDrive/connect',
+    async (url: string) => {
+      const response = await fetch(url, {
         credentials: 'include',
       });
 
@@ -41,15 +44,18 @@ export function useConnectedDrives() {
       }
 
       return response.json();
-    },
-  });
+    }
+  );
+
+  return { data, error, isLoading, mutate };
 }
 
 export function useDeleteDrive() {
-  const queryClient = useQueryClient();
+  const [isDeleting, setIsDeleting] = useState(false);
 
-  return useMutation({
-    mutationFn: async ({ driveId }: DeleteDriveParams) => {
+  const deleteDrive = async ({ driveId }: DeleteDriveParams) => {
+    setIsDeleting(true);
+    try {
       const response = await fetch(`/api/googleDrive/connect?driveId=${driveId}`, {
         method: 'DELETE',
         credentials: 'include',
@@ -60,24 +66,29 @@ export function useDeleteDrive() {
         throw new Error(error.message || 'Failed to disconnect drive');
       }
 
-      return response.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['connected-drives'] });
-      queryClient.invalidateQueries({ queryKey: ['fileData'] });
+      const result = await response.json();
 
-      notifications.show({
+      // Revalidate the data
+      await globalMutate('/api/googleDrive/connect');
+      await globalMutate((key) => typeof key === 'string' && key.startsWith('/api/googleDrive/fileManagement'));
+
+      toast({
         title: 'Success',
-        message: 'Drive disconnected successfully',
-        color: 'green',
+        description: 'Drive disconnected successfully',
       });
-    },
-    onError: (error: Error) => {
-      notifications.show({
+
+      return result;
+    } catch (error: any) {
+      toast({
         title: 'Error',
-        message: error.message || 'Failed to disconnect drive',
-        color: 'red',
+        description: error.message || 'Failed to disconnect drive',
+        variant: 'destructive',
       });
-    },
-  });
+      throw error;
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  return { deleteDrive, isDeleting };
 }

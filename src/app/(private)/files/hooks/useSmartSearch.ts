@@ -1,10 +1,14 @@
-import { useQuery } from '@tanstack/react-query';
+'use client';
+
+import useSWR from 'swr';
 import { SearchSuggestionsResponse, SmartSearchResponse } from '@/app/(private)/files/types/File.types';
 
 export const useSmartSearch = (query: string, userId?: string, driveId?: string | null) => {
-  return useQuery({
-    queryKey: ['smartSearch', query, userId, driveId],
-    queryFn: async () => {
+  const enabled = !!userId && !!driveId && !!query && query.trim().length > 0;
+
+  const { data, error, isLoading, mutate } = useSWR(
+    enabled ? ['smartSearch', query, userId, driveId] : null,
+    async () => {
       if (!userId || !driveId) {
         return {
           files: [],
@@ -53,30 +57,24 @@ export const useSmartSearch = (query: string, userId?: string, driveId?: string 
         query: data.query,
       };
     },
-    enabled: !!userId && !!driveId && !!query && query.trim().length > 0,
-    staleTime: 1000 * 60 * 2,
-  });
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 1000 * 60 * 2,
+    }
+  );
+
+  return { data, error, isLoading, mutate };
 };
 
 export const useSearchSuggestions = (userId?: string, driveId?: string | null) => {
-  return useQuery({
-    queryKey: ['searchSuggestions', userId, driveId],
-    queryFn: async () => {
-      if (!userId || !driveId) {
-        return {
-          suggestions: [],
-          fileExtensions: [],
-          mimeTypes: [],
-          totalFiles: 0,
-        };
-      }
+  const enabled = !!userId && !!driveId;
 
-      const response = await fetch(
-        `/api/googleDrive/filters/smartSearch?userId=${userId}&driveId=${driveId}`,
-        {
-          method: 'GET',
-        }
-      );
+  const { data, error, isLoading, mutate } = useSWR(
+    enabled ? `/api/googleDrive/filters/smartSearch?userId=${userId}&driveId=${driveId}` : null,
+    async (url: string) => {
+      const response = await fetch(url, {
+        method: 'GET',
+      });
 
       if (!response.ok) {
         throw new Error('Failed to fetch search suggestions');
@@ -95,7 +93,11 @@ export const useSearchSuggestions = (userId?: string, driveId?: string | null) =
         totalFiles: data.totalFiles,
       };
     },
-    enabled: !!userId && !!driveId,
-    staleTime: 1000 * 60 * 10,
-  });
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 1000 * 60 * 10,
+    }
+  );
+
+  return { data, error, isLoading, mutate };
 };

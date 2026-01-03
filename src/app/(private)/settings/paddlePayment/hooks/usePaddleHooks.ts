@@ -1,28 +1,42 @@
-import { useQuery } from '@tanstack/react-query'
-import { PaddlePaymentData, SubscribedUser } from '@/app/(private)/settings/paddlePayment/types/types'
+'use client';
+
+import useSWR from 'swr';
+import { PaddlePaymentData, SubscribedUser } from '@/app/(private)/settings/paddlePayment/types/types';
 
 export const useSubscriptionData = (userId: string, userEmail: string) => {
-    return useQuery<PaddlePaymentData>({
-        queryKey: ['subscription-data', userId],
-        queryFn: async () => {
-            const response = await fetch(
-                `/api/paddlePayment/payment?userId=${userId}&userEmail=${userEmail}`
-            )
-            if (!response.ok) throw new Error('Failed to fetch subscription data')
-            return response.json()
-        },
-        enabled: !!userId && !!userEmail,
-    })
-}
+  const enabled = !!userId && !!userEmail;
+
+  const { data, error, isLoading, mutate } = useSWR<PaddlePaymentData>(
+    enabled ? `/api/paddlePayment/payment?userId=${userId}&userEmail=${userEmail}` : null,
+    async (url: string) => {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error('Failed to fetch subscription data');
+      return response.json();
+    },
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 5000,
+    }
+  );
+
+  return { data, error, isLoading, mutate };
+};
 
 export const useCurrentSubscription = (userId: string) => {
-    return useQuery<SubscribedUser>({
-        queryKey: ['current-subscription', userId],
-        queryFn: async () => {
-            const response = await fetch(`/api/paddlePayment?userId=${userId}`)
-            if (!response.ok) throw new Error('Failed to fetch current subscription')
-            return response.json()
-        },
-        enabled: !!userId,
-    })
-}
+  const enabled = !!userId;
+
+  const { data, error, isLoading, mutate } = useSWR<SubscribedUser>(
+    enabled ? `/api/paddlePayment?userId=${userId}` : null,
+    async (url: string) => {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error('Failed to fetch current subscription');
+      return response.json();
+    },
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 5000,
+    }
+  );
+
+  return { data, error, isLoading, mutate };
+};

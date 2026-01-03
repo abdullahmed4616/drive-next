@@ -1,10 +1,14 @@
-import { useQuery } from '@tanstack/react-query';
+'use client';
+
+import useSWR from 'swr';
 import { FileSizeFilter, FileSizeResponse, FileSizeStatsResponse } from '@/app/(private)/files/types/File.types';
 
 export const useFileSize = (filter?: FileSizeFilter, userId?: string, driveId?: string | null) => {
-  return useQuery({
-    queryKey: ['fileSize', filter, userId, driveId],
-    queryFn: async () => {
+  const enabled = !!userId && !!driveId && (!!filter?.minSize || !!filter?.maxSize);
+
+  const { data, error, isLoading, mutate } = useSWR(
+    enabled ? ['fileSize', filter, userId, driveId] : null,
+    async () => {
       if (!userId || !driveId) {
         return {
           files: [],
@@ -44,23 +48,22 @@ export const useFileSize = (filter?: FileSizeFilter, userId?: string, driveId?: 
         filter: data.filter,
       };
     },
-    enabled: !!userId && !!driveId && (!!filter?.minSize || !!filter?.maxSize),
-    staleTime: 1000 * 60 * 5,
-  });
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 1000 * 60 * 5,
+    }
+  );
+
+  return { data, error, isLoading, mutate };
 };
 
 export const useFileSizeStats = (userId?: string, driveId?: string | null) => {
-  return useQuery({
-    queryKey: ['fileSizeStats', userId, driveId],
-    queryFn: async () => {
-      if (!userId || !driveId) {
-        return {
-          statistics: null,
-          commonSizeRanges: null,
-        };
-      }
+  const enabled = !!userId && !!driveId;
 
-      const response = await fetch(`/api/googleDrive/filters/fileSize?userId=${userId}&driveId=${driveId}`, {
+  const { data, error, isLoading, mutate } = useSWR(
+    enabled ? `/api/googleDrive/filters/fileSize?userId=${userId}&driveId=${driveId}` : null,
+    async (url: string) => {
+      const response = await fetch(url, {
         method: 'GET',
       });
 
@@ -79,7 +82,11 @@ export const useFileSizeStats = (userId?: string, driveId?: string | null) => {
         commonSizeRanges: data.commonSizeRanges,
       };
     },
-    enabled: !!userId && !!driveId,
-    staleTime: 1000 * 60 * 10,
-  });
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 1000 * 60 * 10,
+    }
+  );
+
+  return { data, error, isLoading, mutate };
 };

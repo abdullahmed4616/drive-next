@@ -1,21 +1,15 @@
-import { useQuery } from "@tanstack/react-query";
+'use client';
+
+import useSWR from 'swr';
 import { MimeTypeResponse } from "@/app/(private)/files/types/File.types";
 
 export const useMimeType = (userId: any, driveId?: string | null) => {
-  return useQuery({
-    queryKey: ["mimeTypes", userId, driveId],
-    queryFn: async () => {
-      if (!driveId) {
-        return {
-          mimeTypes: [],
-          groupedByCategory: {},
-          totalTypes: 0,
-        };
-      }
+  const enabled = !!driveId;
 
-      const response = await fetch(
-        `/api/googleDrive/filters/mimetype?userId=${userId}&driveId=${driveId}`
-      );
+  const { data, error, isLoading, mutate } = useSWR(
+    enabled ? `/api/googleDrive/filters/mimetype?userId=${userId}&driveId=${driveId}` : null,
+    async (url: string) => {
+      const response = await fetch(url);
 
       if (!response.ok) {
         throw new Error("Failed to fetch MIME types");
@@ -33,7 +27,11 @@ export const useMimeType = (userId: any, driveId?: string | null) => {
         totalTypes: data.totalTypes,
       };
     },
-    enabled: !!driveId,
-    staleTime: 1000 * 60 * 10,
-  });
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 1000 * 60 * 10,
+    }
+  );
+
+  return { data, error, isLoading, mutate };
 };

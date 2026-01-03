@@ -1,13 +1,10 @@
 "use client";
 
+import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Paper, Text, Stack, Group, Box, Skeleton } from "@mantine/core";
-import {
-    IconFile,
-    IconFolder,
-    IconBulb,
-    IconDeviceFloppy,
-} from "@tabler/icons-react";
+import { File, Folder, Lightbulb, Save } from "lucide-react";
+import { Card, CardContent } from "@/app/components/ui/card";
+import { Skeleton } from "@/app/components/ui/skeleton";
 
 interface DashboardStats {
     success: boolean;
@@ -38,71 +35,59 @@ const StatCard = ({
     color: string;
     loading?: boolean;
 }) => {
-    return (
-        <Paper
-            p="lg"
-            radius="lg"
-            withBorder
-            shadow="sm"
-            h="100%"
-            style={{
-                transition: "all 0.2s ease",
-                cursor: "default",
-                borderColor: "var(--mantine-color-gray-3)",
-            }}
-            onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-2px)";
-                e.currentTarget.style.boxShadow = "0 8px 16px rgba(0,0,0,0.08)";
-                e.currentTarget.style.borderColor = color;
-            }}
-            onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 1px 3px rgba(0,0,0,0.05)";
-                e.currentTarget.style.borderColor = "var(--mantine-color-gray-3)";
-            }}
-        >
-            <Stack gap="md">
-                <Group justify="space-between" wrap="nowrap">
-                    <Box
-                        style={{
-                            width: 48,
-                            height: 48,
-                            borderRadius: 12,
-                            backgroundColor: `${color}15`,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                        }}
-                    >
-                        {icon}
-                    </Box>
-                    <Box
-                        style={{
-                            width: 4,
-                            height: 40,
-                            borderRadius: 2,
-                            backgroundColor: color,
-                        }}
-                    />
-                </Group>
+    const [isHovered, setIsHovered] = React.useState(false);
 
-                <Box>
-                    <Text size="xs" c="dimmed" fw={500} tt="uppercase" mb={8}>
-                        {title}
-                    </Text>
-                    {loading ? (
-                        <Skeleton height={36} width="60%" mb="xs" />
-                    ) : (
-                        <Text size="2.25rem" fw={700} lh={1} mb={6} c={color}>
-                            {value}
-                        </Text>
-                    )}
-                    <Text size="sm" c="dimmed" lh={1.4}>
-                        {subtitle}
-                    </Text>
-                </Box>
-            </Stack>
-        </Paper>
+    return (
+        <Card
+            className="h-full border transition-all duration-200 cursor-default"
+            style={{
+                borderColor: isHovered ? color : 'hsl(var(--border))',
+                transform: isHovered ? 'translateY(-2px)' : 'translateY(0)',
+                boxShadow: isHovered ? '0 8px 16px rgba(0,0,0,0.08)' : '0 1px 3px rgba(0,0,0,0.05)',
+            }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+        >
+            <CardContent className="p-6">
+                <div className="flex flex-col gap-4">
+                    <div className="flex items-center justify-between">
+                        <div
+                            className="w-12 h-12 rounded-xl flex items-center justify-center"
+                            style={{
+                                backgroundColor: `${color}15`,
+                            }}
+                        >
+                            {icon}
+                        </div>
+                        <div
+                            className="w-1 h-10 rounded"
+                            style={{
+                                backgroundColor: color,
+                            }}
+                        />
+                    </div>
+
+                    <div>
+                        <p className="text-xs text-muted-foreground font-medium uppercase mb-2">
+                            {title}
+                        </p>
+                        {loading ? (
+                            <Skeleton className="h-9 w-3/5 mb-1.5" />
+                        ) : (
+                            <p
+                                className="text-4xl font-bold leading-none mb-1.5"
+                                style={{ color }}
+                            >
+                                {value}
+                            </p>
+                        )}
+                        <p className="text-sm text-muted-foreground leading-tight">
+                            {subtitle}
+                        </p>
+                    </div>
+                </div>
+            </CardContent>
+        </Card>
     );
 };
 
@@ -119,39 +104,41 @@ export default function StatsPanel() {
             title: "Total Files",
             value: data?.fileCount ?? 0,
             subtitle: "Across all clouds",
-            icon: <IconFile size={22} stroke={2} style={{ color: "#3b82f6" }} />,
+            icon: <File size={22} strokeWidth={2} style={{ color: "#3b82f6" }} />,
             color: "#3b82f6",
         },
         {
             title: "Total Folders",
             value: data?.folderCount ?? 0,
             subtitle: "Across all clouds",
-            icon: <IconFolder size={22} stroke={2} style={{ color: "#8b5cf6" }} />,
+            icon: <Folder size={22} strokeWidth={2} style={{ color: "#8b5cf6" }} />,
             color: "#8b5cf6",
         },
         {
             title: "AI Insights",
             value: "0 new",
             subtitle: "Suggestions available",
-            icon: <IconBulb size={22} stroke={2} style={{ color: "#f59e0b" }} />,
+            icon: <Lightbulb size={22} strokeWidth={2} style={{ color: "#f59e0b" }} />,
             color: "#f59e0b",
         },
         {
             title: "Potential Savings",
             value: "0 GB",
             subtitle: "From duplicates & unused files",
-            icon: <IconDeviceFloppy size={22} stroke={2} style={{ color: "#10b981" }} />,
+            icon: <Save size={22} strokeWidth={2} style={{ color: "#10b981" }} />,
             color: "#10b981",
         },
     ];
 
     if (isError) {
         return (
-            <Paper p="md" radius="md" withBorder>
-                <Text c="red" size="sm">
-                    Failed to load statistics
-                </Text>
-            </Paper>
+            <Card className="border">
+                <CardContent className="p-4">
+                    <p className="text-sm text-destructive">
+                        Failed to load statistics
+                    </p>
+                </CardContent>
+            </Card>
         );
     }
 

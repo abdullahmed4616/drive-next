@@ -1,92 +1,62 @@
 import React from 'react';
-import { Container, Title, Text, Stack, Box } from '@mantine/core';
-import { IconRocket } from '@tabler/icons-react';
+import { Rocket } from 'lucide-react';
 
 export default function ComingSoonPage() {
     return (
-        <Box
+        <div
+            className="min-h-screen flex items-center justify-center p-5 relative overflow-hidden"
             style={{
-                minHeight: '100vh',
                 background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '20px',
-                position: 'relative',
-                overflow: 'hidden'
             }}
         >
-            <Box
+            <div
+                className="absolute top-[10%] left-[10%] w-[300px] h-[300px] rounded-full blur-[60px]"
                 style={{
-                    position: 'absolute',
-                    top: '10%',
-                    left: '10%',
-                    width: '300px',
-                    height: '300px',
                     background: 'rgba(107, 154, 223, 0.1)',
-                    borderRadius: '50%',
-                    filter: 'blur(60px)'
                 }}
             />
-            <Box
+            <div
+                className="absolute bottom-[10%] right-[10%] w-[400px] h-[400px] rounded-full blur-[80px]"
                 style={{
-                    position: 'absolute',
-                    bottom: '10%',
-                    right: '10%',
-                    width: '400px',
-                    height: '400px',
                     background: 'rgba(107, 154, 223, 0.08)',
-                    borderRadius: '50%',
-                    filter: 'blur(80px)'
                 }}
             />
 
-            <Container size="sm" style={{ position: 'relative', zIndex: 1 }}>
-                <Stack align="center" gap="xl">
-                    <Box
+            <div className="container max-w-2xl relative z-10">
+                <div className="flex flex-col items-center gap-8">
+                    <div
+                        className="w-[100px] h-[100px] rounded-full flex items-center justify-center border"
                         style={{
-                            width: '100px',
-                            height: '100px',
                             background: 'rgba(255, 255, 255, 0.7)',
                             backdropFilter: 'blur(10px)',
-                            borderRadius: '50%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            border: '1px solid rgba(255, 255, 255, 0.18)',
+                            borderColor: 'rgba(255, 255, 255, 0.18)',
                             boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.15)'
                         }}
                     >
-                        <IconRocket size={50} color="#6B9ADF" />
-                    </Box>
+                        <Rocket size={50} color="#6B9ADF" />
+                    </div>
 
-                    <Title
-                        order={1}
+                    <h1
+                        className="text-6xl md:text-7xl font-extrabold text-center"
                         style={{
-                            fontSize: '4rem',
-                            fontWeight: 800,
                             color: '#6B9ADF',
-                            textAlign: 'center',
                             letterSpacing: '-2px',
                             textShadow: '0 4px 20px rgba(107, 154, 223, 0.2)'
                         }}
                     >
                         Coming Soon
-                    </Title>
+                    </h1>
 
-                    <Text
-                        size="xl"
+                    <p
+                        className="text-xl text-center max-w-[600px] leading-relaxed"
                         style={{
                             color: '#718096',
-                            textAlign: 'center',
-                            maxWidth: '600px',
-                            lineHeight: 1.6
                         }}
                     >
                         We're working on something amazing. Stay tuned!
-                    </Text>
-                </Stack>
-            </Container>
-        </Box>
+                    </p>
+                </div>
+            </div>
+        </div>
     );
 }

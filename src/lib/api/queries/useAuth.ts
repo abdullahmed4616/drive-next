@@ -1,16 +1,23 @@
-import { useQuery } from '@tanstack/react-query';
+'use client';
+
+import useSWR from 'swr';
 
 export function useAuthStatus() {
-  return useQuery({
-    queryKey: ['auth', 'status'],
-    queryFn: async () => {
-      const response = await fetch('/api/googleDrive/auth/status', {
+  const { data, error, isLoading, mutate } = useSWR(
+    '/api/googleDrive/auth/status',
+    async (url: string) => {
+      const response = await fetch(url, {
         credentials: 'include',
       });
       if (!response.ok) return { connected: false, user: null };
       return response.json();
     },
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    retry: false,
-  });
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 5 * 60 * 1000,
+      shouldRetryOnError: false,
+    }
+  );
+
+  return { data, error, isLoading, mutate };
 }

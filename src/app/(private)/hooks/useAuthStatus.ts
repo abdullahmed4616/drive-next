@@ -1,14 +1,15 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import useSWR from "swr";
 import { AuthStatus } from "@/app/(private)/types/authTypes";
 
 export function useAuthStatus() {
-  return useQuery<AuthStatus>({
-    queryKey: ["auth-status"],
-    queryFn: async () => {
-      const response = await fetch("/api/googleDrive/auth/status", {
+  const { data, error, isLoading, mutate } = useSWR<AuthStatus>(
+    "/api/googleDrive/auth/status",
+    async (url: string) => {
+      const response = await fetch(url, {
         cache: "no-store",
+        credentials: "include",
       });
 
       if (!response.ok) {
@@ -26,17 +27,22 @@ export function useAuthStatus() {
 
       return response.json();
     },
-    staleTime: 1000 * 60 * 5,
-    retry: false,
-  });
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 1000 * 60 * 5,
+      shouldRetryOnError: false,
+    }
+  );
+
+  return { data, error, isLoading, mutate };
 }
 
 export function useUserId() {
   const { data, isLoading, error } = useAuthStatus();
-  
+
   return {
     userId: data?.user?.id ?? null,
-    email:data?.user?.email ?? null,
+    email: data?.user?.email ?? null,
     isAuthenticated: data?.authenticated ?? false,
     isLoading,
     error,
@@ -45,7 +51,7 @@ export function useUserId() {
 
 export function useGoogleDriveStatus() {
   const { data, isLoading, error } = useAuthStatus();
-  
+
   return {
     connected: data?.connected ?? false,
     accountsCount: data?.accountsCount ?? 0,

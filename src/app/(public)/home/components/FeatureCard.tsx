@@ -1,5 +1,5 @@
 import React from "react";
-import {Box, Card, Stack, Text, Title} from "@mantine/core";
+import { Card, CardContent } from "@/app/components/ui/card";
 
 const PRIMARY_COLOR = '#6B9ADF';
 const ACCENT_BG_COLOR = 'rgba(0,0,0, 0.2)';
@@ -12,73 +12,45 @@ interface FeatureCardProps {
 }
 
 export function FeatureCard({ icon: Icon, title, description }: FeatureCardProps) {
+    const [isHovered, setIsHovered] = React.useState(false);
+
     return (
         <Card
-            shadow="sm"
-            padding="xl"
-            radius="xl"
-            withBorder
-            h="100%"
+            className="h-full border cursor-pointer transition-all duration-400 relative overflow-hidden"
             style={{
-                border: `1px solid ${BORDER_COLOR}`,
-                transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                cursor: 'pointer',
-                background: 'white',
-                overflow: 'hidden',
-                position: 'relative',
+                border: `1px solid ${isHovered ? 'transparent' : BORDER_COLOR}`,
+                transform: isHovered ? 'translateY(-8px)' : 'translateY(0)',
+                boxShadow: isHovered ? `0 20px 40px ${BORDER_COLOR}` : undefined,
             }}
-            onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-8px)';
-                e.currentTarget.style.boxShadow = `0 20px 40px ${BORDER_COLOR}`;
-                e.currentTarget.style.borderColor = 'transparent';
-                const bg = e.currentTarget.querySelector('.card-bg') as HTMLElement;
-                if (bg) bg.style.opacity = '1';
-            }}
-            onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '';
-                e.currentTarget.style.borderColor = BORDER_COLOR;
-                const bg = e.currentTarget.querySelector('.card-bg') as HTMLElement;
-                if (bg) bg.style.opacity = '0';
-            }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
         >
-            <Box
-                className="card-bg"
+            <div
+                className="absolute inset-0 transition-opacity duration-400 z-0"
                 style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
                     background: ACCENT_BG_COLOR,
-                    opacity: 0,
-                    transition: 'opacity 0.4s ease',
-                    zIndex: 0,
+                    opacity: isHovered ? 1 : 0,
                 }}
             />
 
-            <Stack gap="lg" align="center" ta="center" style={{ position: 'relative', zIndex: 1 }}>
-                <Box
-                    style={{
-                        width: 80,
-                        height: 80,
-                        borderRadius: '20px',
-                        background: ACCENT_BG_COLOR,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        transition: 'all 0.3s ease',
-                    }}
-                >
-                    <Icon size={36} color={PRIMARY_COLOR} stroke={1.5} />
-                </Box>
-                <Title order={3} size="h4" fw={700} style={{ fontFamily: "'Outfit', sans-serif" }}>
-                    {title}
-                </Title>
-                <Text size="sm" c="dimmed" style={{ lineHeight: 1.6 }}>
-                    {description}
-                </Text>
-            </Stack>
+            <CardContent className="p-6 relative z-10">
+                <div className="flex flex-col items-center text-center gap-6">
+                    <div
+                        className="w-20 h-20 rounded-[20px] flex items-center justify-center transition-all duration-300"
+                        style={{
+                            background: ACCENT_BG_COLOR,
+                        }}
+                    >
+                        <Icon size={36} color={PRIMARY_COLOR} stroke={1.5} />
+                    </div>
+                    <h3 className="text-xl font-bold" style={{ fontFamily: "'Outfit', sans-serif" }}>
+                        {title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                        {description}
+                    </p>
+                </div>
+            </CardContent>
         </Card>
     );
 }

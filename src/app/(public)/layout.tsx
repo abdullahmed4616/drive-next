@@ -1,4 +1,3 @@
-import { Container } from '@mantine/core';
 import PublicNavbar from '@/app/components/layout/PublicNavbar';
 
 export default function PublicLayout({

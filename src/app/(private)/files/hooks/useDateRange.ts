@@ -1,10 +1,14 @@
-import { useQuery } from '@tanstack/react-query';
+'use client';
+
+import useSWR from 'swr';
 import { DateRangeFilter, DateRangeResponse, DateRangeInfoResponse } from '@/app/(private)/files/types/File.types';
 
 export const useDateRange = (filter: DateRangeFilter, userId?: string, driveId?: string | null) => {
-  return useQuery({
-    queryKey: ['dateRange', filter, userId, driveId],
-    queryFn: async () => {
+  const enabled = !!userId && !!driveId && (!!filter.startDate || !!filter.endDate);
+
+  const { data, error, isLoading, mutate } = useSWR(
+    enabled ? ['dateRange', filter, userId, driveId] : null,
+    async () => {
       if (!userId || !driveId) {
         return {
           files: [],
@@ -56,15 +60,21 @@ export const useDateRange = (filter: DateRangeFilter, userId?: string, driveId?:
         filter: data.filter,
       };
     },
-    enabled: !!userId && !!driveId && (!!filter.startDate || !!filter.endDate),
-    staleTime: 1000 * 60 * 5,
-  });
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 1000 * 60 * 5,
+    }
+  );
+
+  return { data, error, isLoading, mutate };
 };
 
 export const useDateRangeInfo = (userId?: string, driveId?: string | null) => {
-  return useQuery({
-    queryKey: ['dateRangeInfo', userId, driveId],
-    queryFn: async () => {
+  const enabled = !!userId && !!driveId;
+
+  const { data, error, isLoading, mutate } = useSWR(
+    enabled ? ['dateRangeInfo', userId, driveId] : null,
+    async () => {
       if (!userId || !driveId) {
         return {
           dateRanges: null,
@@ -94,7 +104,11 @@ export const useDateRangeInfo = (userId?: string, driveId?: string | null) => {
         totalFiles: data.totalFiles,
       };
     },
-    enabled: !!userId && !!driveId,
-    staleTime: 1000 * 60 * 10,
-  });
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 1000 * 60 * 10,
+    }
+  );
+
+  return { data, error, isLoading, mutate };
 };

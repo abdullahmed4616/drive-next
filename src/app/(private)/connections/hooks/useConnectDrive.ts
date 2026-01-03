@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { notifications } from '@mantine/notifications';
+import { toast } from '@/app/components/ui/use-toast';
 import { IconAlertCircle } from '@tabler/icons-react';
 import React from 'react';
 
@@ -18,12 +18,9 @@ export function useConnectDrive(options?: UseConnectDriveOptions) {
     setIsConnecting(true);
 
     try {
-      notifications.show({
-        id: 'connecting-drive',
+      toast({
         title: 'Connecting...',
-        message: 'Redirecting to Google for authentication',
-        loading: true,
-        autoClose: false,
+        description: 'Redirecting to Google for authentication',
       });
 
       window.location.href = '/api/googleDrive/auth';
@@ -31,17 +28,14 @@ export function useConnectDrive(options?: UseConnectDriveOptions) {
     } catch (error) {
       setIsConnecting(false);
 
-      notifications.hide('connecting-drive');
-
       const errorMessage = error instanceof Error
           ? error.message
           : 'Failed to start connection process';
 
-      notifications.show({
+      toast({
         title: 'Connection Failed',
-        message: errorMessage,
-        color: 'red',
-        icon: React.createElement(IconAlertCircle, { size: 18 }),
+        description: errorMessage,
+        variant: 'destructive',
       });
 
       if (options?.onError) {
@@ -73,12 +67,9 @@ export function useConnectDriveWithStatus() {
         throw new Error('Please log in first');
       }
 
-      notifications.show({
-        id: 'connecting-drive',
+      toast({
         title: 'Connecting to Google Drive',
-        message: 'You will be redirected to Google for authentication',
-        loading: true,
-        autoClose: false,
+        description: 'You will be redirected to Google for authentication',
       });
 
       await new Promise(resolve => setTimeout(resolve, 500));
@@ -90,14 +81,10 @@ export function useConnectDriveWithStatus() {
       const error = err instanceof Error ? err : new Error('Unknown error occurred');
       setError(error);
 
-      notifications.hide('connecting-drive');
-
-      notifications.show({
+      toast({
         title: 'Connection Failed',
-        message: error.message,
-        color: 'red',
-        icon: React.createElement(IconAlertCircle, { size: 18 }),
-        autoClose: 5000,
+        description: error.message,
+        variant: 'destructive',
       });
     }
   };
@@ -129,12 +116,9 @@ export function useConnectDriveWithCallback() {
 
       const authUrl = `/api/googleDrive/auth${params.toString() ? `?${params.toString()}` : ''}`;
 
-      notifications.show({
-        id: 'connecting-drive',
+      toast({
         title: 'Connecting...',
-        message: 'Redirecting to Google',
-        loading: true,
-        autoClose: false,
+        description: 'Redirecting to Google',
       });
 
       window.location.href = authUrl;
@@ -142,13 +126,10 @@ export function useConnectDriveWithCallback() {
     } catch (error) {
       setIsConnecting(false);
 
-      notifications.hide('connecting-drive');
-
-      notifications.show({
+      toast({
         title: 'Error',
-        message: 'Failed to initiate connection',
-        color: 'red',
-        icon: React.createElement(IconAlertCircle, { size: 18 }),
+        description: 'Failed to initiate connection',
+        variant: 'destructive',
       });
     }
   };
@@ -186,12 +167,9 @@ export function useConnectDriveAdvanced() {
         setCanConnect(data.subscription.canAddMore);
 
         if (!data.subscription.canAddMore) {
-          notifications.show({
+          toast({
             title: 'Connection Limit Reached',
-            message: `Your ${packageName} plan allows up to ${limit} Google Drive ${limit === 1 ? 'account' : 'accounts'}. Upgrade to connect more drives.`,
-            color: 'orange',
-            icon: React.createElement(IconAlertCircle, { size: 18 }),
-            autoClose: 7000,
+            description: `Your ${packageName} plan allows up to ${limit} Google Drive ${limit === 1 ? 'account' : 'accounts'}. Upgrade to connect more drives.`,
           });
         }
       }
@@ -206,12 +184,10 @@ export function useConnectDriveAdvanced() {
     await checkConnectionStatus();
 
     if (!canConnect) {
-      notifications.show({
+      toast({
         title: 'Cannot Connect',
-        message: 'You have reached the maximum number of connected drives for your subscription plan. Please upgrade to add more drives.',
-        color: 'red',
-        icon: React.createElement(IconAlertCircle, { size: 18 }),
-        autoClose: 7000,
+        description: 'You have reached the maximum number of connected drives for your subscription plan. Please upgrade to add more drives.',
+        variant: 'destructive',
       });
       return;
     }
@@ -219,12 +195,9 @@ export function useConnectDriveAdvanced() {
     setIsConnecting(true);
 
     try {
-      notifications.show({
-        id: 'connecting-drive',
+      toast({
         title: 'Connecting to Google Drive',
-        message: 'Please wait...',
-        loading: true,
-        autoClose: false,
+        description: 'Please wait...',
       });
 
       window.location.href = '/api/googleDrive/auth';
@@ -232,13 +205,10 @@ export function useConnectDriveAdvanced() {
     } catch (error) {
       setIsConnecting(false);
 
-      notifications.hide('connecting-drive');
-
-      notifications.show({
+      toast({
         title: 'Connection Failed',
-        message: 'Unable to start the connection process',
-        color: 'red',
-        icon: React.createElement(IconAlertCircle, { size: 18 }),
+        description: 'Unable to start the connection process',
+        variant: 'destructive',
       });
     }
   };

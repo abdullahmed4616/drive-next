@@ -2,40 +2,45 @@
 
 import { useState, useEffect } from 'react';
 import {
-    Group,
-    Menu,
-    Avatar,
-    Text,
-    UnstyledButton,
-    Burger,
-    Drawer,
-    Stack,
-    Badge,
-    Tooltip,
-    Box,
-    ActionIcon,
-    Indicator,
-} from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import {
-    IconLogout,
-    IconSettings,
-    IconUser,
-    IconChevronDown,
-    IconPlugConnected,
-    IconAlertCircle,
-    IconCloud,
-    IconSparkles,
-    IconBell,
-} from '@tabler/icons-react';
+    LogOut,
+    Settings,
+    User,
+    ChevronDown,
+    PlugZap,
+    AlertCircle,
+    Cloud,
+    Sparkles,
+    Bell,
+    Menu as MenuIcon,
+} from 'lucide-react';
 import { useRouter, usePathname } from 'next/navigation';
-import { notifications } from '@mantine/notifications';
+import { useToast } from '@/app/components/ui/use-toast';
 import { useSession } from '@/app/providers/SessionProvider';
+import { Avatar, AvatarFallback, AvatarImage } from '@/app/components/ui/avatar';
+import { Badge } from '@/app/components/ui/badge';
+import { Button } from '@/app/components/ui/button';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from '@/app/components/ui/dropdown-menu';
+import {
+    Sheet,
+    SheetContent,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from '@/app/components/ui/sheet';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/app/components/ui/tooltip';
 
 export default function PrivateNavbar() {
     const router = useRouter();
     const pathname = usePathname();
-    const [opened, { toggle, close }] = useDisclosure(false);
+    const [opened, setOpened] = useState(false);
+    const { toast } = useToast();
 
     const { user, logout } = useSession();
 
@@ -69,18 +74,17 @@ export default function PrivateNavbar() {
         const allowedRoutes = ['/connections', '/settings'];
 
         if (!isConnected && !allowedRoutes.includes(path)) {
-            notifications.show({
+            toast({
                 title: 'Connection Required',
-                message: 'Please connect a drive first to access this feature',
-                color: 'yellow',
-                icon: <IconAlertCircle size={18} />,
+                description: 'Please connect a drive first to access this feature',
+                variant: 'default',
             });
             router.push('/connections');
             return;
         }
 
         router.push(path);
-        close();
+        setOpened(false);
     };
 
     const handleLogout = async () => {
@@ -88,450 +92,325 @@ export default function PrivateNavbar() {
             await logout();
         } catch (error) {
             console.error('Logout failed:', error);
-            notifications.show({
+            toast({
                 title: 'Error',
-                message: 'Failed to logout. Please try again.',
-                color: 'red',
+                description: 'Failed to logout. Please try again.',
+                variant: 'destructive',
             });
         }
     };
 
     if (checkingConnection) {
         return (
-            <Box
+            <div
+                className="w-full"
                 style={{
                     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                     boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
-                    width: '100%',
                 }}
             >
-                <Group h={70} justify="space-between" style={{ width: '100%' }}>
-                    <Group gap="xs">
-                        <IconCloud size={32} color="white" />
-                        <Text fw={800} size="xl" c="white" style={{ letterSpacing: '0.5px' }}>
+                <div className="flex h-[70px] items-center justify-between w-full">
+                    <div className="flex items-center gap-2">
+                        <Cloud size={32} color="white" />
+                        <span className="text-xl font-extrabold text-white" style={{ letterSpacing: '0.5px' }}>
                             DriveUnity
-                        </Text>
-                    </Group>
-                    <Avatar radius="xl" size="md" />
-                </Group>
-            </Box>
+                        </span>
+                    </div>
+                    <Avatar>
+                        <AvatarFallback>U</AvatarFallback>
+                    </Avatar>
+                </div>
+            </div>
         );
     }
 
     return (
-        <Box
-            style={{
-                position: 'relative',
-                width: '95%',
-            }}
-        >
-            <Group h={70} justify="space-between" style={{ width: '100%' }}>
-                <Group gap="xs">
-                    <Box
-                        style={{
-                            background: 'rgba(255, 255, 255, 0.2)',
-                            borderRadius: '12px',
-                            padding: '8px',
-                            backdropFilter: 'blur(10px)',
-                        }}
-                    >
-                        <IconCloud size={28} color="white" />
-                    </Box>
-                    <Box>
-                        <Text
-                            fw={800}
-                            size="xl"
-                            c="black"
+        <TooltipProvider>
+            <div className="relative w-[95%]">
+                <div className="flex h-[70px] items-center justify-between w-full">
+                    <div className="flex items-center gap-2">
+                        <div
+                            className="p-2 rounded-xl backdrop-blur-md"
                             style={{
-                                letterSpacing: '0.5px',
-                                textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+                                background: 'rgba(255, 255, 255, 0.2)',
                             }}
                         >
-                            DriveUnity
-                        </Text>
-                        <Text size="xs" c="black" fw={500}>
-                            Unified Cloud Storage
-                        </Text>
-                    </Box>
-                </Group>
-
-                <Group gap="md" visibleFrom="md">
-                    {isConnected ? (
-                        <Tooltip
-                            label={`${accountsCount} drive${accountsCount > 1 ? 's' : ''} connected`}
-                            position="bottom"
-                            withArrow
-                        >
-                            <Badge
-                                leftSection={<IconPlugConnected size={14} />}
-                                color="teal"
-                                variant="light"
-                                size="lg"
-                                radius="xl"
+                            <Cloud size={28} color="white" />
+                        </div>
+                        <div>
+                            <h1
+                                className="text-xl font-extrabold text-black"
                                 style={{
-                                    cursor: 'pointer',
-                                    background: 'rgba(255, 255, 255, 0.95)',
-                                    color: '#12b886',
-                                    fontWeight: 600,
-                                    padding: '10px 16px',
-                                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-                                    transition: 'all 0.3s ease',
-                                }}
-                                onClick={() => router.push('/connections')}
-                                className="hover:scale-105"
-                            >
-                                {accountsCount} Connected
-                            </Badge>
-                        </Tooltip>
-                    ) : (
-                        <Tooltip label="Connect your first drive" position="bottom" withArrow>
-                            <Badge
-                                leftSection={<IconAlertCircle size={14} />}
-                                variant="light"
-                                size="lg"
-                                radius="xl"
-                                style={{
-                                    cursor: 'pointer',
-                                    background: 'rgba(255, 255, 255, 0.95)',
-                                    color: '#fa5252',
-                                    fontWeight: 600,
-                                    padding: '10px 16px',
-                                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-                                    animation: 'pulse 2s infinite',
-                                }}
-                                onClick={() => router.push('/connections')}
-                            >
-                                Not Connected
-                            </Badge>
-                        </Tooltip>
-                    )}
-                </Group>
-
-                <Group gap="sm" visibleFrom="sm">
-                    <Menu
-                        shadow="xl"
-                        width={280}
-                        radius="md"
-                        transitionProps={{ transition: 'pop-top-right' }}
-                    >
-                        <Menu.Target>
-                            <UnstyledButton
-                                style={{
-                                    background: 'rgba(255, 255, 255, 0.2)',
-                                    borderRadius: '50px',
-                                    padding: '6px 16px 6px 6px',
-                                    backdropFilter: 'blur(10px)',
-                                    border: '2px solid rgba(255, 255, 255, 0.3)',
-                                    transition: 'all 0.3s ease',
-                                }}
-                                className="hover:scale-105"
-                            >
-                                <Group gap="sm">
-                                    <Avatar
-                                        src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
-                                        alt={user?.name || 'User'}
-                                        radius="xl"
-                                        size="md"
-                                        style={{
-                                            border: '2px solid white',
-                                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
-                                        }}
-                                    />
-                                    <Box visibleFrom="sm">
-                                        <Text size="sm" fw={600} c="black">
-                                            {user?.name || 'User'}
-                                        </Text>
-                                        <Text size="xs" c="black">
-                                            {user?.email}
-                                        </Text>
-                                    </Box>
-                                    <IconChevronDown size={16} color="black" />
-                                </Group>
-                            </UnstyledButton>
-                        </Menu.Target>
-
-                        <Menu.Dropdown
-                            style={{
-                                border: 'none',
-                                boxShadow: '0 10px 40px rgba(0, 0, 0, 0.15)',
-                            }}
-                        >
-                            <Menu.Label>
-                                <Group gap="xs">
-                                    <IconSparkles size={16} />
-                                    <Text>Account</Text>
-                                </Group>
-                            </Menu.Label>
-
-                            <Menu.Item
-                                leftSection={<IconUser size={18} />}
-                                onClick={() => handleNavigation('/settings')}
-                                style={{
-                                    borderRadius: '8px',
-                                    margin: '4px',
+                                    letterSpacing: '0.5px',
+                                    textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
                                 }}
                             >
-                                <Box>
-                                    <Text size="sm" fw={500}>Profile</Text>
-                                    <Text size="xs" c="dimmed">View and edit your profile</Text>
-                                </Box>
-                            </Menu.Item>
+                                DriveUnity
+                            </h1>
+                            <p className="text-xs text-black font-medium">
+                                Unified Cloud Storage
+                            </p>
+                        </div>
+                    </div>
 
-                            <Menu.Item
-                                leftSection={<IconSettings size={18} />}
-                                onClick={() => handleNavigation('/settings')}
-                                style={{
-                                    borderRadius: '8px',
-                                    margin: '4px',
-                                }}
-                            >
-                                <Box>
-                                    <Text size="sm" fw={500}>Settings</Text>
-                                    <Text size="xs" c="dimmed">Manage preferences</Text>
-                                </Box>
-                            </Menu.Item>
-
-                            <Menu.Divider />
-
-                            <Menu.Label>
-                                <Group gap="xs">
-                                    <IconCloud size={16} />
-                                    <Text>Storage</Text>
-                                </Group>
-                            </Menu.Label>
-
-                            <Menu.Item
-                                leftSection={<IconPlugConnected size={18} />}
-                                onClick={() => router.push('/connections')}
-                                rightSection={
+                    <div className="hidden md:flex gap-4">
+                        {isConnected ? (
+                            <Tooltip>
+                                <TooltipTrigger asChild>
                                     <Badge
-                                        color={isConnected ? 'teal' : 'orange'}
-                                        variant="light"
-                                        size="sm"
-                                        radius="xl"
+                                        className="cursor-pointer hover:scale-105 transition-all px-4 py-2 text-base"
+                                        style={{
+                                            background: 'rgba(255, 255, 255, 0.95)',
+                                            color: '#12b886',
+                                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+                                        }}
+                                        onClick={() => router.push('/connections')}
                                     >
+                                        <PlugZap className="mr-1" size={14} />
+                                        {accountsCount} Connected
+                                    </Badge>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    {`${accountsCount} drive${accountsCount > 1 ? 's' : ''} connected`}
+                                </TooltipContent>
+                            </Tooltip>
+                        ) : (
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Badge
+                                        className="cursor-pointer animate-pulse px-4 py-2 text-base"
+                                        style={{
+                                            background: 'rgba(255, 255, 255, 0.95)',
+                                            color: '#fa5252',
+                                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+                                        }}
+                                        onClick={() => router.push('/connections')}
+                                    >
+                                        <AlertCircle className="mr-1" size={14} />
+                                        Not Connected
+                                    </Badge>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    Connect your first drive
+                                </TooltipContent>
+                            </Tooltip>
+                        )}
+                    </div>
+
+                    <div className="hidden sm:flex gap-2">
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <button
+                                    className="hover:scale-105 transition-all flex items-center gap-2 px-4 py-1.5 rounded-full backdrop-blur-md"
+                                    style={{
+                                        background: 'rgba(255, 255, 255, 0.2)',
+                                        border: '2px solid rgba(255, 255, 255, 0.3)',
+                                    }}
+                                >
+                                    <Avatar className="border-2 border-white shadow-md">
+                                        <AvatarImage src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg" alt={user?.name || 'User'} />
+                                        <AvatarFallback>{user?.name?.charAt(0) || 'U'}</AvatarFallback>
+                                    </Avatar>
+                                    <div className="hidden sm:block text-left">
+                                        <p className="text-sm font-semibold text-black">
+                                            {user?.name || 'User'}
+                                        </p>
+                                        <p className="text-xs text-black">
+                                            {user?.email}
+                                        </p>
+                                    </div>
+                                    <ChevronDown size={16} color="black" />
+                                </button>
+                            </DropdownMenuTrigger>
+
+                            <DropdownMenuContent className="w-[280px]" align="end">
+                                <DropdownMenuLabel>
+                                    <div className="flex items-center gap-2">
+                                        <Sparkles size={16} />
+                                        <span>Account</span>
+                                    </div>
+                                </DropdownMenuLabel>
+
+                                <DropdownMenuItem onClick={() => handleNavigation('/settings')}>
+                                    <User className="mr-2" size={18} />
+                                    <div>
+                                        <p className="text-sm font-medium">Profile</p>
+                                        <p className="text-xs text-muted-foreground">View and edit your profile</p>
+                                    </div>
+                                </DropdownMenuItem>
+
+                                <DropdownMenuItem onClick={() => handleNavigation('/settings')}>
+                                    <Settings className="mr-2" size={18} />
+                                    <div>
+                                        <p className="text-sm font-medium">Settings</p>
+                                        <p className="text-xs text-muted-foreground">Manage preferences</p>
+                                    </div>
+                                </DropdownMenuItem>
+
+                                <DropdownMenuSeparator />
+
+                                <DropdownMenuLabel>
+                                    <div className="flex items-center gap-2">
+                                        <Cloud size={16} />
+                                        <span>Storage</span>
+                                    </div>
+                                </DropdownMenuLabel>
+
+                                <DropdownMenuItem onClick={() => router.push('/connections')}>
+                                    <PlugZap className="mr-2" size={18} />
+                                    <div className="flex-1">
+                                        <p className="text-sm font-medium">Connections</p>
+                                        <p className="text-xs text-muted-foreground">Manage your drives</p>
+                                    </div>
+                                    <Badge variant={isConnected ? 'default' : 'secondary'} className="ml-2">
                                         {isConnected ? `${accountsCount} Active` : 'Setup'}
                                     </Badge>
-                                }
-                                style={{
-                                    borderRadius: '8px',
-                                    margin: '4px',
-                                }}
-                            >
-                                <Box>
-                                    <Text size="sm" fw={500}>Connections</Text>
-                                    <Text size="xs" c="dimmed">Manage your drives</Text>
-                                </Box>
-                            </Menu.Item>
+                                </DropdownMenuItem>
 
-                            <Menu.Divider />
+                                <DropdownMenuSeparator />
 
-                            <Menu.Item
-                                color="red"
-                                leftSection={<IconLogout size={18} />}
-                                onClick={handleLogout}
-                                style={{
-                                    borderRadius: '8px',
-                                    margin: '4px',
-                                }}
-                            >
-                                <Text size="sm" fw={500}>Logout</Text>
-                            </Menu.Item>
-                        </Menu.Dropdown>
-                    </Menu>
-                </Group>
+                                <DropdownMenuItem onClick={handleLogout} className="text-red-600">
+                                    <LogOut className="mr-2" size={18} />
+                                    <span className="text-sm font-medium">Logout</span>
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
 
-                <Burger
-                    opened={opened}
-                    onClick={toggle}
-                    hiddenFrom="sm"
-                    size="sm"
-                    color="white"
-                />
-            </Group>
-
-            <Drawer
-                opened={opened}
-                onClose={close}
-                padding="lg"
-                size="sm"
-                position="right"
-                hiddenFrom="sm"
-                title={
-                    <Group gap="sm">
-                        <Avatar
-                            src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
-                            alt={user?.name || 'User'}
-                            radius="xl"
-                            size="md"
-                            style={{ border: '2px solid #667eea' }}
-                        />
-                        <Box>
-                            <Text size="sm" fw={600}>
-                                {user?.name || 'User'}
-                            </Text>
-                            <Text size="xs" c="dimmed">
-                                {user?.email}
-                            </Text>
-                        </Box>
-                    </Group>
-                }
-                styles={{
-                    header: {
-                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                        color: 'white',
-                    },
-                    title: {
-                        color: 'white',
-                    },
-                    close: {
-                        color: 'white',
-                        '&:hover': {
-                            background: 'rgba(255, 255, 255, 0.2)',
-                        },
-                    },
-                }}
-            >
-                <Stack gap="md">
-                    <Box
-                        onClick={() => {
-                            router.push('/connections');
-                            close();
-                        }}
-                        style={{
-                            padding: '16px',
-                            borderRadius: '12px',
-                            background: isConnected
-                                ? 'linear-gradient(135deg, #51cf66 0%, #37b24d 100%)'
-                                : 'linear-gradient(135deg, #ffd43b 0%, #fd7e14 100%)',
-                            cursor: 'pointer',
-                            transition: 'transform 0.2s ease',
-                        }}
-                        className="hover:scale-105"
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        className="sm:hidden"
+                        onClick={() => setOpened(!opened)}
                     >
-                        <Group justify="space-between" mb="xs">
-                            <Group gap="sm">
-                                <IconPlugConnected size={20} color="white" />
-                                <Text size="sm" fw={600} c="white">Connections</Text>
-                            </Group>
-                            <Badge color="white" variant="filled" size="sm">
-                                {isConnected ? accountsCount : '0'}
-                            </Badge>
-                        </Group>
-                        <Text size="xs" c="rgba(255, 255, 255, 0.9)">
-                            {isConnected
-                                ? `${accountsCount} drive${accountsCount > 1 ? 's' : ''} connected`
-                                : 'Connect your first drive'}
-                        </Text>
-                    </Box>
+                        <MenuIcon size={20} color="white" />
+                    </Button>
+                </div>
 
-                    <Stack gap="xs">
-                        <UnstyledButton
-                            onClick={() => handleNavigation('/settings')}
+                <Sheet open={opened} onOpenChange={setOpened}>
+                    <SheetContent side="right" className="sm:hidden">
+                        <SheetHeader
+                            className="p-4 rounded-t-lg"
                             style={{
-                                padding: '14px 16px',
-                                borderRadius: '12px',
-                                border: '2px solid #e9ecef',
-                                transition: 'all 0.2s ease',
+                                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                             }}
-                            className="hover:bg-gray-50 hover:border-blue-300"
                         >
-                            <Group gap="sm">
-                                <Box
+                            <SheetTitle className="flex items-center gap-2 text-white">
+                                <Avatar className="border-2 border-[#667eea]">
+                                    <AvatarImage src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg" alt={user?.name || 'User'} />
+                                    <AvatarFallback>{user?.name?.charAt(0) || 'U'}</AvatarFallback>
+                                </Avatar>
+                                <div>
+                                    <p className="text-sm font-semibold">
+                                        {user?.name || 'User'}
+                                    </p>
+                                    <p className="text-xs text-gray-200">
+                                        {user?.email}
+                                    </p>
+                                </div>
+                            </SheetTitle>
+                        </SheetHeader>
+                        <div className="flex flex-col gap-4 mt-6">
+                            <div
+                                onClick={() => {
+                                    router.push('/connections');
+                                    setOpened(false);
+                                }}
+                                className="p-4 rounded-xl cursor-pointer hover:scale-105 transition-transform"
+                                style={{
+                                    background: isConnected
+                                        ? 'linear-gradient(135deg, #51cf66 0%, #37b24d 100%)'
+                                        : 'linear-gradient(135deg, #ffd43b 0%, #fd7e14 100%)',
+                                }}
+                            >
+                                <div className="flex items-center justify-between mb-2">
+                                    <div className="flex items-center gap-2">
+                                        <PlugZap size={20} color="white" />
+                                        <span className="text-sm font-semibold text-white">Connections</span>
+                                    </div>
+                                    <Badge variant="secondary">
+                                        {isConnected ? accountsCount : '0'}
+                                    </Badge>
+                                </div>
+                                <p className="text-xs text-white/90">
+                                    {isConnected
+                                        ? `${accountsCount} drive${accountsCount > 1 ? 's' : ''} connected`
+                                        : 'Connect your first drive'}
+                                </p>
+                            </div>
+
+                            <div className="flex flex-col gap-2">
+                                <button
+                                    onClick={() => handleNavigation('/settings')}
+                                    className="p-3.5 rounded-xl border-2 border-gray-200 transition-all hover:bg-gray-50 hover:border-blue-300"
+                                >
+                                    <div className="flex items-center gap-2">
+                                        <div
+                                            className="p-2 rounded-lg flex items-center justify-center"
+                                            style={{
+                                                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                            }}
+                                        >
+                                            <User size={18} color="white" />
+                                        </div>
+                                        <div className="flex-1 text-left">
+                                            <p className="text-sm font-medium">Profile</p>
+                                            <p className="text-xs text-muted-foreground">View and edit profile</p>
+                                        </div>
+                                    </div>
+                                </button>
+
+                                <button
+                                    onClick={() => handleNavigation('/settings')}
+                                    className="p-3.5 rounded-xl border-2 border-gray-200 transition-all hover:bg-gray-50 hover:border-blue-300"
+                                >
+                                    <div className="flex items-center gap-2">
+                                        <div
+                                            className="p-2 rounded-lg flex items-center justify-center"
+                                            style={{
+                                                background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                                            }}
+                                        >
+                                            <Settings size={18} color="white" />
+                                        </div>
+                                        <div className="flex-1 text-left">
+                                            <p className="text-sm font-medium">Settings</p>
+                                            <p className="text-xs text-muted-foreground">Manage preferences</p>
+                                        </div>
+                                    </div>
+                                </button>
+
+                                <button
+                                    onClick={() => {
+                                        handleLogout();
+                                        setOpened(false);
+                                    }}
+                                    className="p-3.5 rounded-xl text-white mt-4 hover:scale-105 transition-transform"
                                     style={{
-                                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                                        borderRadius: '8px',
-                                        padding: '8px',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
+                                        background: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%)',
                                     }}
                                 >
-                                    <IconUser size={18} color="white" />
-                                </Box>
-                                <Box style={{ flex: 1 }}>
-                                    <Text size="sm" fw={500}>Profile</Text>
-                                    <Text size="xs" c="dimmed">View and edit profile</Text>
-                                </Box>
-                            </Group>
-                        </UnstyledButton>
+                                    <div className="flex items-center gap-2">
+                                        <LogOut size={18} />
+                                        <span className="text-sm font-semibold">Logout</span>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </SheetContent>
+                </Sheet>
 
-                        <UnstyledButton
-                            onClick={() => handleNavigation('/settings')}
-                            style={{
-                                padding: '14px 16px',
-                                borderRadius: '12px',
-                                border: '2px solid #e9ecef',
-                                transition: 'all 0.2s ease',
-                            }}
-                            className="hover:bg-gray-50 hover:border-blue-300"
-                        >
-                            <Group gap="sm">
-                                <Box
-                                    style={{
-                                        background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-                                        borderRadius: '8px',
-                                        padding: '8px',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                    }}
-                                >
-                                    <IconSettings size={18} color="white" />
-                                </Box>
-                                <Box style={{ flex: 1 }}>
-                                    <Text size="sm" fw={500}>Settings</Text>
-                                    <Text size="xs" c="dimmed">Manage preferences</Text>
-                                </Box>
-                            </Group>
-                        </UnstyledButton>
-
-                        <UnstyledButton
-                            onClick={() => {
-                                handleLogout();
-                                close();
-                            }}
-                            style={{
-                                padding: '14px 16px',
-                                borderRadius: '12px',
-                                background: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%)',
-                                color: 'white',
-                                marginTop: '16px',
-                                transition: 'all 0.2s ease',
-                            }}
-                            className="hover:scale-105"
-                        >
-                            <Group gap="sm">
-                                <IconLogout size={18} />
-                                <Text size="sm" fw={600}>Logout</Text>
-                            </Group>
-                        </UnstyledButton>
-                    </Stack>
-                </Stack>
-            </Drawer>
-
-            <style jsx global>{`
-                @keyframes pulse {
-                    0%, 100% {
-                        opacity: 1;
+                <style jsx global>{`
+                    @keyframes pulse {
+                        0%, 100% {
+                            opacity: 1;
+                        }
+                        50% {
+                            opacity: 0.7;
+                        }
                     }
-                    50% {
-                        opacity: 0.7;
-                    }
-                }
-
-                .hover\\:scale-105:hover {
-                    transform: scale(1.05);
-                }
-
-                .hover\\:bg-gray-50:hover {
-                    background-color: #f8f9fa;
-                }
-
-                .hover\\:border-blue-300:hover {
-                    border-color: #74c0fc;
-                }
-            `}</style>
-        </Box>
+                `}</style>
+            </div>
+        </TooltipProvider>
     );
 }
