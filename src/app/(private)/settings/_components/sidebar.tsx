@@ -1,4 +1,3 @@
-import { Stack, NavLink } from '@mantine/core'
 import { IconCreditCard, IconUser, IconBell, IconShield, IconSettings } from '@tabler/icons-react'
 import { usePathname, useRouter } from 'next/navigation'
 
@@ -44,9 +43,11 @@ export const SettingsSidebar = () => {
     const router = useRouter()
 
     return (
-        <Stack
-            gap="xs"
+        <div
             style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '8px',
                 background: 'rgba(255, 255, 255, 0.9)',
                 backdropFilter: 'blur(10px)',
                 borderRadius: '12px',
@@ -55,35 +56,44 @@ export const SettingsSidebar = () => {
                 boxShadow: '0 4px 16px rgba(107, 154, 223, 0.12)',
             }}
         >
-            {settingsNavItems.map((item) => (
-                <NavLink
-                    key={item.href}
-                    label={item.label}
-                    leftSection={<item.icon size={20} />}
-                    active={pathname === item.href}
-                    onClick={() => router.push(item.href)}
-                    style={{
-                        borderRadius: '8px',
-                        fontWeight: 500,
-                        transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-                    }}
-                    styles={{
-                        root: {
-                            '&[data-active]': {
-                                background: `linear-gradient(135deg, ${PRIMARY_COLOR}15 0%, ${PRIMARY_COLOR}25 100%)`,
-                                color: PRIMARY_COLOR,
-                                fontWeight: 600,
-                            },
-                            '&:hover': {
-                                background: `${PRIMARY_COLOR}10`,
-                            },
-                        },
-                        label: {
+            {settingsNavItems.map((item) => {
+                const Icon = item.icon
+                const isActive = pathname === item.href
+                return (
+                    <button
+                        key={item.href}
+                        onClick={() => router.push(item.href)}
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '12px',
+                            padding: '12px 16px',
+                            border: 'none',
+                            borderRadius: '8px',
+                            fontWeight: isActive ? 600 : 500,
                             fontSize: '14px',
-                        },
-                    }}
-                />
-            ))}
-        </Stack>
+                            cursor: 'pointer',
+                            transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+                            background: isActive ? `linear-gradient(135deg, ${PRIMARY_COLOR}15 0%, ${PRIMARY_COLOR}25 100%)` : 'transparent',
+                            color: isActive ? PRIMARY_COLOR : '#000',
+                            textAlign: 'left',
+                        }}
+                        onMouseEnter={(e) => {
+                            if (!isActive) {
+                                e.currentTarget.style.background = `${PRIMARY_COLOR}10`
+                            }
+                        }}
+                        onMouseLeave={(e) => {
+                            if (!isActive) {
+                                e.currentTarget.style.background = 'transparent'
+                            }
+                        }}
+                    >
+                        <Icon size={20} />
+                        {item.label}
+                    </button>
+                )
+            })}
+        </div>
     )
 }

@@ -3,24 +3,17 @@
 import { useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import {
-  Stack,
-  Box,
-  Badge,
-  Tooltip,
-  Text,
-  Group,
-} from '@mantine/core';
-import {
-  IconDashboard,
-  IconPlugConnected,
-  IconFiles,
-  IconSearch,
-  IconChartBar,
-  IconSettings,
-  IconAlertCircle,
-  // IconSparkles, // Not used, removed for cleanup
-} from '@tabler/icons-react';
-import { notifications } from '@mantine/notifications';
+  LayoutDashboard,
+  PlugZap,
+  Files,
+  Search,
+  BarChart3,
+  Settings,
+  AlertCircle,
+} from 'lucide-react';
+import { useToast } from '@/app/components/ui/use-toast';
+import { Badge } from '@/app/components/ui/badge';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/app/components/ui/tooltip';
 
 // --- Define the Uniform Light Blue Color Scheme ---
 const PRIMARY_COLOR = '#6B9ADF'; // A pleasing light blue
@@ -31,37 +24,37 @@ const navLinks = [
   {
     label: 'Dashboard',
     href: '/dashboard',
-    icon: IconDashboard,
+    icon: LayoutDashboard,
     requiresConnection: true,
   },
   {
     label: 'Connections',
     href: '/connections',
-    icon: IconPlugConnected,
+    icon: PlugZap,
     requiresConnection: false,
   },
   {
     label: 'File Management',
     href: '/files',
-    icon: IconFiles,
+    icon: Files,
     requiresConnection: true,
   },
   {
     label: 'AI Search',
     href: '/search',
-    icon: IconSearch,
+    icon: Search,
     requiresConnection: true,
   },
   {
     label: 'Analytics',
     href: '/analytics',
-    icon: IconChartBar,
+    icon: BarChart3,
     requiresConnection: true,
   },
   {
     label: 'Settings',
     href: '/settings/paddlePayment',
-    icon: IconSettings,
+    icon: Settings,
     requiresConnection: false,
   },
 ];
@@ -69,6 +62,7 @@ const navLinks = [
 export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
+  const { toast } = useToast();
   const [isConnected, setIsConnected] = useState(false);
   const [checking, setChecking] = useState(true);
 
@@ -95,11 +89,10 @@ export default function Sidebar() {
 
   const handleNavClick = (link: typeof navLinks[0]) => {
     if (link.requiresConnection && !isConnected) {
-      notifications.show({
+      toast({
         title: 'Connection Required',
-        message: 'Please connect a drive first to access this feature',
-        color: 'yellow',
-        icon: <IconAlertCircle size={18} />,
+        description: 'Please connect a drive first to access this feature',
+        variant: 'default',
       });
       router.push('/connections');
       return;
@@ -109,242 +102,167 @@ export default function Sidebar() {
   };
 
   return (
-      <Box
-          component="aside"
-          style={{
-            width: 280,
-            minHeight: '100vh',
-            background: 'linear-gradient(180deg, #ffffff 0%, #f5f7fa 100%)',
-            borderRight: `1px solid ${BORDER_COLOR}`,
-            padding: '24px 16px',
-            position: 'relative',
-            overflow: 'hidden',
-          }}
-      >
-        <Stack gap="xs" style={{ position: 'relative', zIndex: 1 }}>
-          {navLinks.map((link, index) => {
-            const Icon = link.icon;
-            const isActive = pathname === link.href;
-            const isDisabled = link.requiresConnection && !isConnected;
+      <TooltipProvider>
+        <aside
+            className="w-[280px] min-h-screen border-r p-6 relative overflow-hidden"
+            style={{
+              background: 'linear-gradient(180deg, #ffffff 0%, #f5f7fa 100%)',
+              borderRight: `1px solid ${BORDER_COLOR}`,
+            }}
+        >
+          <div className="flex flex-col gap-2 relative z-10">
+            {navLinks.map((link, index) => {
+              const Icon = link.icon;
+              const isActive = pathname === link.href;
+              const isDisabled = link.requiresConnection && !isConnected;
 
-            const navItem = (
-                <Box
-                    key={link.href}
-                    onClick={() => !isDisabled && handleNavClick(link)}
-                    style={{
-                      padding: '14px 16px',
-                      borderRadius: '14px',
-                      cursor: isDisabled ? 'not-allowed' : 'pointer',
-                      background: isActive
-                          ? PRIMARY_COLOR // Active background is the solid light blue
-                          : 'white',
-                      border: `1px solid ${isActive ? 'transparent' : BORDER_COLOR}`,
-                      boxShadow: isActive
-                          ? `0 8px 24px ${ACCENT_BG_COLOR}` // Active shadow
-                          : `0 2px 8px ${ACCENT_BG_COLOR}`, // Inactive shadow
-                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                      opacity: isDisabled ? 0.5 : 1,
-                      position: 'relative',
-                      overflow: 'hidden',
-                      animationDelay: `${index * 0.05}s`,
-                    }}
-                    className="fade-in"
-                    onMouseEnter={(e) => {
-                      if (!isDisabled && !isActive) {
-                        e.currentTarget.style.transform = 'translateX(4px)';
-                        e.currentTarget.style.boxShadow = `0 4px 16px ${ACCENT_BG_COLOR}`;
-                        e.currentTarget.style.background = ACCENT_BG_COLOR; // Hover background is a lighter tint
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (!isDisabled && !isActive) {
-                        e.currentTarget.style.transform = 'translateX(0)';
-                        e.currentTarget.style.boxShadow = `0 2px 8px ${ACCENT_BG_COLOR}`;
-                        e.currentTarget.style.background = 'white';
-                      }
-                    }}
-                >
-                  <Group gap="sm" justify="space-between">
-                    <Group gap="sm">
-                      <Box
-                          style={{
-                            width: 36,
-                            height: 36,
-                            borderRadius: '10px',
-                            background: isActive
-                                ? 'rgba(255, 255, 255, 0.2)'
-                                : ACCENT_BG_COLOR, // Icon background
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            transition: 'all 0.3s ease',
-                          }}
-                      >
-                        <Icon
-                            size={20}
-                            color={isActive ? 'white' : PRIMARY_COLOR} // Icon color
-                            stroke={2}
+              const navItem = (
+                  <div
+                      key={link.href}
+                      onClick={() => !isDisabled && handleNavClick(link)}
+                      className={`p-3.5 rounded-2xl cursor-pointer transition-all relative overflow-hidden fade-in ${
+                          isDisabled ? 'opacity-50 cursor-not-allowed' : ''
+                      } ${
+                          !isDisabled && !isActive ? 'hover:translate-x-1' : ''
+                      }`}
+                      style={{
+                        background: isActive
+                            ? PRIMARY_COLOR
+                            : 'white',
+                        border: `1px solid ${isActive ? 'transparent' : BORDER_COLOR}`,
+                        boxShadow: isActive
+                            ? `0 8px 24px ${ACCENT_BG_COLOR}`
+                            : `0 2px 8px ${ACCENT_BG_COLOR}`,
+                        animationDelay: `${index * 0.05}s`,
+                      }}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div
+                            className="w-9 h-9 rounded-lg flex items-center justify-center transition-all"
                             style={{
-                              transition: 'all 0.3s ease',
-                            }}
-                        />
-                      </Box>
-                      <Text
-                          size="sm"
-                          fw={isActive ? 600 : 500}
-                          c={isActive ? 'white' : 'var(--text-primary)'}
-                          style={{
-                            transition: 'all 0.3s ease',
-                          }}
-                      >
-                        {link.label}
-                      </Text>
-                    </Group>
-
-                    {isDisabled && (
-                        <Badge
-                            size="xs"
-                            radius="xl"
-                            style={{
-                              // Using the primary color for the badge
-                              background: PRIMARY_COLOR,
-                              color: 'white',
-                              border: 'none',
-                              fontWeight: 600,
+                              background: isActive
+                                  ? 'rgba(255, 255, 255, 0.2)'
+                                  : ACCENT_BG_COLOR,
                             }}
                         >
-                          Setup
-                        </Badge>
+                          <Icon
+                              size={20}
+                              color={isActive ? 'white' : PRIMARY_COLOR}
+                              strokeWidth={2}
+                          />
+                        </div>
+                        <span
+                            className={`text-sm transition-all ${
+                                isActive ? 'font-semibold text-white' : 'font-medium'
+                            }`}
+                        >
+                          {link.label}
+                        </span>
+                      </div>
+
+                      {isDisabled && (
+                          <Badge
+                              className="text-xs"
+                              style={{
+                                background: PRIMARY_COLOR,
+                                color: 'white',
+                              }}
+                          >
+                            Setup
+                          </Badge>
+                      )}
+                    </div>
+
+                    {isActive && (
+                        <div
+                            className="absolute top-1/2 right-2 -translate-y-1/2 w-1 h-5 bg-white rounded-full opacity-60"
+                        />
                     )}
-                  </Group>
+                  </div>
+              );
 
-                  {isActive && (
-                      <Box
-                          style={{
-                            position: 'absolute',
-                            top: '50%',
-                            right: '8px',
-                            transform: 'translateY(-50%)',
-                            width: '4px',
-                            height: '20px',
-                            background: 'white',
-                            borderRadius: '2px',
-                            opacity: 0.6,
-                          }}
-                      />
-                  )}
-                </Box>
-            );
+              return isDisabled ? (
+                  <Tooltip key={link.href}>
+                    <TooltipTrigger asChild>
+                      <div>{navItem}</div>
+                    </TooltipTrigger>
+                    <TooltipContent side="right">
+                      Connect a drive to access this feature
+                    </TooltipContent>
+                  </Tooltip>
+              ) : (
+                  navItem
+              );
+            })}
+          </div>
 
-            return isDisabled ? (
-                <Tooltip
-                    key={link.href}
-                    label="Connect a drive to access this feature"
-                    position="right"
-                    withArrow
-                    offset={12}
-                >
-                  <div>{navItem}</div>
-                </Tooltip>
-            ) : (
-                navItem
-            );
-          })}
-        </Stack>
+          {!checking && (
+              <div
+                  className="mt-6 p-4 rounded-2xl relative z-10"
+                  style={{
+                    background: isConnected
+                        ? ACCENT_BG_COLOR
+                        : 'rgba(242, 153, 74, 0.1)',
+                    border: `1px solid ${isConnected ? BORDER_COLOR : 'rgba(242, 153, 74, 0.2)'}`,
+                  }}
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <div
+                      className="w-2 h-2 rounded-full animate-pulse"
+                      style={{
+                        background: isConnected ? PRIMARY_COLOR : '#f2994a',
+                      }}
+                  />
+                  <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                    Status
+                  </span>
+                </div>
+                <p className="text-sm font-semibold text-foreground">
+                  {isConnected ? 'Connected & Ready' : 'Setup Required'}
+                </p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {isConnected
+                      ? 'All systems operational'
+                      : 'Connect a drive to get started'}
+                </p>
+              </div>
+          )}
 
-        {!checking && (
-            <Box
-                mt="xl"
-                p="md"
-                style={{
-                  borderRadius: '16px',
-                  // Status box background based on connection status
-                  background: isConnected
-                      ? ACCENT_BG_COLOR // Connected: Light blue accent background
-                      : 'rgba(242, 153, 74, 0.1)', // Setup Required: Kept a warning-like yellow/orange tint for clear messaging
-                  border: `1px solid ${isConnected ? BORDER_COLOR : 'rgba(242, 153, 74, 0.2)'}`,
-                  position: 'relative',
-                  zIndex: 1,
-                }}
-            >
-              <Group gap="xs" mb="xs">
-                <Box
-                    style={{
-                      width: 8,
-                      height: 8,
-                      borderRadius: '50%',
-                      // Status light color
-                      background: isConnected ? PRIMARY_COLOR : '#f2994a',
-                      animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                    }}
-                />
-                <Text size="xs" fw={600} c="var(--text-secondary)" tt="uppercase" style={{ letterSpacing: '0.5px' }}>
-                  Status
-                </Text>
-              </Group>
-              <Text size="sm" fw={600} c="var(--text-primary)">
-                {isConnected ? 'Connected & Ready' : 'Setup Required'}
-              </Text>
-              <Text size="xs" c="dimmed" mt={4}>
-                {isConnected
-                    ? 'All systems operational'
-                    : 'Connect a drive to get started'}
-              </Text>
-            </Box>
-        )}
+          {/* Decorative background */}
+          <div
+              className="absolute -bottom-12 -left-12 w-[200px] h-[200px] rounded-full opacity-5 blur-[40px] pointer-events-none"
+              style={{
+                background: PRIMARY_COLOR,
+              }}
+          />
 
-        {/* Updated decorative background circle to use light blue */}
-        <Box
-            style={{
-              position: 'absolute',
-              bottom: '-50px',
-              left: '-50px',
-              width: '200px',
-              height: '200px',
-              background: PRIMARY_COLOR,
-              borderRadius: '50%',
-              opacity: 0.05,
-              filter: 'blur(40px)',
-              pointerEvents: 'none',
-            }}
-        />
-
-        <style jsx global>{`
-          @keyframes floating {
-            0%, 100% {
-              transform: translateY(0px);
+          <style jsx global>{`
+            @keyframes floating {
+              0%, 100% {
+                transform: translateY(0px);
+              }
+              50% {
+                transform: translateY(-6px);
+              }
             }
-            50% {
-              transform: translateY(-6px);
-            }
-          }
 
-          @keyframes fadeIn {
-            from {
-              opacity: 0;
-              transform: translateY(10px);
+            @keyframes fadeIn {
+              from {
+                opacity: 0;
+                transform: translateY(10px);
+              }
+              to {
+                opacity: 1;
+                transform: translateY(0);
+              }
             }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
 
-          @keyframes pulse {
-            0%, 100% {
-              opacity: 1;
-              transform: scale(1);
+            .fade-in {
+              animation: fadeIn 0.4s ease-out forwards;
             }
-            50% {
-              opacity: 0.7;
-              transform: scale(1.1);
-            }
-          }
-
-          .fade-in {
-            animation: fadeIn 0.4s ease-out forwards;
-          }
-        `}</style>
-      </Box>
+          `}</style>
+        </aside>
+      </TooltipProvider>
   );
 }

@@ -1,55 +1,60 @@
 'use client';
 
 import { useState } from 'react';
-import {
-  Paper,
-  Title,
-  TextInput,
-  Button,
-  Container,
-  Text,
-  Stack,
-  Alert,
-  Loader,
-  Center,
-} from '@mantine/core';
-import { useForm } from '@mantine/form';
-import { notifications } from '@mantine/notifications';
-import { IconMail, IconCheck, IconX, IconArrowLeft, IconUser } from '@tabler/icons-react';
+import { Mail, Check, X, ArrowLeft, User, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { OTPInputComponent } from '@/app/components/ui/InputOtp';
+import { Card, CardContent } from '@/app/components/ui/card';
+import { Button } from '@/app/components/ui/button';
+import { Input } from '@/app/components/ui/input';
+import { Label } from '@/app/components/ui/label';
+import { Alert, AlertDescription } from '@/app/components/ui/alert';
+import { useToast } from '@/app/components/ui/use-toast';
 
 type Step = 'email' | 'name' | 'otp';
 
 export default function AuthPage() {
   const router = useRouter();
+  const { toast } = useToast();
   const [step, setStep] = useState<Step>('email');
   const [loading, setLoading] = useState(false);
   const [otpValue, setOtpValue] = useState('');
   const [verifyingOtp, setVerifyingOtp] = useState(false);
   const [userEmail, setUserEmail] = useState('');
   const [isNewUser, setIsNewUser] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [errors, setErrors] = useState({ email: '', name: '' });
 
-  const form = useForm({
-    initialValues: {
-      name: '',
-      email: '',
-    },
-    validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-      name: (value) =>
-        step === 'name' && !value.trim() ? 'Name is required' : null,
-    },
-  });
+  const validateEmail = (value: string) => {
+    if (!/^\S+@\S+$/.test(value)) {
+      return 'Invalid email';
+    }
+    return '';
+  };
 
-  const handleCheckEmail = async (values: { email: string }) => {
+  const validateName = (value: string) => {
+    if (step === 'name' && !value.trim()) {
+      return 'Name is required';
+    }
+    return '';
+  };
+
+  const handleCheckEmail = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const emailError = validateEmail(email);
+    if (emailError) {
+      setErrors({ ...errors, email: emailError });
+      return;
+    }
+    setErrors({ ...errors, email: '' });
     setLoading(true);
 
     try {
       const checkResponse = await fetch('/api/auth/check-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: values.email }),
+        body: JSON.stringify({ email }),
       });
 
       const checkData = await checkResponse.json();
@@ -65,36 +70,41 @@ export default function AuthPage() {
       if (userData.exists && userData.name) {
         console.log('Existing user found:', userData.name);
         setIsNewUser(false);
-        setUserEmail(values.email);
-        form.setFieldValue('name', userData.name);
-        await sendOTP(values.email, userData.name);
+        setUserEmail(email);
+        setName(userData.name);
+        await sendOTP(email, userData.name);
       } else if (userData.exists && !userData.name) {
         console.log('Existing user without name');
         setIsNewUser(false);
-        setUserEmail(values.email);
+        setUserEmail(email);
         setStep('name');
       } else {
         console.log('New user');
         setIsNewUser(true);
-        setUserEmail(values.email);
+        setUserEmail(email);
         setStep('name');
       }
     } catch (error: any) {
       console.error('Check email error:', error);
-      notifications.show({
+      toast({
         title: 'Error',
-        message: error.message || 'Failed to check email',
-        color: 'red',
-        icon: <IconX size={16} />,
+        description: error.message || 'Failed to check email',
+        variant: 'destructive',
       });
     } finally {
       setLoading(false);
-      
     }
   };
 
-  const handleSubmitName = async (values: { name: string }) => {
-    await sendOTP(userEmail, values.name);
+  const handleSubmitName = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const nameError = validateName(name);
+    if (nameError) {
+      setErrors({ ...errors, name: nameError });
+      return;
+    }
+    setErrors({ ...errors, name: '' });
+    await sendOTP(userEmail, name);
   };
 
   const sendOTP = async (email: string, name: string) => {
@@ -114,19 +124,16 @@ export default function AuthPage() {
       }
 
       setStep('otp');
-      notifications.show({
+      toast({
         title: 'Success',
-        message: data.message || 'Verification code sent to your email',
-        color: 'green',
-        icon: <IconCheck size={16} />,
+        description: data.message || 'Verification code sent to your email',
       });
     } catch (error: any) {
       console.error('Send OTP error:', error);
-      notifications.show({
+      toast({
         title: 'Error',
-        message: error.message,
-        color: 'red',
-        icon: <IconX size={16} />,
+        description: error.message,
+        variant: 'destructive',
       });
     } finally {
       setLoading(false);
@@ -149,21 +156,18 @@ export default function AuthPage() {
         throw new Error(data.error?.message || data.error || 'Invalid verification code');
       }
 
-      notifications.show({
+      toast({
         title: 'Success',
-        message: 'Signed in successfully',
-        color: 'green',
-        icon: <IconCheck size={16} />,
+        description: 'Signed in successfully',
       });
 
       await checkConnectionStatusAndRedirect();
     } catch (error: any) {
       console.error('Verify OTP error:', error);
-      notifications.show({
+      toast({
         title: 'Error',
-        message: error.message,
-        color: 'red',
-        icon: <IconX size={16} />,
+        description: error.message,
+        variant: 'destructive',
       });
       setOtpValue('');
     } finally {
@@ -181,26 +185,22 @@ export default function AuthPage() {
         const statusData = await statusResponse.json();
 
         if (statusData.connected && statusData.accountsCount > 0) {
-          notifications.show({
+          toast({
             title: 'Welcome back!',
-            message: 'Redirecting to your dashboard...',
-            color: 'blue',
-            icon: <IconCheck size={16} />,
+            description: 'Redirecting to your dashboard...',
           });
-          
+
           setTimeout(() => {
             router.push('/dashboard');
           }, 500);
         } else {
-          notifications.show({
+          toast({
             title: isNewUser ? 'Welcome!' : 'Welcome back!',
-            message: isNewUser 
+            description: isNewUser
               ? 'Let\'s connect your first drive'
               : 'Connect a drive to get started',
-            color: 'blue',
-            icon: <IconCheck size={16} />,
           });
-          
+
           setTimeout(() => {
             router.push('/connections');
           }, 500);
@@ -216,7 +216,7 @@ export default function AuthPage() {
 
   const handleResendOTP = async () => {
     setOtpValue('');
-    await sendOTP(userEmail, form.values.name);
+    await sendOTP(userEmail, name);
   };
 
   const handleBack = () => {
@@ -230,157 +230,193 @@ export default function AuthPage() {
 
   if (step === 'otp') {
     return (
-      <Container size={460} my={100}>
-        <Paper withBorder shadow="md" p={40} radius="md">
-          <Button
-            variant="subtle"
-            leftSection={<IconArrowLeft size={16} />}
-            onClick={handleBack}
-            mb="xl"
-            disabled={verifyingOtp}
-          >
-            Back
-          </Button>
-
-          <Stack gap="lg" align="center">
-            <div
-              style={{
-                width: 60,
-                height: 60,
-                borderRadius: '50%',
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <IconMail size={28} color="white" />
-            </div>
-
-            <Title order={2} ta="center">
-              Enter Verification Code
-            </Title>
-
-            <Text c="dimmed" size="sm" ta="center">
-              We sent a 6-digit code to{' '}
-              <Text component="span" fw={600}>
-                {userEmail}
-              </Text>
-            </Text>
-
-            <div style={{ width: '100%' }}>
-              <OTPInputComponent
-                value={otpValue}
-                onChange={setOtpValue}
-                onComplete={handleVerifyOTP}
-                disabled={verifyingOtp}
-              />
-              {verifyingOtp && (
-                <Center mt="md">
-                  <Loader size="sm" />
-                  <Text size="sm" c="dimmed" ml="sm">
-                    Verifying...
-                  </Text>
-                </Center>
-              )}
-            </div>
-
-            <Alert color="blue" variant="light" style={{ width: '100%' }}>
-              <Text size="sm">
-                <strong>Code expires in 10 minutes</strong>
-                <br />
-                Maximum 5 attempts allowed
-              </Text>
-            </Alert>
-
+      <div className="max-w-[460px] mx-auto my-[100px] px-4">
+        <Card className="border shadow-md">
+          <CardContent className="p-10">
             <Button
-              variant="subtle"
-              fullWidth
-              onClick={handleResendOTP}
+              variant="ghost"
+              onClick={handleBack}
               disabled={verifyingOtp}
+              className="mb-6"
             >
-              Send new code
+              <ArrowLeft className="mr-2" size={16} />
+              Back
             </Button>
-          </Stack>
-        </Paper>
-      </Container>
+
+            <div className="flex flex-col gap-6 items-center">
+              <div
+                className="w-[60px] h-[60px] rounded-full flex items-center justify-center"
+                style={{
+                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                }}
+              >
+                <Mail size={28} color="white" />
+              </div>
+
+              <h2 className="text-2xl font-bold text-center">
+                Enter Verification Code
+              </h2>
+
+              <p className="text-sm text-muted-foreground text-center">
+                We sent a 6-digit code to{' '}
+                <span className="font-semibold">
+                  {userEmail}
+                </span>
+              </p>
+
+              <div className="w-full">
+                <OTPInputComponent
+                  value={otpValue}
+                  onChange={setOtpValue}
+                  onComplete={handleVerifyOTP}
+                  disabled={verifyingOtp}
+                />
+                {verifyingOtp && (
+                  <div className="flex justify-center items-center mt-4">
+                    <Loader2 className="animate-spin" size={16} />
+                    <span className="text-sm text-muted-foreground ml-2">
+                      Verifying...
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              <Alert className="w-full">
+                <AlertDescription>
+                  <strong>Code expires in 10 minutes</strong>
+                  <br />
+                  Maximum 5 attempts allowed
+                </AlertDescription>
+              </Alert>
+
+              <Button
+                variant="ghost"
+                className="w-full"
+                onClick={handleResendOTP}
+                disabled={verifyingOtp}
+              >
+                Send new code
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     );
   }
 
   if (step === 'name') {
     return (
-      <Container size={420} my={100}>
-        <Paper withBorder shadow="md" p={30} radius="md">
-          <Button
-            variant="subtle"
-            leftSection={<IconArrowLeft size={16} />}
-            onClick={handleBack}
-            mb="lg"
-            disabled={loading}
-          >
-            Back
-          </Button>
+      <div className="max-w-[420px] mx-auto my-[100px] px-4">
+        <Card className="border shadow-md">
+          <CardContent className="p-8">
+            <Button
+              variant="ghost"
+              onClick={handleBack}
+              disabled={loading}
+              className="mb-4"
+            >
+              <ArrowLeft className="mr-2" size={16} />
+              Back
+            </Button>
 
-          <Stack gap="md" mb="lg">
-            <Title order={2} ta="center">
-              Welcome! 👋
-            </Title>
-            <Text c="dimmed" size="sm" ta="center">
-              It looks like you're new here. Please enter your name to continue.
-            </Text>
-          </Stack>
+            <div className="flex flex-col gap-4 mb-6">
+              <h2 className="text-2xl font-bold text-center">
+                Welcome! 👋
+              </h2>
+              <p className="text-sm text-muted-foreground text-center">
+                It looks like you're new here. Please enter your name to continue.
+              </p>
+            </div>
 
-          <form onSubmit={form.onSubmit(handleSubmitName)}>
-            <Stack>
-              <TextInput
-                label="Name"
-                placeholder="Your name"
-                leftSection={<IconUser size={16} />}
-                {...form.getInputProps('name')}
-                disabled={loading}
-                autoFocus
-              />
-              <Button type="submit" fullWidth loading={loading} mt="md">
-                Continue
-              </Button>
-            </Stack>
-          </form>
-        </Paper>
-      </Container>
+            <form onSubmit={handleSubmitName}>
+              <div className="flex flex-col gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="name">Name</Label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
+                    <Input
+                      id="name"
+                      placeholder="Your name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      disabled={loading}
+                      autoFocus
+                      className="pl-9"
+                    />
+                  </div>
+                  {errors.name && (
+                    <p className="text-sm text-destructive">{errors.name}</p>
+                  )}
+                </div>
+                <Button type="submit" className="w-full mt-4" disabled={loading}>
+                  {loading ? (
+                    <>
+                      <Loader2 className="mr-2 animate-spin" size={16} />
+                      Loading...
+                    </>
+                  ) : (
+                    'Continue'
+                  )}
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
     );
   }
 
   return (
-    <Container size={420} my={100}>
-      <Title ta="center" mb="md">
+    <div className="max-w-[420px] mx-auto my-[100px] px-4">
+      <h1 className="text-3xl font-bold text-center mb-4">
         Welcome to DriveUnity
-      </Title>
-      <Text c="dimmed" size="sm" ta="center" mb="xl">
+      </h1>
+      <p className="text-sm text-muted-foreground text-center mb-8">
         Enter your email to get started
-      </Text>
+      </p>
 
-      <Paper withBorder shadow="md" p={30} radius="md">
-        <form onSubmit={form.onSubmit(handleCheckEmail)}>
-          <Stack>
-            <TextInput
-              label="Email"
-              placeholder="your@email.com"
-              required
-              leftSection={<IconMail size={16} />}
-              {...form.getInputProps('email')}
-              disabled={loading}
-              autoFocus
-            />
-            <Button type="submit" fullWidth loading={loading} mt="md">
-              Continue
-            </Button>
-          </Stack>
-        </form>
+      <Card className="border shadow-md">
+        <CardContent className="p-8">
+          <form onSubmit={handleCheckEmail}>
+            <div className="flex flex-col gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="your@email.com"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={loading}
+                    autoFocus
+                    className="pl-9"
+                  />
+                </div>
+                {errors.email && (
+                  <p className="text-sm text-destructive">{errors.email}</p>
+                )}
+              </div>
+              <Button type="submit" className="w-full mt-4" disabled={loading}>
+                {loading ? (
+                  <>
+                    <Loader2 className="mr-2 animate-spin" size={16} />
+                    Loading...
+                  </>
+                ) : (
+                  'Continue'
+                )}
+              </Button>
+            </div>
+          </form>
 
-        <Text c="dimmed" size="xs" ta="center" mt="xl">
-          By continuing, you agree to our Terms of Service and Privacy Policy
-        </Text>
-      </Paper>
-    </Container>
+          <p className="text-xs text-muted-foreground text-center mt-8">
+            By continuing, you agree to our Terms of Service and Privacy Policy
+          </p>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

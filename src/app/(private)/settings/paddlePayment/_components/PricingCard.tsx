@@ -1,14 +1,3 @@
-import {
-    Card,
-    Text,
-    Button,
-    Badge,
-    Stack,
-    Group,
-    List,
-    ThemeIcon,
-    rem,
-} from '@mantine/core'
 import { IconCheck } from '@tabler/icons-react'
 import { SubscriptionPlan, BillingCycle } from '../types/types'
 import { marketingPlans } from '../config/market'
@@ -38,96 +27,116 @@ export const PricingCard = ({
     if (!marketing) return null
 
     return (
-        <Card
-            shadow="lg"
-            padding="xl"
-            radius="lg"
-            withBorder
+        <div
             style={{
                 borderColor: isPopular ? PRIMARY_COLOR : BORDER_COLOR,
-                borderWidth: isPopular ? rem(2) : rem(1),
+                borderWidth: isPopular ? '2px' : '1px',
+                borderStyle: 'solid',
                 backgroundColor: isPopular ? '#F4F8FF' : '#FFFFFF',
                 position: 'relative',
                 display: 'flex',
                 flexDirection: 'column',
                 height: '100%',
                 transition: 'all 0.2s ease',
+                padding: '24px',
+                borderRadius: '12px',
+                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
             }}
         >
             {isPopular && marketing.badge && (
-                <Badge
-                    size="lg"
-                    variant="filled"
-                    color={PRIMARY_COLOR}
+                <span
                     style={{
                         position: 'absolute',
-                        top: rem(10),
-                        right: rem(10),
+                        top: '10px',
+                        right: '10px',
                         zIndex: 2,
-                        textTransform: 'uppercase'
+                        textTransform: 'uppercase',
+                        backgroundColor: PRIMARY_COLOR,
+                        color: 'white',
+                        padding: '6px 12px',
+                        borderRadius: '999px',
+                        fontSize: '14px',
+                        fontWeight: 700,
                     }}
                 >
                     {marketing.badge}
-                </Badge>
+                </span>
             )}
 
-            <Stack gap="md" style={{ flex: 1 }}>
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <div>
-                    <Text size="xl" fw={800} c={PRIMARY_COLOR} tt="uppercase">
+                    <div style={{ fontSize: '20px', fontWeight: 800, color: PRIMARY_COLOR, textTransform: 'uppercase' }}>
                         {plan.packageName}
-                    </Text>
+                    </div>
 
-                    <Text size="sm" c="dimmed" fw={500}>
+                    <div style={{ fontSize: '14px', color: '#868e96', fontWeight: 500, marginTop: '4px' }}>
                         {marketing.subtitle}
-                    </Text>
+                    </div>
 
-                    <Group align="baseline" gap={4} mt="xl">
-                        <Text size={rem(44)} fw={900} style={{ lineHeight: 1 }}>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginTop: '24px' }}>
+                        <span style={{ fontSize: '44px', fontWeight: 900, lineHeight: 1 }}>
                             ${price}
-                        </Text>
-                        <Text size="md" c="dimmed" fw={600}>
+                        </span>
+                        <span style={{ fontSize: '16px', color: '#868e96', fontWeight: 600 }}>
                             /{billingCycle === 'monthly' ? 'mo' : 'yr'}
-                        </Text>
-                    </Group>
+                        </span>
+                    </div>
                 </div>
 
-                <List
-                    spacing="sm"
-                    size="sm"
-                    mt="md"
-                    style={{ flex: 1 }}
-                    icon={
-                        <ThemeIcon color={PRIMARY_COLOR} size={22} radius="xl" variant="light">
-                            <IconCheck size={14} stroke={3} />
-                        </ThemeIcon>
-                    }
-                >
-                    {marketing.features.map((feature, idx) => (
-                        <List.Item key={idx}>
-                            <Text size="sm" fw={600} c="#444">
-                                {feature}
-                            </Text>
-                        </List.Item>
-                    ))}
-                </List>
-
-                <Button
-                    size="lg"
-                    radius="md"
-                    fullWidth
-                    loading={isLoading}
-                    disabled={isCurrentPlan}
-                    onClick={() => onSubscribe(plan)}
+                <ul
                     style={{
-                        backgroundColor: PRIMARY_COLOR,
-                        height: rem(50),
-                        fontSize: rem(16),
-                        marginTop: 'auto'
+                        flex: 1,
+                        listStyle: 'none',
+                        padding: 0,
+                        margin: '16px 0 0 0',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '8px',
                     }}
                 >
-                    {isCurrentPlan ? 'Current Plan' : 'Get Started'}
-                </Button>
-            </Stack>
-        </Card>
+                    {marketing.features.map((feature, idx) => (
+                        <li key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+                            <div
+                                style={{
+                                    width: '22px',
+                                    height: '22px',
+                                    borderRadius: '999px',
+                                    backgroundColor: `${PRIMARY_COLOR}20`,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    flexShrink: 0,
+                                }}
+                            >
+                                <IconCheck size={14} stroke={3} color={PRIMARY_COLOR} />
+                            </div>
+                            <span style={{ fontSize: '14px', fontWeight: 600, color: '#444', lineHeight: '22px' }}>
+                                {feature}
+                            </span>
+                        </li>
+                    ))}
+                </ul>
+
+                <button
+                    onClick={() => onSubscribe(plan)}
+                    disabled={isCurrentPlan || isLoading}
+                    style={{
+                        backgroundColor: isCurrentPlan || isLoading ? '#e9ecef' : PRIMARY_COLOR,
+                        color: isCurrentPlan || isLoading ? '#868e96' : 'white',
+                        height: '50px',
+                        fontSize: '16px',
+                        marginTop: 'auto',
+                        border: 'none',
+                        borderRadius: '8px',
+                        fontWeight: 600,
+                        cursor: isCurrentPlan || isLoading ? 'not-allowed' : 'pointer',
+                        width: '100%',
+                        transition: 'all 0.2s ease',
+                    }}
+                >
+                    {isLoading ? 'Loading...' : isCurrentPlan ? 'Current Plan' : 'Get Started'}
+                </button>
+            </div>
+        </div>
     )
 }

@@ -1,5 +1,4 @@
 "use client"
-import { Container, SimpleGrid, Stack } from "@mantine/core";
 import StatsPanel from "@/app/(private)/dashboard/_components/StatsCard";
 import RecentActivity from "@/app/(private)/dashboard/_components/RecentActivity";
 import MimeTypeOverview from "@/app/(private)/dashboard/_components/MimitypeOverview";
@@ -8,22 +7,19 @@ import { useGoogleDriveStatus, useUserId } from "@/app/(private)/hooks/useAuthSt
 const Dashboard = () => {
   const {userId} = useUserId()
   const {accounts} = useGoogleDriveStatus();
-  
+
   return (
-    <Container size="xl" py="xl">
-      <Stack gap="xl">    
-        <SimpleGrid
-          cols={{ base: 1, xs: 2, sm: 2, md: 4 }}
-          spacing={{ base: "sm", sm: "md" }}
-        >
+    <div className="container max-w-7xl py-6 md:py-8">
+      <div className="flex flex-col gap-6 md:gap-8">
+        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           <StatsPanel />
-        </SimpleGrid>
+        </div>
 
         <MimeTypeOverview userId={userId} accounts={accounts || []} />
 
         <RecentActivity />
-      </Stack>
-    </Container>
+      </div>
+    </div>
   );
 };
 

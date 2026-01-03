@@ -1,19 +1,16 @@
 'use client';
 
-import { useState } from 'react';
-import {
-    Container,
-    Group,
-    Burger,
-    Drawer,
-    Stack,
-    Button,
-    Text,
-    Box
-} from '@mantine/core';
-import { useDisclosure, useWindowScroll } from '@mantine/hooks';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { IconSparkles } from '@tabler/icons-react';
+import { Sparkles, Menu } from 'lucide-react';
+import { Button } from '@/app/components/ui/button';
+import {
+    Sheet,
+    SheetContent,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from '@/app/components/ui/sheet';
 
 const PRIMARY_COLOR = '#6B9ADF';
 const ACCENT_BG_COLOR = 'rgba(0,0,0, 0.2)';
@@ -27,19 +24,22 @@ const navItems = [
 ];
 
 export default function PublicNavbar() {
-    const [opened, { toggle, close }] = useDisclosure(false);
-    const [scroll] = useWindowScroll();
-    const scrolled = scroll.y > 20;
+    const [opened, setOpened] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 20);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     return (
         <>
-            <Box
-                component="header"
+            <header
+                className="sticky top-0 z-50 transition-all duration-300"
                 style={{
-                    position: 'sticky',
-                    top: 0,
-                    zIndex: 100,
-                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                     background: scrolled
                         ? 'rgba(255, 255, 255, 0.8)'
                         : 'transparent',
@@ -53,28 +53,21 @@ export default function PublicNavbar() {
                         : 'none',
                 }}
             >
-                <Container size="xl">
-                    <Group h={70} justify="space-between">
-                        <Link href="/" style={{ textDecoration: 'none' }}>
-                            <Group gap="xs" style={{ cursor: 'pointer' }}>
-                                <Box
+                <div className="container mx-auto max-w-7xl px-4">
+                    <div className="flex h-[70px] items-center justify-between">
+                        <Link href="/" className="no-underline">
+                            <div className="flex items-center gap-2 cursor-pointer">
+                                <div
+                                    className="w-10 h-10 rounded-xl flex items-center justify-center animate-floating"
                                     style={{
-                                        width: 40,
-                                        height: 40,
-                                        borderRadius: '12px',
                                         background: PRIMARY_COLOR,
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
                                         boxShadow: `0 4px 16px ${BORDER_COLOR}`,
-                                        animation: 'floating 3s ease-in-out infinite',
                                     }}
                                 >
-                                    <IconSparkles size={24} color="white" stroke={2.5} />
-                                </Box>
-                                <Text
-                                    fw={800}
-                                    size="xl"
+                                    <Sparkles size={24} color="white" strokeWidth={2.5} />
+                                </div>
+                                <span
+                                    className="text-xl font-extrabold"
                                     style={{
                                         color: PRIMARY_COLOR,
                                         fontFamily: "'Outfit', sans-serif",
@@ -82,181 +75,117 @@ export default function PublicNavbar() {
                                     }}
                                 >
                                     DriveUnity
-                                </Text>
-                            </Group>
+                                </span>
+                            </div>
                         </Link>
 
-                        <Group gap="lg" visibleFrom="sm">
+                        <div className="hidden sm:flex items-center gap-6">
                             {navItems.map((item, index) => (
-                                <Text
+                                <Link
                                     key={item.href}
-                                    component={Link}
                                     href={item.href}
-                                    fw={500}
-                                    size="sm"
+                                    className="nav-link text-sm font-medium relative transition-colors hover:text-[#6B9ADF]"
                                     style={{
-                                        color: 'var(--text-primary)',
                                         textDecoration: 'none',
-                                        position: 'relative',
-                                        transition: 'color 0.3s ease',
-                                        cursor: 'pointer',
                                         animationDelay: `${index * 0.1}s`,
-                                    }}
-                                    className="nav-link"
-                                    onMouseEnter={(e) => {
-                                        e.currentTarget.style.color = PRIMARY_COLOR;
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.currentTarget.style.color = 'var(--text-primary)';
                                     }}
                                 >
                                     {item.label}
-                                </Text>
+                                </Link>
                             ))}
 
                             <Button
-                                component={Link}
-                                href="/auth"
-                                size="md"
-                                radius="xl"
+                                asChild
+                                size="default"
+                                className="rounded-full font-semibold transition-all hover:-translate-y-0.5"
                                 style={{
                                     background: PRIMARY_COLOR,
-                                    border: 'none',
                                     boxShadow: `0 4px 16px ${BORDER_COLOR}`,
-                                    fontWeight: 600,
-                                    transition: 'all 0.3s ease',
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(-2px)';
-                                    e.currentTarget.style.boxShadow = `0 6px 24px ${BORDER_COLOR}`;
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(0)';
-                                    e.currentTarget.style.boxShadow = `0 4px 16px ${BORDER_COLOR}`;
                                 }}
                             >
-                                Sign In
+                                <Link href="/auth">
+                                    Sign In
+                                </Link>
                             </Button>
-                        </Group>
+                        </div>
 
-                        <Box
-                            hiddenFrom="sm"
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            className="sm:hidden rounded-xl transition-transform hover:scale-105"
                             style={{
-                                padding: '8px',
-                                borderRadius: '12px',
                                 background: PRIMARY_COLOR,
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                cursor: 'pointer',
                                 boxShadow: `0 4px 12px ${BORDER_COLOR}`,
-                                transition: 'transform 0.2s ease',
                             }}
-                            onClick={toggle}
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.transform = 'scale(1.05)';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.transform = 'scale(1)';
-                            }}
+                            onClick={() => setOpened(!opened)}
                         >
-                            <Burger
-                                opened={opened}
-                                onClick={toggle}
-                                size="sm"
-                                color="white"
-                            />
-                        </Box>
-                    </Group>
-                </Container>
-            </Box>
+                            <Menu size={20} color="white" />
+                        </Button>
+                    </div>
+                </div>
+            </header>
 
-            <Drawer
-                opened={opened}
-                onClose={close}
-                padding="xl"
-                size="sm"
-                position="right"
-                hiddenFrom="sm"
-            >
-                <Stack gap="md">
-                    <Group gap="xs" mb="lg">
-                        <Box
+            <Sheet open={opened} onOpenChange={setOpened}>
+                <SheetContent side="right" className="sm:hidden">
+                    <SheetHeader className="mb-6">
+                        <SheetTitle className="flex items-center gap-2">
+                            <div
+                                className="w-9 h-9 rounded-lg flex items-center justify-center"
+                                style={{
+                                    background: PRIMARY_COLOR,
+                                    boxShadow: `0 4px 16px ${BORDER_COLOR}`,
+                                }}
+                            >
+                                <Sparkles size={20} color="white" strokeWidth={2.5} />
+                            </div>
+                            <span
+                                className="text-lg font-extrabold"
+                                style={{
+                                    color: PRIMARY_COLOR,
+                                    fontFamily: "'Outfit', sans-serif",
+                                }}
+                            >
+                                DriveUnity
+                            </span>
+                        </SheetTitle>
+                    </SheetHeader>
+
+                    <div className="flex flex-col gap-4">
+                        {navItems.map((item, index) => (
+                            <Link
+                                key={item.href}
+                                href={item.href}
+                                onClick={() => setOpened(false)}
+                                className="p-4 rounded-2xl bg-white transition-all hover:translate-x-1 fade-in"
+                                style={{
+                                    textDecoration: 'none',
+                                    border: `1px solid ${BORDER_COLOR}`,
+                                    boxShadow: `0 2px 8px ${BORDER_COLOR}`,
+                                    animationDelay: `${index * 0.1}s`,
+                                }}
+                            >
+                                <span className="font-medium text-foreground">
+                                    {item.label}
+                                </span>
+                            </Link>
+                        ))}
+
+                        <Button
+                            asChild
+                            size="lg"
+                            className="w-full rounded-full mt-4 font-semibold"
                             style={{
-                                width: 36,
-                                height: 36,
-                                borderRadius: '10px',
                                 background: PRIMARY_COLOR,
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
                                 boxShadow: `0 4px 16px ${BORDER_COLOR}`,
                             }}
                         >
-                            <IconSparkles size={20} color="white" stroke={2.5} />
-                        </Box>
-                        <Text
-                            fw={800}
-                            size="lg"
-                            style={{
-                                color: PRIMARY_COLOR,
-                                fontFamily: "'Outfit', sans-serif",
-                            }}
-                        >
-                            DriveUnity
-                        </Text>
-                    </Group>
-
-                    {navItems.map((item, index) => (
-                        <Box
-                            key={item.href}
-                            component={Link}
-                            href={item.href}
-                            onClick={close}
-                            style={{
-                                textDecoration: 'none',
-                                padding: '16px 20px',
-                                borderRadius: '16px',
-                                background: 'white',
-                                border: `1px solid ${BORDER_COLOR}`,
-                                boxShadow: `0 2px 8px ${BORDER_COLOR}`,
-                                transition: 'all 0.3s ease',
-                                animationDelay: `${index * 0.1}s`,
-                            }}
-                            className="fade-in"
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.transform = 'translateX(4px)';
-                                e.currentTarget.style.boxShadow = `0 4px 16px ${BORDER_COLOR}`;
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.transform = 'translateX(0)';
-                                e.currentTarget.style.boxShadow = `0 2px 8px ${BORDER_COLOR}`;
-                            }}
-                        >
-                            <Text fw={500} c="var(--text-primary)">
-                                {item.label}
-                            </Text>
-                        </Box>
-                    ))}
-
-                    <Button
-                        component={Link}
-                        href="/auth"
-                        fullWidth
-                        size="lg"
-                        radius="xl"
-                        mt="md"
-                        style={{
-                            background: PRIMARY_COLOR,
-                            border: 'none',
-                            boxShadow: `0 4px 16px ${BORDER_COLOR}`,
-                            fontWeight: 600,
-                        }}
-                    >
-                        Sign In
-                    </Button>
-                </Stack>
-            </Drawer>
+                            <Link href="/auth">
+                                Sign In
+                            </Link>
+                        </Button>
+                    </div>
+                </SheetContent>
+            </Sheet>
 
             <style jsx global>{`
                 @keyframes floating {

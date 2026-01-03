@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { Container, Grid, Title, Text, Stack, SegmentedControl, Center, Loader, Alert, Group, Badge, Card } from '@mantine/core'
 import { IconInfoCircle, IconCrown } from '@tabler/icons-react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { SettingsSidebar } from '@/app/(private)/settings/_components/sidebar'
@@ -65,20 +64,40 @@ function SubscriptionPageContent() {
     console.log(paidPlans)
     if (isLoading) {
         return (
-            <Center h={400}>
-                <Stack align="center" gap="md">
-                    <Loader size="lg" color={PRIMARY_COLOR} />
-                    <Text c="dimmed">Loading subscription plans...</Text>
-                </Stack>
-            </Center>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '400px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
+                    <div style={{
+                        width: '48px',
+                        height: '48px',
+                        border: `4px solid ${PRIMARY_COLOR}`,
+                        borderTopColor: 'transparent',
+                        borderRadius: '50%',
+                        animation: 'spin 1s linear infinite'
+                    }} />
+                    <div style={{ color: '#868e96' }}>Loading subscription plans...</div>
+                </div>
+            </div>
         )
     }
 
     if (error) {
         return (
-            <Alert icon={<IconInfoCircle />} title="Error" color="red">
-                Failed to load subscription plans. Please try again later.
-            </Alert>
+            <div style={{
+                backgroundColor: '#fff5f5',
+                border: '1px solid #ffc9c9',
+                borderRadius: '8px',
+                padding: '16px',
+                display: 'flex',
+                gap: '12px'
+            }}>
+                <IconInfoCircle color="#fa5252" />
+                <div>
+                    <div style={{ fontWeight: 600, color: '#fa5252' }}>Error</div>
+                    <div style={{ color: '#868e96', marginTop: '4px' }}>
+                        Failed to load subscription plans. Please try again later.
+                    </div>
+                </div>
+            </div>
         )
     }
 
@@ -90,117 +109,160 @@ function SubscriptionPageContent() {
                 />
             )}
 
-            <Container size="xl" py="xl">
-                <Stack gap="xl">
+            <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '24px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                     <div>
-                        <Group gap="md" align="center">
-                            <Title
-                                order={1}
-                                size="h1"
-                                fw={700}
+                        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+                            <h1
                                 style={{
+                                    fontSize: '48px',
+                                    fontWeight: 700,
                                     background: `linear-gradient(135deg, ${PRIMARY_COLOR} 0%, #5080C8 100%)`,
                                     WebkitBackgroundClip: 'text',
                                     WebkitTextFillColor: 'transparent',
                                     backgroundClip: 'text',
+                                    margin: 0,
                                 }}
                             >
                                 Subscription & Billing
-                            </Title>
+                            </h1>
                             <IconCrown size={32} color={PRIMARY_COLOR} />
-                        </Group>
-                        <Text size="lg" c="dimmed" mt="xs">
+                        </div>
+                        <div style={{ fontSize: '18px', color: '#868e96', marginTop: '8px' }}>
                             Choose the perfect plan for your needs
-                        </Text>
+                        </div>
                     </div>
 
-                    <Grid gutter="lg">
-                        <Grid.Col span={{ base: 12, md: 3 }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 3fr', gap: '24px' }}>
+                        <div style={{ gridColumn: 'span 1' }}>
                             <SettingsSidebar />
-                        </Grid.Col>
+                        </div>
 
-                        <Grid.Col span={{ base: 12, md: 9 }}>
-                            <Stack gap="xl">
-                                {currentSub && (
-                                    <Card
-                                        shadow="md"
-                                        padding="lg"
-                                        radius="md"
+                        <div style={{ gridColumn: 'span 1', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                            {currentSub && (
+                                <div
+                                    style={{
+                                        border: `2px solid ${PRIMARY_COLOR}`,
+                                        background: 'rgba(107, 154, 223, 0.05)',
+                                        borderRadius: '8px',
+                                        padding: '24px',
+                                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                                    }}
+                                >
+                                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                        <div>
+                                            <div style={{ fontSize: '14px', color: '#868e96', fontWeight: 500 }}>
+                                                Current Plan
+                                            </div>
+                                            <div style={{ fontSize: '20px', fontWeight: 700, color: PRIMARY_COLOR }}>
+                                                {currentSub.subscriptionPlan.packageName}
+                                            </div>
+                                        </div>
+                                        <span
+                                            style={{
+                                                background: `linear-gradient(135deg, ${PRIMARY_COLOR} 0%, #5080C8 100%)`,
+                                                color: 'white',
+                                                padding: '8px 16px',
+                                                borderRadius: '999px',
+                                                fontSize: '14px',
+                                                fontWeight: 700,
+                                                height: 'fit-content',
+                                            }}
+                                        >
+                                            Active
+                                        </span>
+                                    </div>
+                                    {currentSub.subEndTime && (
+                                        <div style={{ fontSize: '14px', color: '#868e96', marginTop: '12px' }}>
+                                            Renews on {new Date(currentSub.subEndTime).toLocaleDateString()}
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
+                            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                <div
+                                    style={{
+                                        background: 'rgba(255, 255, 255, 0.9)',
+                                        border: `1px solid ${BORDER_COLOR}`,
+                                        borderRadius: '8px',
+                                        display: 'inline-flex',
+                                        padding: '4px',
+                                    }}
+                                >
+                                    <button
+                                        onClick={() => setBillingCycle('monthly')}
                                         style={{
-                                            border: `2px solid ${PRIMARY_COLOR}`,
-                                            background: 'rgba(107, 154, 223, 0.05)',
+                                            padding: '8px 24px',
+                                            border: 'none',
+                                            borderRadius: '6px',
+                                            background: billingCycle === 'monthly' ? `linear-gradient(135deg, ${PRIMARY_COLOR} 0%, #5080C8 100%)` : 'transparent',
+                                            color: billingCycle === 'monthly' ? 'white' : '#868e96',
+                                            fontWeight: 600,
+                                            cursor: 'pointer',
+                                            transition: 'all 0.2s ease',
                                         }}
                                     >
-                                        <Group justify="space-between">
-                                            <div>
-                                                <Text size="sm" c="dimmed" fw={500}>
-                                                    Current Plan
-                                                </Text>
-                                                <Text size="xl" fw={700} c={PRIMARY_COLOR}>
-                                                    {currentSub.subscriptionPlan.packageName}
-                                                </Text>
-                                            </div>
-                                            <Badge
-                                                size="lg"
-                                                variant="gradient"
-                                                gradient={{ from: PRIMARY_COLOR, to: '#5080C8' }}
-                                            >
-                                                Active
-                                            </Badge>
-                                        </Group>
-                                        {currentSub.subEndTime && (
-                                            <Text size="sm" c="dimmed" mt="sm">
-                                                Renews on {new Date(currentSub.subEndTime).toLocaleDateString()}
-                                            </Text>
-                                        )}
-                                    </Card>
-                                )}
-
-                                <Center>
-                                    <SegmentedControl
-                                        size="md"
-                                        radius="md"
-                                        value={billingCycle}
-                                        onChange={(value) => setBillingCycle(value as BillingCycle)}
-                                        data={[
-                                            { label: 'Monthly', value: 'monthly' },
-                                            { label: 'Yearly (Save 20%)', value: 'yearly' },
-                                        ]}
+                                        Monthly
+                                    </button>
+                                    <button
+                                        onClick={() => setBillingCycle('yearly')}
                                         style={{
-                                            background: 'rgba(255, 255, 255, 0.9)',
-                                            border: `1px solid ${BORDER_COLOR}`,
+                                            padding: '8px 24px',
+                                            border: 'none',
+                                            borderRadius: '6px',
+                                            background: billingCycle === 'yearly' ? `linear-gradient(135deg, ${PRIMARY_COLOR} 0%, #5080C8 100%)` : 'transparent',
+                                            color: billingCycle === 'yearly' ? 'white' : '#868e96',
+                                            fontWeight: 600,
+                                            cursor: 'pointer',
+                                            transition: 'all 0.2s ease',
                                         }}
-                                        styles={{
-                                            indicator: {
-                                                background: `linear-gradient(135deg, ${PRIMARY_COLOR} 0%, #5080C8 100%)`,
-                                            },
-                                        }}
-                                    />
-                                </Center>
+                                    >
+                                        Yearly (Save 20%)
+                                    </button>
+                                </div>
+                            </div>
 
-                                <Grid gutter="lg">
-                                    {paidPlans.map((plan) => (
-                                        <Grid.Col key={plan.uuid} span={{ base: 12, sm: 6 }}>
-                                            <PricingCard
-                                                plan={plan}
-                                                billingCycle={billingCycle}
-                                                onSubscribe={handleSubscribe}
-                                                isCurrentPlan={currentSub?.subscriptionPlanId === plan.uuid}
-                                                isLoading={subscribingTo === plan.uuid}
-                                            />
-                                        </Grid.Col>
-                                    ))}
-                                </Grid>
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px' }}>
+                                {paidPlans.map((plan) => (
+                                    <div key={plan.uuid}>
+                                        <PricingCard
+                                            plan={plan}
+                                            billingCycle={billingCycle}
+                                            onSubscribe={handleSubscribe}
+                                            isCurrentPlan={currentSub?.subscriptionPlanId === plan.uuid}
+                                            isLoading={subscribingTo === plan.uuid}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
 
-                                <Alert icon={<IconInfoCircle />} color="blue" variant="light">
+                            <div
+                                style={{
+                                    backgroundColor: '#e7f5ff',
+                                    border: '1px solid #74c0fc',
+                                    borderRadius: '8px',
+                                    padding: '16px',
+                                    display: 'flex',
+                                    gap: '12px',
+                                }}
+                            >
+                                <IconInfoCircle color={PRIMARY_COLOR} />
+                                <div style={{ color: '#1971c2', fontSize: '14px' }}>
                                     All plans include automatic backups and 24/7 customer support.
                                     You can upgrade or downgrade your plan at any time.
-                                </Alert>
-                            </Stack>
-                        </Grid.Col>
-                    </Grid>
-                </Stack>
-            </Container>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <style jsx global>{`
+                @keyframes spin {
+                    to { transform: rotate(360deg); }
+                }
+            `}</style>
         </>
     )
 }

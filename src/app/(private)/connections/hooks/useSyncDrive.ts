@@ -1,6 +1,9 @@
+'use client';
+
 import React from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { notifications } from '@mantine/notifications';
+import { mutate as globalMutate } from 'swr';
+import { useState } from 'react';
+import { toast } from '@/app/components/ui/use-toast';
 
 interface SyncDriveParams {
   driveId: string;
@@ -25,27 +28,34 @@ async function syncDrive(driveId: string): Promise<SyncDriveResponse> {
 }
 
 export function useSyncDrive() {
-  const queryClient = useQueryClient();
+  const [isLoading, setIsLoading] = useState(false);
 
-  return useMutation({
-    mutationFn: ({ driveId }: SyncDriveParams) => syncDrive(driveId),
-    onSuccess: (data) => {
-      notifications.show({
+  const mutate = async ({ driveId }: SyncDriveParams) => {
+    setIsLoading(true);
+    try {
+      const data = await syncDrive(driveId);
+
+      // Revalidate related queries
+      await globalMutate('/api/googleDrive/connect');
+      await globalMutate((key) => typeof key === 'string' && key.includes('/api/googleDrive/fileManagement'));
+
+      toast({
         title: 'Sync Complete',
-        message: data.message || 'Your drive has been synced successfully',
-        color: 'green',
+        description: data.message || 'Your drive has been synced successfully',
       });
 
-      queryClient.invalidateQueries({ queryKey: ['connected-drives'] });
-      queryClient.invalidateQueries({ queryKey: ['files'] });
-    },
-    onError: (error: Error) => {
-      notifications.show({
+      return data;
+    } catch (error: any) {
+      toast({
         title: 'Sync Failed',
-        message: error.message || 'Failed to sync drive. Please try again.',
-        color: 'red',
-        autoClose: 7000,
+        description: error.message || 'Failed to sync drive. Please try again.',
+        variant: 'destructive',
       });
-    },
-  });
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return { mutate, isLoading };
 }

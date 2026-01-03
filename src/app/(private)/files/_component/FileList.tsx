@@ -1,7 +1,21 @@
-import { Table, Group, Text, Badge, ActionIcon, Tooltip, Avatar, Box, Paper } from '@mantine/core';
-import { IconFile, IconExternalLink, IconFileText, IconPhoto, IconVideo, IconMusic } from '@tabler/icons-react';
+'use client';
+
+import { File as FileIcon, ExternalLink, FileText, Image as ImageIcon, Video, Music } from 'lucide-react';
 import { FileData } from '@/app/(private)/files/types/File.types';
 import { formatDate, formatFileSize, getMimeTypeColor, getMimeTypeLabel } from '../utils/helper';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/app/components/ui/table';
+import { Badge } from '@/app/components/ui/badge';
+import { Button } from '@/app/components/ui/button';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/app/components/ui/tooltip';
+import { Avatar, AvatarFallback, AvatarImage } from '@/app/components/ui/avatar';
+import { Card, CardContent } from '@/app/components/ui/card';
 
 interface FileListProps {
     files: FileData[];
@@ -12,11 +26,11 @@ const ACCENT_BG_COLOR = 'rgba(107, 154, 223, 0.1)';
 const BORDER_COLOR = 'rgba(107, 154, 223, 0.2)';
 
 const getFileIcon = (mimeType: string) => {
-    if (mimeType.includes('image')) return <IconPhoto size={18} />;
-    if (mimeType.includes('video')) return <IconVideo size={18} />;
-    if (mimeType.includes('audio')) return <IconMusic size={18} />;
-    if (mimeType.includes('pdf') || mimeType.includes('document')) return <IconFileText size={18} />;
-    return <IconFile size={18} />;
+    if (mimeType.includes('image')) return <ImageIcon size={18} />;
+    if (mimeType.includes('video')) return <Video size={18} />;
+    if (mimeType.includes('audio')) return <Music size={18} />;
+    if (mimeType.includes('pdf') || mimeType.includes('document')) return <FileText size={18} />;
+    return <FileIcon size={18} />;
 };
 
 export const FileList: React.FC<FileListProps> = ({ files }) => {
@@ -28,170 +42,135 @@ export const FileList: React.FC<FileListProps> = ({ files }) => {
 
     if (files.length === 0) {
         return (
-            <Paper
-                p="xl"
-                radius="lg"
+            <Card
+                className="border-2"
                 style={{
-                    textAlign: 'center',
                     background: 'rgba(255, 255, 255, 0.95)',
                     backdropFilter: 'blur(10px)',
-                    border: `2px solid ${BORDER_COLOR}`,
+                    borderColor: BORDER_COLOR,
                 }}
             >
-                <Text c="dimmed" size="lg" fw={500}>
-                    No files found
-                </Text>
-            </Paper>
+                <CardContent className="p-12 text-center">
+                    <p className="text-lg text-muted-foreground font-medium">
+                        No files found
+                    </p>
+                </CardContent>
+            </Card>
         );
     }
 
     return (
-        <Paper
-            shadow="xl"
-            radius="lg"
-            style={{
-                overflow: 'hidden',
-                background: 'rgba(255, 255, 255, 0.95)',
-                backdropFilter: 'blur(10px)',
-                border: `2px solid ${BORDER_COLOR}`,
-            }}
-        >
-            <Table.ScrollContainer minWidth={800}>
-                <Table
-                    highlightOnHover
-                    styles={{
-                        table: {
-                            borderCollapse: 'separate',
-                            borderSpacing: 0,
-                        },
-                        th: {
-                            background: PRIMARY_COLOR,
-                            color: 'white',
-                            fontWeight: 700,
-                            fontSize: '14px',
-                            padding: '16px',
-                            borderBottom: 'none',
-                        },
-                        tr: {
-                            transition: 'all 0.2s ease',
-                            '&:hover': {
-                                transform: 'scale(1.01)',
-                                boxShadow: `0 4px 12px ${ACCENT_BG_COLOR}`,
-                                background: ACCENT_BG_COLOR,
-                            },
-                        },
-                        td: {
-                            padding: '16px',
-                            borderBottom: `1px solid ${BORDER_COLOR}`,
-                        },
-                    }}
-                >
-                    <Table.Thead>
-                        <Table.Tr>
-                            <Table.Th>File Name</Table.Th>
-                            <Table.Th>Type</Table.Th>
-                            <Table.Th>Size</Table.Th>
-                            <Table.Th>Created</Table.Th>
-                            <Table.Th>Actions</Table.Th>
-                        </Table.Tr>
-                    </Table.Thead>
-                    <Table.Tbody>
-                        {files.map((file, index) => (
-                            <Table.Tr
-                                key={file.id}
+        <TooltipProvider>
+            <Card
+                className="shadow-xl border-2 overflow-hidden"
+                style={{
+                    background: 'rgba(255, 255, 255, 0.95)',
+                    backdropFilter: 'blur(10px)',
+                    borderColor: BORDER_COLOR,
+                }}
+            >
+                <div className="overflow-x-auto">
+                    <Table>
+                        <TableHeader>
+                            <TableRow
+                                className="border-none hover:bg-transparent"
                                 style={{
-                                    cursor: 'pointer',
+                                    background: PRIMARY_COLOR,
                                 }}
-                                onClick={() => handleRowClick(file)}
                             >
-                                <Table.Td>
-                                    <Group gap="sm">
-                                        {file.thumbnailLink ? (
+                                <TableHead className="text-white font-bold text-sm">File Name</TableHead>
+                                <TableHead className="text-white font-bold text-sm">Type</TableHead>
+                                <TableHead className="text-white font-bold text-sm">Size</TableHead>
+                                <TableHead className="text-white font-bold text-sm">Created</TableHead>
+                                <TableHead className="text-white font-bold text-sm">Actions</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {files.map((file) => (
+                                <TableRow
+                                    key={file.id}
+                                    className="cursor-pointer transition-all hover:scale-[1.01] hover:shadow-md"
+                                    style={{
+                                        borderBottom: `1px solid ${BORDER_COLOR}`,
+                                    }}
+                                    onClick={() => handleRowClick(file)}
+                                >
+                                    <TableCell>
+                                        <div className="flex items-center gap-3">
                                             <Avatar
-                                                src={file.thumbnailLink}
-                                                size="md"
-                                                radius="lg"
-                                                style={{
-                                                    border: `2px solid ${BORDER_COLOR}`,
-                                                }}
-                                            />
-                                        ) : (
-                                            <Avatar
-                                                size="md"
-                                                radius="lg"
-                                                style={{
-                                                    background: PRIMARY_COLOR,
-                                                    border: `2px solid ${BORDER_COLOR}`,
-                                                }}
+                                                className="border-2"
+                                                style={{ borderColor: BORDER_COLOR }}
                                             >
-                                                {getFileIcon(file.mimeType)}
+                                                {file.thumbnailLink ? (
+                                                    <AvatarImage src={file.thumbnailLink} alt={file.fileName} />
+                                                ) : (
+                                                    <AvatarFallback style={{ background: PRIMARY_COLOR }}>
+                                                        {getFileIcon(file.mimeType)}
+                                                    </AvatarFallback>
+                                                )}
                                             </Avatar>
-                                        )}
-                                        <Box>
-                                            <Text size="sm" fw={600} lineClamp={1} style={{ maxWidth: 300 }}>
+                                            <p className="text-sm font-semibold line-clamp-1 max-w-[300px]">
                                                 {file.fileName}
-                                            </Text>
-                                        </Box>
-                                    </Group>
-                                </Table.Td>
-                                <Table.Td>
-                                    <Badge
-                                        variant="filled"
-                                        color={getMimeTypeColor(file.mimeType)}
-                                        size="md"
-                                        radius="lg"
-                                        style={{
-                                            fontWeight: 600,
-                                            padding: '8px 12px',
-                                        }}
-                                    >
-                                        {getMimeTypeLabel(file.mimeType)}
-                                    </Badge>
-                                </Table.Td>
-                                <Table.Td>
-                                    <Badge
-                                        variant="light"
-                                        color={PRIMARY_COLOR}
-                                        size="md"
-                                        radius="lg"
-                                        style={{ fontWeight: 600 }}
-                                    >
-                                        {formatFileSize(file.fileSize)}
-                                    </Badge>
-                                </Table.Td>
-                                <Table.Td>
-                                    <Text size="sm" c="dimmed" fw={500}>
-                                        {formatDate(file.fileCreatedTime)}
-                                    </Text>
-                                </Table.Td>
-                                <Table.Td>
-                                    <Group gap="xs">
+                                            </p>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Badge
+                                            className="font-semibold px-3 py-1"
+                                            style={{
+                                                background: getMimeTypeColor(file.mimeType),
+                                            }}
+                                        >
+                                            {getMimeTypeLabel(file.mimeType)}
+                                        </Badge>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Badge
+                                            variant="secondary"
+                                            className="font-semibold"
+                                            style={{
+                                                color: PRIMARY_COLOR,
+                                            }}
+                                        >
+                                            {formatFileSize(file.fileSize)}
+                                        </Badge>
+                                    </TableCell>
+                                    <TableCell>
+                                        <span className="text-sm text-muted-foreground font-medium">
+                                            {formatDate(file.fileCreatedTime)}
+                                        </span>
+                                    </TableCell>
+                                    <TableCell>
                                         {file.webViewLink && (
-                                            <Tooltip label="Open in Drive" withArrow>
-                                                <ActionIcon
-                                                    variant="filled"
-                                                    color={PRIMARY_COLOR}
-                                                    size="lg"
-                                                    radius="lg"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        window.open(file.webViewLink, '_blank', 'noopener,noreferrer');
-                                                    }}
-                                                    style={{
-                                                        boxShadow: `0 4px 12px ${ACCENT_BG_COLOR}`,
-                                                    }}
-                                                >
-                                                    <IconExternalLink size={18} />
-                                                </ActionIcon>
+                                            <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                    <Button
+                                                        size="icon"
+                                                        className="rounded-lg"
+                                                        style={{
+                                                            background: PRIMARY_COLOR,
+                                                            boxShadow: `0 4px 12px ${ACCENT_BG_COLOR}`,
+                                                        }}
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            window.open(file.webViewLink, '_blank', 'noopener,noreferrer');
+                                                        }}
+                                                    >
+                                                        <ExternalLink size={18} />
+                                                    </Button>
+                                                </TooltipTrigger>
+                                                <TooltipContent>
+                                                    Open in Drive
+                                                </TooltipContent>
                                             </Tooltip>
                                         )}
-                                    </Group>
-                                </Table.Td>
-                            </Table.Tr>
-                        ))}
-                    </Table.Tbody>
-                </Table>
-            </Table.ScrollContainer>
-        </Paper>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </div>
+            </Card>
+        </TooltipProvider>
     );
 };

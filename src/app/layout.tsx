@@ -1,8 +1,4 @@
-import { ColorSchemeScript } from '@mantine/core';
 import { AppProviders } from './providers/AppProvider';
-import '@mantine/core/styles.css';
-import '@mantine/notifications/styles.css';
-import '@mantine/dates/styles.css';
 import './globals.css';
 
 export const metadata = {
@@ -39,7 +35,6 @@ export default function RootLayout({children}: {
     return (
         <html lang="en" suppressHydrationWarning>
         <head>
-            <ColorSchemeScript />
             <link rel="preconnect" href="https://fonts.googleapis.com" />
             <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         </head>

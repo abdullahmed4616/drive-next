@@ -1,13 +1,14 @@
 "use client";
 
-import { Stack, Text, Group, Paper, Box, Badge } from "@mantine/core";
 import {
-  IconUpload,
-  IconFileText,
-  IconClock,
-  IconTrash,
-  IconChevronRight,
-} from "@tabler/icons-react";
+  Upload,
+  FileText,
+  Clock,
+  Trash2,
+  ChevronRight,
+} from "lucide-react";
+import { Card, CardContent } from "@/app/components/ui/card";
+import { Badge } from "@/app/components/ui/badge";
 
 export default function RecentActivity() {
   const activities = [
@@ -17,7 +18,7 @@ export default function RecentActivity() {
       fileName: "Project_Proposal_V3.pdf",
       location: "Google Drive",
       timestamp: "2 mins ago",
-      icon: <IconUpload size={18} stroke={2} />,
+      icon: <Upload size={18} strokeWidth={2} />,
       color: "#3b82f6",
       bgColor: "#eff6ff",
       badgeColor: "blue",
@@ -28,7 +29,7 @@ export default function RecentActivity() {
       fileName: "Budget_Report_2024.xlsx",
       location: "Google Drive",
       timestamp: "1 hour ago",
-      icon: <IconFileText size={18} stroke={2} />,
+      icon: <FileText size={18} strokeWidth={2} />,
       color: "#10b981",
       bgColor: "#f0fdf4",
       badgeColor: "green",
@@ -39,7 +40,7 @@ export default function RecentActivity() {
       fileName: "Old_Presentation.pptx",
       location: "Google Drive",
       timestamp: "3 hours ago",
-      icon: <IconTrash size={18} stroke={2} />,
+      icon: <Trash2 size={18} strokeWidth={2} />,
       color: "#ef4444",
       bgColor: "#fef2f2",
       badgeColor: "red",
@@ -47,173 +48,106 @@ export default function RecentActivity() {
   ];
 
   return (
-      <Paper
-          p={{ base: "lg", sm: "xl" }}
-          radius="lg"
-          withBorder
-          shadow="sm"
-          style={{
-            borderColor: "var(--mantine-color-gray-3)",
-          }}
-      >
-        <Stack gap="lg">
-          <Box>
-            <Group justify="space-between" mb={4}>
-              <Text size="lg" fw={600} c="dark.8">
+    <Card className="border shadow-sm">
+      <CardContent className="p-6">
+        <div className="flex flex-col gap-6">
+          <div>
+            <div className="flex justify-between items-center mb-1">
+              <h3 className="text-lg font-semibold text-gray-900">
                 Recent Activity
-              </Text>
-              <Badge
-                  variant="light"
-                  color="gray"
-                  size="sm"
-                  style={{ textTransform: "none" }}
-              >
+              </h3>
+              <Badge variant="secondary" className="text-xs">
                 Last 24 hours
               </Badge>
-            </Group>
-            <Text size="sm" c="dimmed">
+            </div>
+            <p className="text-sm text-muted-foreground">
               Latest changes across your drives
-            </Text>
-          </Box>
+            </p>
+          </div>
 
-          <Stack gap="sm">
-            {activities.map((activity, index) => (
-                <Paper
-                    key={activity.id}
-                    p="md"
-                    radius="md"
-                    withBorder
-                    style={{
-                      borderColor: "var(--mantine-color-gray-2)",
-                      transition: "all 0.2s ease",
-                      cursor: "pointer",
-                      position: "relative",
-                      overflow: "hidden",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = "translateX(4px)";
-                      e.currentTarget.style.borderColor = activity.color;
-                      e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.08)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = "translateX(0)";
-                      e.currentTarget.style.borderColor = "var(--mantine-color-gray-2)";
-                      e.currentTarget.style.boxShadow = "none";
-                    }}
-                >
-                  <Box
-                      style={{
-                        position: "absolute",
-                        left: 0,
-                        top: 0,
-                        bottom: 0,
-                        width: 4,
-                        backgroundColor: activity.color,
-                      }}
-                  />
-
-                  <Group gap="md" wrap="nowrap" align="flex-start">
-                    <Box
-                        style={{
-                          width: 44,
-                          height: 44,
-                          borderRadius: 10,
-                          backgroundColor: activity.bgColor,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          flexShrink: 0,
-                          color: activity.color,
-                        }}
-                    >
-                      {activity.icon}
-                    </Box>
-
-                    <Box style={{ flex: 1, minWidth: 0 }}>
-                      <Group gap="xs" mb={4} wrap="wrap">
-                        <Badge
-                            variant="light"
-                            color={activity.badgeColor}
-                            size="sm"
-                            style={{ textTransform: "none" }}
-                        >
-                          {activity.action}
-                        </Badge>
-                        <Text size="xs" c="dimmed">
-                          {activity.location}
-                        </Text>
-                      </Group>
-
-                      <Text
-                          size="sm"
-                          fw={500}
-                          mb={6}
-                          style={{
-                            wordBreak: "break-word",
-                            lineHeight: 1.4,
-                          }}
-                      >
-                        {activity.fileName}
-                      </Text>
-
-                      <Group gap={6} align="center">
-                        <IconClock
-                            size={14}
-                            stroke={2}
-                            style={{ color: "var(--mantine-color-gray-6)" }}
-                        />
-                        <Text size="xs" c="dimmed">
-                          {activity.timestamp}
-                        </Text>
-                      </Group>
-                    </Box>
-
-                    {/* Arrow indicator */}
-                    <Box
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          opacity: 0.4,
-                          transition: "opacity 0.2s ease",
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.opacity = "1";
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.opacity = "0.4";
-                        }}
-                    >
-                      <IconChevronRight
-                          size={18}
-                          stroke={2}
-                          style={{ color: activity.color }}
-                      />
-                    </Box>
-                  </Group>
-                </Paper>
-            ))}
-          </Stack>
-
-          <Group justify="center" mt="xs">
-            <Text
-                size="sm"
-                c={activities[0].color}
-                fw={500}
-                style={{
-                  cursor: "pointer",
-                  transition: "opacity 0.2s ease",
-                }}
+          <div className="flex flex-col gap-2">
+            {activities.map((activity) => (
+              <div
+                key={activity.id}
+                className="relative p-4 rounded-md border border-gray-200 transition-all duration-200 cursor-pointer overflow-hidden hover:translate-x-1 hover:shadow-md group"
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.opacity = "0.7";
+                  e.currentTarget.style.borderColor = activity.color;
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.opacity = "1";
+                  e.currentTarget.style.borderColor = 'rgb(229 231 235)';
                 }}
+              >
+                <div
+                  className="absolute left-0 top-0 bottom-0 w-1"
+                  style={{ backgroundColor: activity.color }}
+                />
+
+                <div className="flex gap-4 items-start">
+                  <div
+                    className="w-11 h-11 rounded-lg flex items-center justify-center flex-shrink-0"
+                    style={{
+                      backgroundColor: activity.bgColor,
+                      color: activity.color,
+                    }}
+                  >
+                    {activity.icon}
+                  </div>
+
+                  <div className="flex-1 min-w-0">
+                    <div className="flex gap-2 mb-1 flex-wrap">
+                      <Badge
+                        variant="secondary"
+                        className="text-xs"
+                        style={{
+                          backgroundColor: activity.bgColor,
+                          color: activity.color,
+                        }}
+                      >
+                        {activity.action}
+                      </Badge>
+                      <span className="text-xs text-muted-foreground">
+                        {activity.location}
+                      </span>
+                    </div>
+
+                    <p className="text-sm font-medium mb-1.5 break-words leading-tight">
+                      {activity.fileName}
+                    </p>
+
+                    <div className="flex gap-1.5 items-center">
+                      <Clock
+                        size={14}
+                        strokeWidth={2}
+                        className="text-gray-500"
+                      />
+                      <span className="text-xs text-muted-foreground">
+                        {activity.timestamp}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center opacity-40 group-hover:opacity-100 transition-opacity">
+                    <ChevronRight
+                      size={18}
+                      strokeWidth={2}
+                      style={{ color: activity.color }}
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex justify-center mt-2">
+            <p
+              className="text-sm font-medium cursor-pointer transition-opacity hover:opacity-70"
+              style={{ color: activities[0].color }}
             >
               View all activity →
-            </Text>
-          </Group>
-        </Stack>
-      </Paper>
+            </p>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

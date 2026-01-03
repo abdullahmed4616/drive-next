@@ -1,4 +1,6 @@
 // useFilterData.ts - Updated
+'use client';
+
 import { useMemo } from 'react';
 import { FilterState, UseFilterDataReturn } from '@/app/(private)/files/types/File.types';
 import { useFileData } from './useFileData';
@@ -14,15 +16,15 @@ export const useFilterData = (
   const {
     data: allFilesData,
     isLoading: isLoadingAll,
-    isError: isErrorAll,
     error: errorAll,
-    refetch: refetchAll,
+    mutate: refetchAll,
   } = useFileData(userId, driveId);
+
+  const isErrorAll = !!errorAll;
 
   const {
     data: dateRangeData,
     isLoading: isLoadingDate,
-    isError: isErrorDate,
     error: errorDate,
   } = useDateRange(
     {
@@ -33,10 +35,11 @@ export const useFilterData = (
     driveId
   );
 
+  const isErrorDate = !!errorDate;
+
   const {
     data: fileSizeData,
     isLoading: isLoadingSize,
-    isError: isErrorSize,
     error: errorSize,
   } = useFileSize(
     {
@@ -47,12 +50,15 @@ export const useFilterData = (
     driveId
   );
 
+  const isErrorSize = !!errorSize;
+
   const {
     data: searchData,
     isLoading: isLoadingSearch,
-    isError: isErrorSearch,
     error: errorSearch,
   } = useSmartSearch(filters.searchQuery || '', userId, driveId);
+
+  const isErrorSearch = !!errorSearch;
 
   const filteredFiles = useMemo(() => {
     if (filters.searchQuery && searchData?.files) {

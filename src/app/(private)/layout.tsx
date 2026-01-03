@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { AppShell, Burger, Group, Text, Loader, Center, Stack } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
 import PrivateNavbar from '@/app/components/layout/PrivateNavbar';
 import Sidebar from '@/app/components/layout/Sidebar';
+import { Menu, X } from 'lucide-react';
+import { Button } from '@/app/components/ui/button';
+import { Skeleton } from '@/app/components/ui/skeleton';
 
 interface User {
   id: string;
@@ -18,11 +19,11 @@ export default function PrivateLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
-  const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
+  const [mobileOpened, setMobileOpened] = useState(false);
+  const [desktopOpened, setDesktopOpened] = useState(true);
   const router = useRouter();
   const pathname = usePathname();
-  
+
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [authChecked, setAuthChecked] = useState(false);
@@ -47,7 +48,7 @@ export default function PrivateLayout({
 
       if (response.ok) {
         const data = await response.json();
-        
+
         if (data.authenticated && data.user) {
           setUser(data.user);
         } else {
@@ -67,65 +68,86 @@ export default function PrivateLayout({
 
   if (loading) {
     return (
-      <Center h="100vh">
-        <Stack align="center" gap="md">
-          <Loader size="lg" />
-          <Text size="lg" fw={500} c="dimmed">
-            Loading...
-          </Text>
-        </Stack>
-      </Center>
+      <div className="flex h-screen items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <Skeleton className="h-12 w-12 rounded-full" />
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-[200px]" />
+            <Skeleton className="h-4 w-[150px]" />
+          </div>
+        </div>
+      </div>
     );
   }
 
   if (!user) {
     return (
-      <Center h="100vh">
-        <Stack align="center" gap="md">
-          <Loader size="lg" />
-          <Text size="sm" c="dimmed">
+      <div className="flex h-screen items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <Skeleton className="h-12 w-12 rounded-full animate-spin" />
+          <p className="text-sm text-muted-foreground">
             Redirecting to login...
-          </Text>
-        </Stack>
-      </Center>
+          </p>
+        </div>
+      </div>
     );
   }
 
   return (
-    <AppShell
-      header={{ height: 60 }}
-      navbar={{
-        width: 250,
-        breakpoint: 'sm',
-        collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
-      }}
-      padding="md"
-    >
-      <AppShell.Header>
-        <Group h="100%">
-          <Group>
-            <Burger
-              opened={mobileOpened}
-              onClick={toggleMobile}
-              hiddenFrom="sm"
-              size="sm"
-            />
-            <Burger
-              opened={desktopOpened}
-              onClick={toggleDesktop}
-              visibleFrom="sm"
-              size="sm"
-            />
-          </Group>
+    <div className="min-h-screen">
+      {/* Header */}
+      <header
+        className="sticky top-0 z-40 h-[60px] border-b bg-gradient-to-r from-[#667eea] to-[#764ba2]"
+      >
+        <div className="flex h-full items-center">
+          <div className="flex items-center gap-2 px-4">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="sm:hidden text-white hover:bg-white/20"
+              onClick={() => setMobileOpened(!mobileOpened)}
+            >
+              {mobileOpened ? <X size={20} /> : <Menu size={20} />}
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="hidden sm:flex text-white hover:bg-white/20"
+              onClick={() => setDesktopOpened(!desktopOpened)}
+            >
+              <Menu size={20} />
+            </Button>
+          </div>
           <PrivateNavbar />
-        </Group>
-      </AppShell.Header>
+        </div>
+      </header>
 
-      <AppShell.Navbar>
-        <Sidebar />
-      </AppShell.Navbar>
+      <div className="flex">
+        {/* Desktop Sidebar */}
+        {desktopOpened && (
+          <div className="hidden sm:block">
+            <Sidebar />
+          </div>
+        )}
 
-      <AppShell.Main>{children}</AppShell.Main>
-    </AppShell>
+        {/* Mobile Sidebar */}
+        {mobileOpened && (
+          <div className="fixed inset-0 z-30 sm:hidden">
+            <div
+              className="absolute inset-0 bg-black/50"
+              onClick={() => setMobileOpened(false)}
+            />
+            <div className="absolute left-0 top-[60px] bottom-0 w-[280px] bg-white shadow-xl">
+              <Sidebar />
+            </div>
+          </div>
+        )}
+
+        {/* Main Content */}
+        <main className="flex-1 p-4 md:p-6">
+          {children}
+        </main>
+      </div>
+    </div>
   );
 }

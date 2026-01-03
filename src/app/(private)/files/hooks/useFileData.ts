@@ -1,22 +1,15 @@
-import { useQuery } from '@tanstack/react-query';
+'use client';
+
+import useSWR from 'swr';
 import { FileDataResponse } from '@/app/(private)/files/types/File.types';
 
 export const useFileData = (userId?: string, driveId?: string | null) => {
-  return useQuery({
-    queryKey: ['fileData', userId, driveId],
-    queryFn: async () => {
-      if (!userId) {
-        throw new Error('User ID is required');
-      }
+  const enabled = !!userId && !!driveId;
 
-      if (!driveId) {
-        return {
-          files: [],
-          total: 0,
-        };
-      }
-
-      const response = await fetch(`/api/googleDrive/fileManagement?userId=${userId}&driveId=${driveId}`);
+  const { data, error, isLoading, mutate } = useSWR(
+    enabled ? `/api/googleDrive/fileManagement?userId=${userId}&driveId=${driveId}` : null,
+    async (url: string) => {
+      const response = await fetch(url);
 
       if (!response.ok) {
         throw new Error('Failed to fetch file data');
@@ -33,8 +26,11 @@ export const useFileData = (userId?: string, driveId?: string | null) => {
         total: data.fileData.length,
       };
     },
-    enabled: !!userId && !!driveId,
-    staleTime: 1000 * 60 * 5,
-    refetchOnWindowFocus: true,
-  });
+    {
+      revalidateOnFocus: true,
+      dedupingInterval: 1000 * 60 * 5,
+    }
+  );
+
+  return { data, error, isLoading, mutate };
 };
