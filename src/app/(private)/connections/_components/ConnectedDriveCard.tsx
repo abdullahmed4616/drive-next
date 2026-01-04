@@ -74,7 +74,10 @@ export function ConnectedDriveCard({
                     className={`overflow-hidden transition-all duration-300 border-2 ${
                         isHovered ? "-translate-y-1 shadow-lg" : ""
                     }`}
-                    style={{ borderColor: 'rgba(107, 154, 223, 0.3)' }}
+                    style={{
+                        borderColor: 'rgba(107, 154, 223, 0.3)',
+                        borderRadius: '1.5rem',
+                    }}
                 >
                     <div
                         className="p-5 relative overflow-hidden"
