@@ -245,15 +245,6 @@ body {
      animation: shimmer 2s infinite;
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
 @media (max-width: 768px) {
      body {
           font-size: 14px;
