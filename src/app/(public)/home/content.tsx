@@ -68,11 +68,12 @@ export default function HomePage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                         <div className="flex flex-col gap-8 fade-in">
                             <Badge
-                                className="w-fit text-white border-none font-semibold shadow-lg"
+                                className="w-fit text-white border-none font-semibold backdrop-blur-md"
                                 style={{
-                                    background: PRIMARY_COLOR,
+                                    background: `linear-gradient(135deg, ${PRIMARY_COLOR}, #5A89CF)`,
                                     padding: '8px 20px',
-                                    boxShadow: `0 4px 16px ${BORDER_COLOR}`,
+                                    border: `1px solid ${PRIMARY_COLOR}40`,
+                                    boxShadow: `0 4px 16px rgba(107, 154, 223, 0.25)`,
                                 }}
                             >
                                 <Sparkles className="inline mr-2" size={16} />
@@ -105,21 +106,22 @@ export default function HomePage() {
                                 <Button
                                     asChild
                                     size="lg"
-                                    className="text-lg px-8"
+                                    className="text-lg px-8 backdrop-blur-sm"
                                     style={{
-                                        background: PRIMARY_COLOR,
+                                        background: `linear-gradient(135deg, ${PRIMARY_COLOR}, #5A89CF)`,
                                         borderRadius: '9999px',
-                                        boxShadow: `0 8px 24px ${BORDER_COLOR}`,
+                                        border: `1px solid ${PRIMARY_COLOR}40`,
+                                        boxShadow: `0 8px 24px rgba(107, 154, 223, 0.3)`,
                                         fontWeight: 600,
                                         transition: 'all 0.3s ease',
                                     }}
                                     onMouseEnter={(e) => {
-                                        e.currentTarget.style.transform = 'translateY(-3px)';
-                                        e.currentTarget.style.boxShadow = `0 12px 32px ${BORDER_COLOR}`;
+                                        e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)';
+                                        e.currentTarget.style.boxShadow = `0 12px 32px rgba(107, 154, 223, 0.4)`;
                                     }}
                                     onMouseLeave={(e) => {
-                                        e.currentTarget.style.transform = 'translateY(0)';
-                                        e.currentTarget.style.boxShadow = `0 8px 24px ${BORDER_COLOR}`;
+                                        e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                                        e.currentTarget.style.boxShadow = `0 8px 24px rgba(107, 154, 223, 0.3)`;
                                     }}
                                 >
                                     <Link href="/auth" className="flex items-center gap-2">
@@ -131,22 +133,24 @@ export default function HomePage() {
                                     asChild
                                     variant="outline"
                                     size="lg"
-                                    className="text-lg px-8"
+                                    className="text-lg px-8 backdrop-blur-md"
                                     style={{
                                         borderRadius: '9999px',
-                                        borderColor: PRIMARY_COLOR,
+                                        borderColor: `${PRIMARY_COLOR}40`,
                                         color: PRIMARY_COLOR,
                                         borderWidth: 2,
                                         fontWeight: 600,
                                         transition: 'all 0.3s ease',
-                                        background: 'white',
+                                        background: 'rgba(255, 255, 255, 0.8)',
+                                        backdropFilter: 'blur(12px)',
                                     }}
                                     onMouseEnter={(e) => {
-                                        e.currentTarget.style.background = ACCENT_BG_COLOR;
-                                        e.currentTarget.style.transform = 'translateY(-3px)';
+                                        e.currentTarget.style.background = `${PRIMARY_COLOR}15`;
+                                        e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)';
+                                        e.currentTarget.style.borderColor = PRIMARY_COLOR;
                                     }}
                                     onMouseLeave={(e) => {
-                                        e.currentTarget.style.background = 'white';
+                                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.8)';
                                         e.currentTarget.style.transform = 'translateY(0)';
                                     }}
                                 >
