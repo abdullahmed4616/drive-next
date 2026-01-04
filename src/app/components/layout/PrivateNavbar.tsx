@@ -306,7 +306,7 @@ export default function PrivateNavbar() {
                         className="sm:hidden"
                         onClick={() => setOpened(!opened)}
                     >
-                        <MenuIcon size={20} color="white" />
+                        <MenuIcon size={20} color={PRIMARY_COLOR} />
                     </Button>
                 </div>
 
