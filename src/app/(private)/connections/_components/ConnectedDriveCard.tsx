@@ -71,34 +71,62 @@ export function ConnectedDriveCard({
                 <Card
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
-                    className={`overflow-hidden transition-all duration-300 border-2 ${
-                        isHovered ? "-translate-y-1 shadow-lg" : ""
-                    }`}
+                    className="overflow-hidden transition-all duration-300 backdrop-blur-md"
                     style={{
-                        borderColor: 'rgba(107, 154, 223, 0.3)',
+                        border: `1px solid ${isHovered ? `${PRIMARY_COLOR}40` : 'rgba(107, 154, 223, 0.15)'}`,
                         borderRadius: '1.5rem',
+                        transform: isHovered ? 'translateY(-6px)' : 'translateY(0)',
+                        boxShadow: isHovered
+                            ? `0 16px 32px rgba(107, 154, 223, 0.2), 0 0 0 1px ${PRIMARY_COLOR}20`
+                            : '0 2px 12px rgba(107, 154, 223, 0.08)',
+                        background: 'rgba(255, 255, 255, 0.9)',
+                        backdropFilter: 'blur(12px)',
                     }}
                 >
                     <div
-                        className="p-5 relative overflow-hidden"
-                        style={{ background: PRIMARY_COLOR }}
+                        className="p-6 relative overflow-hidden backdrop-blur-md"
+                        style={{
+                            background: `linear-gradient(135deg, ${PRIMARY_COLOR}20, ${PRIMARY_COLOR}10)`,
+                            borderBottom: `1px solid ${PRIMARY_COLOR}20`,
+                        }}
                     >
-                        <div className={`absolute -top-12 -right-12 w-36 h-36 rounded-full bg-white/10 transition-transform duration-300 ${isHovered ? 'scale-120' : 'scale-100'}`} />
-                        <div className={`absolute -bottom-8 -left-8 w-24 h-24 rounded-full bg-white/10 transition-transform duration-300 ${isHovered ? 'scale-120' : 'scale-100'}`} />
+                        <div
+                            className="absolute -top-12 -right-12 w-36 h-36 rounded-full transition-all duration-300"
+                            style={{
+                                background: `radial-gradient(circle, ${PRIMARY_COLOR}15, transparent)`,
+                                transform: isHovered ? 'scale(1.2)' : 'scale(1)',
+                            }}
+                        />
+                        <div
+                            className="absolute -bottom-8 -left-8 w-24 h-24 rounded-full transition-all duration-300"
+                            style={{
+                                background: `radial-gradient(circle, ${PRIMARY_COLOR}12, transparent)`,
+                                transform: isHovered ? 'scale(1.2)' : 'scale(1)',
+                            }}
+                        />
 
                         <div className="flex justify-between items-start relative">
                             <div className="flex gap-3">
-                                <div className="w-14 h-14 rounded-2xl bg-white/95 flex items-center justify-center shadow-lg">
-                                    <FcGoogle size={32} />
+                                <div
+                                    className="w-16 h-16 rounded-2xl flex items-center justify-center backdrop-blur-sm transition-all duration-300"
+                                    style={{
+                                        background: 'rgba(255, 255, 255, 0.95)',
+                                        border: `1px solid ${PRIMARY_COLOR}20`,
+                                        boxShadow: isHovered ? `0 8px 16px ${PRIMARY_COLOR}15` : '0 4px 8px rgba(0,0,0,0.1)',
+                                    }}
+                                >
+                                    <FcGoogle size={36} />
                                 </div>
 
                                 <div className="flex flex-col gap-1">
-                                    <span className="text-white font-bold text-lg drop-shadow">
+                                    <span className="font-bold text-lg" style={{ color: PRIMARY_COLOR }}>
                                         Google Drive
                                     </span>
-                                    <div className="flex gap-1 items-center">
-                                        <Cloud className="w-3.5 h-3.5 text-white" />
-                                        <span className="text-white/90 text-xs">Connected</span>
+                                    <div className="flex gap-1.5 items-center">
+                                        <Cloud className="w-4 h-4" style={{ color: PRIMARY_COLOR }} />
+                                        <span className="text-sm font-medium" style={{ color: `${PRIMARY_COLOR}CC` }}>
+                                            Connected
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -108,7 +136,12 @@ export function ConnectedDriveCard({
                                     <Button
                                         variant="ghost"
                                         size="icon"
-                                        className="bg-white/20 backdrop-blur-sm text-white hover:bg-white/30"
+                                        className="backdrop-blur-sm hover:bg-white/60 transition-all"
+                                        style={{
+                                            background: 'rgba(255, 255, 255, 0.4)',
+                                            border: `1px solid ${PRIMARY_COLOR}20`,
+                                            color: PRIMARY_COLOR,
+                                        }}
                                     >
                                         <MoreVertical className="h-5 w-5" />
                                     </Button>
@@ -144,10 +177,16 @@ export function ConnectedDriveCard({
                         </div>
 
                         <Button
-                            className="w-full"
+                            className="w-full backdrop-blur-sm transition-all duration-300"
                             onClick={handleSync}
                             disabled={isLoading || isSyncing}
-                            style={{ background: PRIMARY_COLOR }}
+                            style={{
+                                background: isHovered
+                                    ? PRIMARY_COLOR
+                                    : `linear-gradient(135deg, ${PRIMARY_COLOR}, ${PRIMARY_COLOR}DD)`,
+                                border: `1px solid ${PRIMARY_COLOR}40`,
+                                boxShadow: isHovered ? `0 4px 12px ${PRIMARY_COLOR}40` : 'none',
+                            }}
                         >
                             {isSyncing ? (
                                 <>

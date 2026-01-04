@@ -39,11 +39,17 @@ const StatCard = ({
 
     return (
         <Card
-            className="h-full border transition-all duration-200 cursor-default"
+            className="h-full border transition-all duration-300 cursor-default backdrop-blur-sm"
             style={{
-                borderColor: isHovered ? color : 'hsl(var(--border))',
-                transform: isHovered ? 'translateY(-2px)' : 'translateY(0)',
-                boxShadow: isHovered ? '0 8px 16px rgba(0,0,0,0.08)' : '0 1px 3px rgba(0,0,0,0.05)',
+                background: isHovered
+                    ? 'rgba(255, 255, 255, 0.95)'
+                    : 'rgba(255, 255, 255, 0.8)',
+                borderColor: isHovered ? `${color}40` : 'rgba(107, 154, 223, 0.15)',
+                transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',
+                boxShadow: isHovered
+                    ? `0 12px 24px rgba(107, 154, 223, 0.2), 0 0 0 1px ${color}20`
+                    : '0 2px 8px rgba(107, 154, 223, 0.08)',
+                backdropFilter: 'blur(10px)',
             }}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
@@ -52,17 +58,19 @@ const StatCard = ({
                 <div className="flex flex-col gap-4">
                     <div className="flex items-center justify-between">
                         <div
-                            className="w-12 h-12 rounded-xl flex items-center justify-center"
+                            className="w-14 h-14 rounded-2xl flex items-center justify-center backdrop-blur-sm transition-all duration-300"
                             style={{
-                                backgroundColor: `${color}15`,
+                                background: `linear-gradient(135deg, ${color}15, ${color}08)`,
+                                border: `1px solid ${color}20`,
+                                boxShadow: isHovered ? `0 4px 12px ${color}20` : 'none',
                             }}
                         >
                             {icon}
                         </div>
                         <div
-                            className="w-1 h-10 rounded"
+                            className="w-1 h-12 rounded-full"
                             style={{
-                                backgroundColor: color,
+                                background: `linear-gradient(to bottom, ${color}, ${color}80)`,
                             }}
                         />
                     </div>
@@ -107,29 +115,29 @@ export default function StatsPanel() {
             title: "Total Files",
             value: data?.fileCount ?? 0,
             subtitle: "Across all clouds",
-            icon: <File size={22} strokeWidth={2} style={{ color: "#3b82f6" }} />,
-            color: "#3b82f6",
+            icon: <File size={22} strokeWidth={2} style={{ color: "#6B9ADF" }} />,
+            color: "#6B9ADF",
         },
         {
             title: "Total Folders",
             value: data?.folderCount ?? 0,
             subtitle: "Across all clouds",
-            icon: <Folder size={22} strokeWidth={2} style={{ color: "#8b5cf6" }} />,
-            color: "#8b5cf6",
+            icon: <Folder size={22} strokeWidth={2} style={{ color: "#5A89CF" }} />,
+            color: "#5A89CF",
         },
         {
             title: "AI Insights",
             value: "0 new",
             subtitle: "Suggestions available",
-            icon: <Lightbulb size={22} strokeWidth={2} style={{ color: "#f59e0b" }} />,
-            color: "#f59e0b",
+            icon: <Lightbulb size={22} strokeWidth={2} style={{ color: "#7CAAEF" }} />,
+            color: "#7CAAEF",
         },
         {
             title: "Potential Savings",
             value: "0 GB",
             subtitle: "From duplicates & unused files",
-            icon: <Save size={22} strokeWidth={2} style={{ color: "#10b981" }} />,
-            color: "#10b981",
+            icon: <Save size={22} strokeWidth={2} style={{ color: "#4A78BF" }} />,
+            color: "#4A78BF",
         },
     ];
 
