@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Search, Filter, AlertCircle, Copy, Sparkles, Layers, Chrome, Check } from 'lucide-react';
 import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";

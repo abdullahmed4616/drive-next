@@ -92,12 +92,15 @@ const StatCard = ({
 };
 
 export default function StatsPanel() {
-    const { data, isLoading, isError } = useQuery<DashboardStats>({
-        queryKey: ["dashboardStats"],
-        queryFn: fetchDashboardStats,
-        staleTime: 1000 * 60 * 5,
-        refetchOnWindowFocus: false,
-    });
+    const { data, isLoading, error } = useSWR<DashboardStats>(
+        "/api/googleDrive/dashboard",
+        fetchDashboardStats,
+        {
+            revalidateOnFocus: false,
+            dedupingInterval: 1000 * 60 * 5,
+        }
+    );
+    const isError = !!error;
 
     const stats = [
         {

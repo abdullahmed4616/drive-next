@@ -108,7 +108,7 @@ export const PricingCard = ({
                                     flexShrink: 0,
                                 }}
                             >
-                                <Check size={14} stroke={3} color={PRIMARY_COLOR} />
+                                <Check size={14} strokeWidth={3} color={PRIMARY_COLOR} />
                             </div>
                             <span style={{ fontSize: '14px', fontWeight: 600, color: '#444', lineHeight: '22px' }}>
                                 {feature}

@@ -22,29 +22,26 @@ export default function ConnectionsContent() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [syncingDriveId, setSyncingDriveId] = useState<string | null>(null);
 
-  const { data, isLoading, refetch } = useConnectedDrives();
-  const deleteDrive = useDeleteDrive();
+  const { data, isLoading, mutate: refetchDrives } = useConnectedDrives();
+  const { deleteDrive, isDeleting } = useDeleteDrive();
   const connectDrive = useConnectDriveAdvanced();
-  const syncDrive = useSyncDrive();
+  const { mutate: syncDriveMutation, isLoading: isSyncing } = useSyncDrive();
 
   useEffect(() => {
     connectDrive.checkConnectionStatus();
   }, [data]);
 
-  const handleDelete = (driveId: string) => {
-    deleteDrive.mutate({ driveId });
+  const handleDelete = async (driveId: string) => {
+    await deleteDrive({ driveId });
   };
 
-  const handleSync = (driveId: string) => {
+  const handleSync = async (driveId: string) => {
     setSyncingDriveId(driveId);
-    syncDrive.mutate(
-      { driveId },
-      {
-        onSettled: () => {
-          setSyncingDriveId(null);
-        },
-      }
-    );
+    try {
+      await syncDriveMutation({ driveId });
+    } finally {
+      setSyncingDriveId(null);
+    }
   };
 
   const handleConnect = async () => {
@@ -313,7 +310,7 @@ export default function ConnectionsContent() {
                 drive={drive}
                 onDelete={handleDelete}
                 onSync={handleSync}
-                isLoading={deleteDrive.isPending}
+                isLoading={isDeleting}
                 isSyncing={syncingDriveId === drive.id}
                 viewMode="grid"
               />
