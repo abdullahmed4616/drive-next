@@ -3,34 +3,23 @@
 import React from 'react';
 import Image from 'next/image';
 import {
-    Container,
-    Title,
-    Text,
-    Button,
-    Grid,
-    Group,
-    Stack,
-    Box,
-    Center,
-    Anchor,
-    Badge,
-} from '@mantine/core';
-import {
-    IconBrandFacebook,
-    IconBrandTwitter,
-    IconBrandLinkedin,
-    IconCloud,
-    IconBolt,
-    IconShield,
-    IconSearch,
-    IconChartBar,
-    IconFileSearch,
-    IconSparkles,
-    IconArrowRight,
-    IconCheck,
-} from '@tabler/icons-react';
+    Facebook,
+    Twitter,
+    Linkedin,
+    Cloud,
+    Zap,
+    Shield,
+    Search,
+    BarChart3,
+    FileSearch,
+    Sparkles,
+    ArrowRight,
+    Check,
+} from 'lucide-react';
 import Link from 'next/link';
 import {FeatureCard} from "@/app/(public)/home/components/FeatureCard";
+import { Button } from "@/app/components/ui/button";
+import { Badge } from "@/app/components/ui/badge";
 
 const PRIMARY_COLOR = '#6B9ADF';
 const ACCENT_BG_COLOR = 'rgba(0,0,0, 0.2)';
@@ -38,8 +27,8 @@ const BORDER_COLOR = 'rgba(107, 154, 223, 0.3)';
 
 export default function HomePage() {
     return (
-        <Box style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden' }}>
-            <Box
+        <div style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden' }}>
+            <div
                 style={{
                     position: 'fixed',
                     top: '-10%',
@@ -53,7 +42,7 @@ export default function HomePage() {
                     zIndex: 0,
                 }}
             />
-            <Box
+            <div
                 style={{
                     position: 'fixed',
                     bottom: '-10%',
@@ -68,271 +57,238 @@ export default function HomePage() {
                 }}
             />
 
-            <Box
+            <div
                 style={{
                     background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(245, 247, 250, 0.9) 100%)',
                     position: 'relative',
                     zIndex: 1,
                 }}
             >
-                <Container size="xl" py={80}>
-                    <Grid gutter="xl" align="center">
-                        <Grid.Col span={{ base: 12, md: 6 }}>
-                            <Stack gap="xl" className="fade-in">
-                                <Badge
+                <div className="container mx-auto px-4 py-20">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                        <div className="flex flex-col gap-8 fade-in">
+                            <Badge
+                                className="w-fit text-white border-none font-semibold shadow-lg"
+                                style={{
+                                    background: PRIMARY_COLOR,
+                                    padding: '8px 20px',
+                                    boxShadow: `0 4px 16px ${BORDER_COLOR}`,
+                                }}
+                            >
+                                <Sparkles className="inline mr-2" size={16} />
+                                All-in-One Cloud Solution
+                            </Badge>
+
+                            <h1
+                                style={{
+                                    fontFamily: "'Outfit', sans-serif",
+                                    fontSize: '56px',
+                                    fontWeight: 800,
+                                    lineHeight: 1.2,
+                                    letterSpacing: '-1px',
+                                }}
+                            >
+                                Unify & Master Your{' '}
+                                <span style={{ color: PRIMARY_COLOR }}>
+                                    Multi-Cloud
+                                </span>{' '}
+                                Drives
+                            </h1>
+
+                            <p className="text-xl text-gray-600" style={{ lineHeight: 1.8 }}>
+                                Centralize, organize, and optimize all your Google Drive accounts
+                                from one powerful dashboard. Take control of your cloud storage with{' '}
+                                <span className="font-semibold" style={{ color: PRIMARY_COLOR }}>DriveUnity</span>.
+                            </p>
+
+                            <div className="flex gap-4 mt-4">
+                                <Button
+                                    asChild
                                     size="lg"
-                                    radius="xl"
-                                    leftSection={<IconSparkles size={16} />}
+                                    className="text-lg px-8"
                                     style={{
                                         background: PRIMARY_COLOR,
-                                        color: 'white',
-                                        border: 'none',
-                                        padding: '8px 20px',
+                                        borderRadius: '9999px',
+                                        boxShadow: `0 8px 24px ${BORDER_COLOR}`,
                                         fontWeight: 600,
-                                        boxShadow: `0 4px 16px ${BORDER_COLOR}`,
-                                        width: 'fit-content',
+                                        transition: 'all 0.3s ease',
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.transform = 'translateY(-3px)';
+                                        e.currentTarget.style.boxShadow = `0 12px 32px ${BORDER_COLOR}`;
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.transform = 'translateY(0)';
+                                        e.currentTarget.style.boxShadow = `0 8px 24px ${BORDER_COLOR}`;
                                     }}
                                 >
-                                    All-in-One Cloud Solution
-                                </Badge>
-
-                                <Title
-                                    order={1}
-                                    size={56}
-                                    fw={800}
-                                    style={{
-                                        fontFamily: "'Outfit', sans-serif",
-                                        lineHeight: 1.2,
-                                        letterSpacing: '-1px',
-                                    }}
-                                >
-                                    Unify & Master Your{' '}
-                                    <Text
-                                        component="span"
-                                        style={{
-                                            color: PRIMARY_COLOR,
-                                        }}
-                                    >
-                                        Multi-Cloud
-                                    </Text>{' '}
-                                    Drives
-                                </Title>
-
-                                <Text size="xl" c="dimmed" style={{ lineHeight: 1.8 }}>
-                                    Centralize, organize, and optimize all your Google Drive accounts
-                                    from one powerful dashboard. Take control of your cloud storage with{' '}
-                                    <Text component="span" fw={600} style={{ color: PRIMARY_COLOR }}>DriveUnity</Text>.
-                                </Text>
-
-                                <Group gap="md" mt="md">
-                                    <Button
-                                        component={Link}
-                                        href="/auth"
-                                        size="xl"
-                                        radius="xl"
-                                        rightSection={<IconArrowRight size={20} />}
-                                        style={{
-                                            background: PRIMARY_COLOR,
-                                            border: 'none',
-                                            boxShadow: `0 8px 24px ${BORDER_COLOR}`,
-                                            fontWeight: 600,
-                                            padding: '0 32px',
-                                            transition: 'all 0.3s ease',
-                                        }}
-                                        onMouseEnter={(e) => {
-                                            e.currentTarget.style.transform = 'translateY(-3px)';
-                                            e.currentTarget.style.boxShadow = `0 12px 32px ${BORDER_COLOR}`;
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.currentTarget.style.transform = 'translateY(0)';
-                                            e.currentTarget.style.boxShadow = `0 8px 24px ${BORDER_COLOR}`;
-                                        }}
-                                    >
+                                    <Link href="/auth" className="flex items-center gap-2">
                                         Get Started Free
-                                    </Button>
-                                    <Button
-                                        component={Link}
-                                        href="/about"
-                                        size="xl"
-                                        radius="xl"
-                                        variant="outline"
-                                        style={{
-                                            borderColor: PRIMARY_COLOR,
-                                            color: PRIMARY_COLOR,
-                                            borderWidth: 2,
-                                            fontWeight: 600,
-                                            padding: '0 32px',
-                                            transition: 'all 0.3s ease',
-                                            background: 'white',
-                                        }}
-                                        onMouseEnter={(e) => {
-                                            e.currentTarget.style.background = ACCENT_BG_COLOR;
-                                            e.currentTarget.style.transform = 'translateY(-3px)';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.currentTarget.style.background = 'white';
-                                            e.currentTarget.style.transform = 'translateY(0)';
-                                        }}
-                                    >
-                                        Explore Features
-                                    </Button>
-                                </Group>
-
-                                <Group gap="xl" mt="xl">
-                                    <Stack gap={4}>
-                                        <Text size="sm" c="dimmed" fw={500}>Files Managed</Text>
-                                        <Text size="xl" fw={700} style={{ color: PRIMARY_COLOR }}>5M+</Text>
-                                    </Stack>
-                                    <Stack gap={4}>
-                                        <Text size="sm" c="dimmed" fw={500}>Storage Saved</Text>
-                                        <Text size="xl" fw={700} style={{ color: PRIMARY_COLOR }}>40%</Text>
-                                    </Stack>
-                                </Group>
-                            </Stack>
-                        </Grid.Col>
-
-                        <Grid.Col span={{ base: 12, md: 6 }}>
-                            <Center style={{ position: 'relative' }}>
-                                <Box
+                                        <ArrowRight size={20} />
+                                    </Link>
+                                </Button>
+                                <Button
+                                    asChild
+                                    variant="outline"
+                                    size="lg"
+                                    className="text-lg px-8"
                                     style={{
-                                        position: 'absolute',
-                                        top: '10%',
-                                        right: '10%',
-                                        width: '120px',
-                                        height: '120px',
-                                        background: PRIMARY_COLOR,
-                                        borderRadius: '50%',
-                                        opacity: 0.2,
-                                        animation: 'floating 4s ease-in-out infinite',
-                                        zIndex: 0,
+                                        borderRadius: '9999px',
+                                        borderColor: PRIMARY_COLOR,
+                                        color: PRIMARY_COLOR,
+                                        borderWidth: 2,
+                                        fontWeight: 600,
+                                        transition: 'all 0.3s ease',
+                                        background: 'white',
                                     }}
-                                />
-                                <Box
-                                    style={{
-                                        position: 'absolute',
-                                        bottom: '15%',
-                                        left: '5%',
-                                        width: '80px',
-                                        height: '80px',
-                                        background: PRIMARY_COLOR,
-                                        borderRadius: '50%',
-                                        opacity: 0.2,
-                                        animation: 'floating 5s ease-in-out infinite reverse',
-                                        zIndex: 0,
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.background = ACCENT_BG_COLOR;
+                                        e.currentTarget.style.transform = 'translateY(-3px)';
                                     }}
-                                />
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.background = 'white';
+                                        e.currentTarget.style.transform = 'translateY(0)';
+                                    }}
+                                >
+                                    <Link href="/about">Explore Features</Link>
+                                </Button>
+                            </div>
 
-                                <Image
-                                    src="/images/hand.png"
-                                    alt="Cloud storage illustration"
-                                    width={600}
-                                    height={600}
-                                    style={{
-                                        width: '100%',
-                                        maxWidth: '500px',
-                                        height: 'auto',
-                                        borderRadius: '24px',
-                                        filter: `drop-shadow(0 20px 40px ${BORDER_COLOR})`,
-                                        animation: 'floating 6s ease-in-out infinite',
-                                        position: 'relative',
-                                        zIndex: 1,
-                                    }}
-                                    priority
-                                />
-                            </Center>
-                        </Grid.Col>
-                    </Grid>
-                </Container>
-            </Box>
+                            <div className="flex gap-12 mt-8">
+                                <div className="flex flex-col gap-1">
+                                    <p className="text-sm text-gray-600 font-medium">Files Managed</p>
+                                    <p className="text-xl font-bold" style={{ color: PRIMARY_COLOR }}>5M+</p>
+                                </div>
+                                <div className="flex flex-col gap-1">
+                                    <p className="text-sm text-gray-600 font-medium">Storage Saved</p>
+                                    <p className="text-xl font-bold" style={{ color: PRIMARY_COLOR }}>40%</p>
+                                </div>
+                            </div>
+                        </div>
 
-            <Container size="xl" py={80} style={{ position: 'relative', zIndex: 1 }}>
-                <Stack gap="xl" mb={60}>
-                    <Center>
+                        <div className="flex items-center justify-center" style={{ position: 'relative' }}>
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    top: '10%',
+                                    right: '10%',
+                                    width: '120px',
+                                    height: '120px',
+                                    background: PRIMARY_COLOR,
+                                    borderRadius: '50%',
+                                    opacity: 0.2,
+                                    animation: 'floating 4s ease-in-out infinite',
+                                    zIndex: 0,
+                                }}
+                            />
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    bottom: '15%',
+                                    left: '5%',
+                                    width: '80px',
+                                    height: '80px',
+                                    background: PRIMARY_COLOR,
+                                    borderRadius: '50%',
+                                    opacity: 0.2,
+                                    animation: 'floating 5s ease-in-out infinite reverse',
+                                    zIndex: 0,
+                                }}
+                            />
+
+                            <Image
+                                src="/images/hand.png"
+                                alt="Cloud storage illustration"
+                                width={600}
+                                height={600}
+                                style={{
+                                    width: '100%',
+                                    maxWidth: '500px',
+                                    height: 'auto',
+                                    borderRadius: '24px',
+                                    filter: `drop-shadow(0 20px 40px ${BORDER_COLOR})`,
+                                    animation: 'floating 6s ease-in-out infinite',
+                                    position: 'relative',
+                                    zIndex: 1,
+                                }}
+                                priority
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="container mx-auto px-4 py-20" style={{ position: 'relative', zIndex: 1 }}>
+                <div className="flex flex-col gap-8 mb-16">
+                    <div className="flex justify-center">
                         <Badge
-                            size="lg"
-                            radius="xl"
+                            variant="outline"
+                            className="text-lg font-semibold"
                             style={{
                                 background: ACCENT_BG_COLOR,
                                 color: PRIMARY_COLOR,
                                 border: `1px solid ${BORDER_COLOR}`,
-                                fontWeight: 600,
+                                padding: '8px 20px',
                             }}
                         >
                             POWERFUL FEATURES
                         </Badge>
-                    </Center>
-                    <Title order={2} ta="center" size={42} fw={800} style={{ fontFamily: "'Outfit', sans-serif" }}>
+                    </div>
+                    <h2 className="text-center text-5xl font-bold" style={{ fontFamily: "'Outfit', sans-serif" }}>
                         Everything You Need to{' '}
-                        <Text
-                            component="span"
-                            style={{
-                                color: PRIMARY_COLOR,
-                            }}
-                        >
+                        <span style={{ color: PRIMARY_COLOR }}>
                             Succeed
-                        </Text>
-                    </Title>
-                    <Text size="lg" c="dimmed" ta="center" maw={700} mx="auto">
+                        </span>
+                    </h2>
+                    <p className="text-lg text-gray-600 text-center mx-auto max-w-2xl">
                         Streamline your multi-cloud experience with tools designed for
                         efficiency and insight.
-                    </Text>
-                </Stack>
+                    </p>
+                </div>
 
-                <Grid gutter="xl">
-                    <Grid.Col span={{ base: 12, sm: 6, md: 4 }}>
-                        <FeatureCard
-                            icon={IconCloud}
-                            title="Unified Dashboard"
-                            description="Manage all your Google Drive accounts from a single, intuitive interface. Say goodbye to switching tabs."
-                        />
-                    </Grid.Col>
-                    <Grid.Col span={{ base: 12, sm: 6, md: 4 }}>
-                        <FeatureCard
-                            icon={IconBolt}
-                            title="Lightning Fast Search"
-                            description="Find any file across all your drives instantly with our powerful AI-powered search engine."
-                        />
-                    </Grid.Col>
-                    <Grid.Col span={{ base: 12, sm: 6, md: 4 }}>
-                        <FeatureCard
-                            icon={IconFileSearch}
-                            title="Duplicate Detection"
-                            description="Automatically find and remove redundant files across all your drives, freeing up valuable storage space."
-                        />
-                    </Grid.Col>
-                    <Grid.Col span={{ base: 12, sm: 6, md: 4 }}>
-                        <FeatureCard
-                            icon={IconShield}
-                            title="Enterprise Security"
-                            description="Bank-level encryption and security protocols to keep your data safe and compliant."
-                        />
-                    </Grid.Col>
-                    <Grid.Col span={{ base: 12, sm: 6, md: 4 }}>
-                        <FeatureCard
-                            icon={IconChartBar}
-                            title="Smart Analytics"
-                            description="Gain insights into your storage usage with beautiful, actionable analytics and reports."
-                        />
-                    </Grid.Col>
-                    <Grid.Col span={{ base: 12, sm: 6, md: 4 }}>
-                        <FeatureCard
-                            icon={IconSearch}
-                            title="AI-Powered Organization"
-                            description="Let our AI automatically organize and categorize your files for maximum productivity."
-                        />
-                    </Grid.Col>
-                </Grid>
-            </Container>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                    <FeatureCard
+                        icon={Cloud}
+                        title="Unified Dashboard"
+                        description="Manage all your Google Drive accounts from a single, intuitive interface. Say goodbye to switching tabs."
+                    />
+                    <FeatureCard
+                        icon={Zap}
+                        title="Lightning Fast Search"
+                        description="Find any file across all your drives instantly with our powerful AI-powered search engine."
+                    />
+                    <FeatureCard
+                        icon={FileSearch}
+                        title="Duplicate Detection"
+                        description="Automatically find and remove redundant files across all your drives, freeing up valuable storage space."
+                    />
+                    <FeatureCard
+                        icon={Shield}
+                        title="Enterprise Security"
+                        description="Bank-level encryption and security protocols to keep your data safe and compliant."
+                    />
+                    <FeatureCard
+                        icon={BarChart3}
+                        title="Smart Analytics"
+                        description="Gain insights into your storage usage with beautiful, actionable analytics and reports."
+                    />
+                    <FeatureCard
+                        icon={Search}
+                        title="AI-Powered Organization"
+                        description="Let our AI automatically organize and categorize your files for maximum productivity."
+                    />
+                </div>
+            </div>
 
-            <Box
-                py={100}
+            <div
+                className="py-24"
                 style={{
                     background: PRIMARY_COLOR,
                     position: 'relative',
                     overflow: 'hidden',
                 }}
             >
-                <Box
+                <div
                     style={{
                         position: 'absolute',
                         top: '-20%',
@@ -344,7 +300,7 @@ export default function HomePage() {
                         filter: 'blur(60px)',
                     }}
                 />
-                <Box
+                <div
                     style={{
                         position: 'absolute',
                         bottom: '-20%',
@@ -357,9 +313,9 @@ export default function HomePage() {
                     }}
                 />
 
-                <Container size="md" style={{ position: 'relative', zIndex: 1 }}>
-                    <Stack gap="xl" align="center" ta="center">
-                        <Box
+                <div className="container mx-auto px-4" style={{ position: 'relative', zIndex: 1 }}>
+                    <div className="flex flex-col gap-8 items-center text-center">
+                        <div
                             style={{
                                 padding: '16px 24px',
                                 borderRadius: '50px',
@@ -368,33 +324,30 @@ export default function HomePage() {
                                 border: '1px solid rgba(255, 255, 255, 0.3)',
                             }}
                         >
-                            <Text size="sm" fw={600} c="white" tt="uppercase" style={{ letterSpacing: '1px' }}>
+                            <p className="text-sm font-semibold text-white uppercase" style={{ letterSpacing: '1px' }}>
                                 ⚡ Limited Time Offer
-                            </Text>
-                        </Box>
+                            </p>
+                        </div>
 
-                        <Title order={2} c="white" size={48} fw={800} style={{ fontFamily: "'Outfit', sans-serif" }}>
+                        <h2 className="text-white text-5xl font-bold" style={{ fontFamily: "'Outfit', sans-serif" }}>
                             Ready to Unify Your Cloud Drives?
-                        </Title>
-                        <Text size="xl" c="white" maw={600} style={{ opacity: 0.95 }}>
+                        </h2>
+                        <p className="text-xl text-white max-w-2xl" style={{ opacity: 0.95 }}>
                             Join thousands of professionals who are simplifying their cloud
                             storage management with DriveUnity. Get started today!
-                        </Text>
+                        </p>
 
-                        <Group gap="md" mt="md">
+                        <div className="flex gap-4 mt-4">
                             <Button
-                                component={Link}
-                                href="/auth"
-                                size="xl"
-                                radius="xl"
-                                rightSection={<IconArrowRight size={20} />}
+                                asChild
+                                size="lg"
+                                className="text-lg px-10"
                                 style={{
                                     background: 'white',
                                     color: PRIMARY_COLOR,
-                                    border: 'none',
+                                    borderRadius: '9999px',
                                     boxShadow: '0 8px 24px rgba(0, 0, 0, 0.2)',
                                     fontWeight: 700,
-                                    padding: '0 40px',
                                     transition: 'all 0.3s ease',
                                 }}
                                 onMouseEnter={(e) => {
@@ -406,43 +359,44 @@ export default function HomePage() {
                                     e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.2)';
                                 }}
                             >
-                                Start Your Free Trial
+                                <Link href="/auth" className="flex items-center gap-2">
+                                    Start Your Free Trial
+                                    <ArrowRight size={20} />
+                                </Link>
                             </Button>
-                        </Group>
+                        </div>
 
-                        <Group gap="xl" mt="xl">
-                            <Group gap="xs">
-                                <IconCheck size={20} color="white" />
-                                <Text size="sm" c="white" fw={500}>No credit card required</Text>
-                            </Group>
-                            <Group gap="xs">
-                                <IconCheck size={20} color="white" />
-                                <Text size="sm" c="white" fw={500}>14-day free trial</Text>
-                            </Group>
-                            <Group gap="xs">
-                                <IconCheck size={20} color="white" />
-                                <Text size="sm" c="white" fw={500}>Cancel anytime</Text>
-                            </Group>
-                        </Group>
-                    </Stack>
-                </Container>
-            </Box>
+                        <div className="flex gap-12 mt-8 flex-wrap justify-center">
+                            <div className="flex gap-2 items-center">
+                                <Check size={20} color="white" />
+                                <span className="text-sm text-white font-medium">No credit card required</span>
+                            </div>
+                            <div className="flex gap-2 items-center">
+                                <Check size={20} color="white" />
+                                <span className="text-sm text-white font-medium">14-day free trial</span>
+                            </div>
+                            <div className="flex gap-2 items-center">
+                                <Check size={20} color="white" />
+                                <span className="text-sm text-white font-medium">Cancel anytime</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            <Box
-                component="footer"
-                py={40}
+            <footer
+                className="py-10 bg-white"
                 style={{
                     borderTop: `1px solid ${BORDER_COLOR}`,
-                    background: 'white',
                     position: 'relative',
                     zIndex: 1,
                 }}
             >
-                <Container size="xl">
-                    <Group justify="space-between" align="center" wrap="wrap" gap="xl">
-                        <Stack gap="sm">
-                            <Group gap="xs">
-                                <Box
+                <div className="container mx-auto px-4">
+                    <div className="flex justify-between items-center flex-wrap gap-8">
+                        <div className="flex flex-col gap-2">
+                            <div className="flex gap-2 items-center">
+                                <div
                                     style={{
                                         width: 32,
                                         height: 32,
@@ -453,28 +407,26 @@ export default function HomePage() {
                                         justifyContent: 'center',
                                     }}
                                 >
-                                    <IconSparkles size={18} color="white" stroke={2.5} />
-                                </Box>
-                                <Text fw={800} size="lg" style={{ fontFamily: "'Outfit', sans-serif", color: PRIMARY_COLOR }}>
+                                    <Sparkles size={18} color="white" strokeWidth={2.5} />
+                                </div>
+                                <span className="font-bold text-lg" style={{ fontFamily: "'Outfit', sans-serif", color: PRIMARY_COLOR }}>
                                     DriveUnity
-                                </Text>
-                            </Group>
-                            <Text size="sm" c="dimmed">
+                                </span>
+                            </div>
+                            <p className="text-sm text-gray-600">
                                 © {new Date().getFullYear()} DriveUnity. All rights reserved.
-                            </Text>
-                        </Stack>
+                            </p>
+                        </div>
 
-                        <Group gap="md">
-                            <Anchor
+                        <div className="flex gap-4">
+                            <a
                                 href="#"
+                                className="flex items-center justify-center"
                                 style={{
                                     width: 40,
                                     height: 40,
                                     borderRadius: '50%',
                                     background: ACCENT_BG_COLOR,
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
                                     transition: 'all 0.3s ease',
                                 }}
                                 onMouseEnter={(e) => {
@@ -486,18 +438,16 @@ export default function HomePage() {
                                     e.currentTarget.style.transform = 'translateY(0)';
                                 }}
                             >
-                                <IconBrandFacebook size={20} color={PRIMARY_COLOR} />
-                            </Anchor>
-                            <Anchor
+                                <Facebook size={20} color={PRIMARY_COLOR} />
+                            </a>
+                            <a
                                 href="#"
+                                className="flex items-center justify-center"
                                 style={{
                                     width: 40,
                                     height: 40,
                                     borderRadius: '50%',
                                     background: ACCENT_BG_COLOR,
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
                                     transition: 'all 0.3s ease',
                                 }}
                                 onMouseEnter={(e) => {
@@ -509,18 +459,16 @@ export default function HomePage() {
                                     e.currentTarget.style.transform = 'translateY(0)';
                                 }}
                             >
-                                <IconBrandTwitter size={20} color={PRIMARY_COLOR} />
-                            </Anchor>
-                            <Anchor
+                                <Twitter size={20} color={PRIMARY_COLOR} />
+                            </a>
+                            <a
                                 href="#"
+                                className="flex items-center justify-center"
                                 style={{
                                     width: 40,
                                     height: 40,
                                     borderRadius: '50%',
                                     background: ACCENT_BG_COLOR,
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
                                     transition: 'all 0.3s ease',
                                 }}
                                 onMouseEnter={(e) => {
@@ -532,48 +480,39 @@ export default function HomePage() {
                                     e.currentTarget.style.transform = 'translateY(0)';
                                 }}
                             >
-                                <IconBrandLinkedin size={20} color={PRIMARY_COLOR} />
-                            </Anchor>
-                        </Group>
+                                <Linkedin size={20} color={PRIMARY_COLOR} />
+                            </a>
+                        </div>
 
-                        <Group gap="xl">
-                            <Anchor
+                        <div className="flex gap-8">
+                            <a
                                 href="#"
-                                size="sm"
-                                c="dimmed"
-                                fw={500}
-                                style={{ textDecoration: 'none', transition: 'color 0.3s ease' }}
+                                className="text-sm text-gray-600 font-medium no-underline transition-colors"
                                 onMouseEnter={(e) => { e.currentTarget.style.color = PRIMARY_COLOR; }}
-                                onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--mantine-color-dimmed)'; }}
+                                onMouseLeave={(e) => { e.currentTarget.style.color = ''; }}
                             >
                                 Company
-                            </Anchor>
-                            <Anchor
+                            </a>
+                            <a
                                 href="#"
-                                size="sm"
-                                c="dimmed"
-                                fw={500}
-                                style={{ textDecoration: 'none', transition: 'color 0.3s ease' }}
+                                className="text-sm text-gray-600 font-medium no-underline transition-colors"
                                 onMouseEnter={(e) => { e.currentTarget.style.color = PRIMARY_COLOR; }}
-                                onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--mantine-color-dimmed)'; }}
+                                onMouseLeave={(e) => { e.currentTarget.style.color = ''; }}
                             >
                                 Resources
-                            </Anchor>
-                            <Anchor
+                            </a>
+                            <a
                                 href="#"
-                                size="sm"
-                                c="dimmed"
-                                fw={500}
-                                style={{ textDecoration: 'none', transition: 'color 0.3s ease' }}
+                                className="text-sm text-gray-600 font-medium no-underline transition-colors"
                                 onMouseEnter={(e) => { e.currentTarget.style.color = PRIMARY_COLOR; }}
-                                onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--mantine-color-dimmed)'; }}
+                                onMouseLeave={(e) => { e.currentTarget.style.color = ''; }}
                             >
                                 Legal
-                            </Anchor>
-                        </Group>
-                    </Group>
-                </Container>
-            </Box>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
 
             <style jsx global>{`
                 @keyframes floating {
@@ -600,6 +539,6 @@ export default function HomePage() {
                     animation: fadeIn 0.8s ease-out;
                 }
             `}</style>
-        </Box>
+        </div>
     );
 }

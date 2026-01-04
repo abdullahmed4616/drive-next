@@ -1,8 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { IconInfoCircle, IconCrown } from '@tabler/icons-react'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { Info, Crown } from 'lucide-react'
 import { SettingsSidebar } from '@/app/(private)/settings/_components/sidebar'
 import { PricingCard } from '@/app/(private)/settings/paddlePayment/_components/PricingCard'
 import { PaddleLoader, usePaddle } from '@/app/(private)/settings/paddlePayment/_components/Loader'
@@ -12,8 +11,6 @@ import {useUserId} from "@/app/(private)/hooks/useAuthStatus";
 
 const PRIMARY_COLOR = '#6B9ADF'
 const BORDER_COLOR = 'rgba(107, 154, 223, 0.3)'
-
-const queryClient = new QueryClient()
 
 function SubscriptionPageContent() {
     const [billingCycle, setBillingCycle] = useState<BillingCycle>('monthly')
@@ -90,7 +87,7 @@ function SubscriptionPageContent() {
                 display: 'flex',
                 gap: '12px'
             }}>
-                <IconInfoCircle color="#fa5252" />
+                <Info color="#fa5252" />
                 <div>
                     <div style={{ fontWeight: 600, color: '#fa5252' }}>Error</div>
                     <div style={{ color: '#868e96', marginTop: '4px' }}>
@@ -126,7 +123,7 @@ function SubscriptionPageContent() {
                             >
                                 Subscription & Billing
                             </h1>
-                            <IconCrown size={32} color={PRIMARY_COLOR} />
+                            <Crown size={32} color={PRIMARY_COLOR} />
                         </div>
                         <div style={{ fontSize: '18px', color: '#868e96', marginTop: '8px' }}>
                             Choose the perfect plan for your needs
@@ -247,7 +244,7 @@ function SubscriptionPageContent() {
                                     gap: '12px',
                                 }}
                             >
-                                <IconInfoCircle color={PRIMARY_COLOR} />
+                                <Info color={PRIMARY_COLOR} />
                                 <div style={{ color: '#1971c2', fontSize: '14px' }}>
                                     All plans include automatic backups and 24/7 customer support.
                                     You can upgrade or downgrade your plan at any time.
@@ -268,9 +265,5 @@ function SubscriptionPageContent() {
 }
 
 export default function SubscriptionPage() {
-    return (
-        <QueryClientProvider client={queryClient}>
-            <SubscriptionPageContent />
-        </QueryClientProvider>
-    )
+    return <SubscriptionPageContent />
 }

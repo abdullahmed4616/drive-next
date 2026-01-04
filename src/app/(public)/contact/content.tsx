@@ -1,19 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import {
-  Container,
-  Flex,
-  Title,
-  Text,
-  TextInput,
-  Textarea,
-  Button,
-  Group,
-  Notification,
-  Paper,
-} from '@mantine/core';
-import { IconCheck, IconMail } from '@tabler/icons-react';
+import { Check, Mail } from 'lucide-react';
+import { Button } from "@/app/components/ui/button";
+import { Input } from "@/app/components/ui/input";
+import { Textarea } from "@/app/components/ui/textarea";
+import { Label } from "@/app/components/ui/label";
+import { Card } from "@/app/components/ui/card";
 
 const PRIMARY_COLOR = '#6B9ADF';
 const ACCENT_BG_COLOR = 'rgba(0,0,0, 0.2)';
@@ -47,26 +40,23 @@ export default function ContactUsPage() {
   };
 
   return (
-      <Flex
-          direction="column"
-          align="center"
+      <div
+          className="flex flex-col items-center"
           style={{ minHeight: '100vh', paddingTop: 80, paddingBottom: 80 }}
       >
-        <Container size="lg">
-          <Flex direction="column" align="center" gap="md" mb={60} style={{ textAlign: 'center' }}>
-            <Title order={1} style={{ fontSize: 48, fontWeight: 800 }}>
+        <div className="container mx-auto px-4 max-w-3xl">
+          <div className="flex flex-col items-center gap-4 mb-16 text-center">
+            <h1 className="text-5xl font-bold">
               Get in <span style={gradientText}>Touch</span>
-            </Title>
-            <Text size="lg" c="dimmed" maw={700}>
+            </h1>
+            <p className="text-lg text-gray-600 max-w-2xl">
               Have questions, feedback, or want to collaborate? Fill out the form below and we'll get back to you
               as soon as possible.
-            </Text>
-          </Flex>
+            </p>
+          </div>
 
-          <Paper
-              shadow="xl"
-              radius="md"
-              p="xl"
+          <Card
+              className="shadow-xl p-8"
               style={{
                 backdropFilter: 'blur(16px)',
                 background: BORDER_COLOR,
@@ -74,112 +64,112 @@ export default function ContactUsPage() {
               }}
           >
             <form onSubmit={handleSubmit}>
-              <Flex direction="column" gap="md">
-                <TextInput
-                    placeholder="Your Name"
-                    label="Name"
-                    name="name"
-                    required
-                    value={formData.name}
-                    onChange={handleChange}
-                    styles={{
-                      input: {
+              <div className="flex flex-col gap-6">
+                <div>
+                  <Label htmlFor="name">Name</Label>
+                  <Input
+                      id="name"
+                      placeholder="Your Name"
+                      name="name"
+                      required
+                      value={formData.name}
+                      onChange={handleChange}
+                      className="mt-2"
+                      style={{
                         borderColor: BORDER_COLOR,
-                        '&:focus': {
-                          borderColor: PRIMARY_COLOR,
-                        }
-                      }
-                    }}
-                />
-                <TextInput
-                    placeholder="Your Email"
-                    label="Email"
-                    name="email"
-                    type="email"
-                    required
-                    value={formData.email}
-                    onChange={handleChange}
-                    styles={{
-                      input: {
+                      }}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                      id="email"
+                      placeholder="Your Email"
+                      name="email"
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="mt-2"
+                      style={{
                         borderColor: BORDER_COLOR,
-                        '&:focus': {
-                          borderColor: PRIMARY_COLOR,
-                        }
-                      }
-                    }}
-                />
-                <TextInput
-                    placeholder="Subject"
-                    label="Subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    styles={{
-                      input: {
+                      }}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="subject">Subject</Label>
+                  <Input
+                      id="subject"
+                      placeholder="Subject"
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      className="mt-2"
+                      style={{
                         borderColor: BORDER_COLOR,
-                        '&:focus': {
-                          borderColor: PRIMARY_COLOR,
-                        }
-                      }
-                    }}
-                />
-                <Textarea
-                    placeholder="Your Message"
-                    label="Message"
-                    name="message"
-                    minRows={5}
-                    required
-                    value={formData.message}
-                    onChange={handleChange}
-                    styles={{
-                      input: {
+                      }}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="message">Message</Label>
+                  <Textarea
+                      id="message"
+                      placeholder="Your Message"
+                      name="message"
+                      rows={5}
+                      required
+                      value={formData.message}
+                      onChange={handleChange}
+                      className="mt-2"
+                      style={{
                         borderColor: BORDER_COLOR,
-                        '&:focus': {
-                          borderColor: PRIMARY_COLOR,
-                        }
-                      }
-                    }}
-                />
-                <Group justify="center" mt="xl">
+                      }}
+                  />
+                </div>
+                <div className="flex justify-center mt-6">
                   <Button
                       type="submit"
                       size="lg"
                       style={{
                         backgroundColor: PRIMARY_COLOR,
-                        '&:hover': {
-                          backgroundColor: PRIMARY_COLOR,
-                          opacity: 0.9,
-                        }
                       }}
                   >
                     Send Message
                   </Button>
-                </Group>
-              </Flex>
+                </div>
+              </div>
             </form>
 
             {submitted && (
-                <Notification
-                    icon={<IconCheck size={18} />}
-                    color="teal"
-                    mt="md"
-                    onClose={() => setSubmitted(false)}
+                <div
+                    className="flex items-start gap-3 mt-6 p-4 rounded-lg border"
                     style={{
-                      borderColor: BORDER_COLOR,
+                      backgroundColor: 'rgba(134, 239, 172, 0.1)',
+                      borderColor: 'rgba(34, 197, 94, 0.3)',
                     }}
                 >
-                  Your message has been sent successfully!
-                </Notification>
+                  <Check size={20} className="mt-0.5" style={{ color: 'rgb(34, 197, 94)' }} />
+                  <div className="flex-1">
+                    <p className="font-semibold" style={{ color: 'rgb(34, 197, 94)' }}>Success!</p>
+                    <p className="text-sm mt-1">Your message has been sent successfully!</p>
+                  </div>
+                  <button
+                      onClick={() => setSubmitted(false)}
+                      className="text-gray-500 hover:text-gray-700"
+                  >
+                    ×
+                  </button>
+                </div>
             )}
-          </Paper>
+          </Card>
 
-          <Flex direction="column" align="center" gap="sm" mt={60} style={{ textAlign: 'center' }}>
-            <Text size="lg" fw={600} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <IconMail size={24} style={{ color: PRIMARY_COLOR }} /> Email us at contact@driveunity.com
-            </Text>
-            <Text c="dimmed">We aim to respond within 24 hours.</Text>
-          </Flex>
-        </Container>
-      </Flex>
+          <div className="flex flex-col items-center gap-2 mt-16 text-center">
+            <p className="text-lg font-semibold flex items-center gap-2">
+              <Mail size={24} style={{ color: PRIMARY_COLOR }} /> Email us at contact@driveunity.com
+            </p>
+            <p className="text-gray-600">We aim to respond within 24 hours.</p>
+          </div>
+        </div>
+      </div>
   );
 }

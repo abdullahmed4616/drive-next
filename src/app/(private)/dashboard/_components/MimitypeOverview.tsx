@@ -1,6 +1,6 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import useSWR from "swr";
 import {
   FileText,
   Image as ImageIcon,
@@ -131,13 +131,15 @@ export default function MimeTypeOverview({
     }
   }, [accounts, selectedDriveId]);
 
-  const { data, isLoading, isError } = useQuery<MimeTypeResponse>({
-    queryKey: ["mimeTypes", userId, selectedDriveId],
-    queryFn: () => fetchMimeTypes(userId, selectedDriveId),
-    enabled: !!userId && !!selectedDriveId,
-    staleTime: 1000 * 60 * 10,
-    refetchOnWindowFocus: false,
-  });
+  const { data, isLoading, error } = useSWR<MimeTypeResponse>(
+    userId && selectedDriveId ? `/api/googleDrive/filters/mimetype?userId=${userId}&driveId=${selectedDriveId}` : null,
+    () => fetchMimeTypes(userId, selectedDriveId),
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 1000 * 60 * 10,
+    }
+  );
+  const isError = !!error;
 
   const groupedData = useMemo(() => {
     if (data?.groupedByCategory && Object.keys(data.groupedByCategory).length > 0) {

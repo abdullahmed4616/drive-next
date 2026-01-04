@@ -1,4 +1,4 @@
-import { IconFile, IconExternalLink, IconFileText, IconPhoto, IconVideo, IconMusic } from '@tabler/icons-react';
+import { File, ExternalLink, FileText, Image, Video, Music } from 'lucide-react';
 
 export const formatFileSize = (bytes: number): string => {
   if (bytes === 0) return '0 Bytes';

@@ -6,7 +6,7 @@ const ACCENT_BG_COLOR = 'rgba(0,0,0, 0.2)';
 const BORDER_COLOR = 'rgba(107, 154, 223, 0.3)';
 
 interface FeatureCardProps {
-    icon: React.ComponentType<{ size?: number; color?: string; stroke?: number }>;
+    icon: React.ComponentType<{ size?: number; color?: string; strokeWidth?: number }>;
     title: string;
     description: string;
 }
@@ -41,7 +41,7 @@ export function FeatureCard({ icon: Icon, title, description }: FeatureCardProps
                             background: ACCENT_BG_COLOR,
                         }}
                     >
-                        <Icon size={36} color={PRIMARY_COLOR} stroke={1.5} />
+                        <Icon size={36} color={PRIMARY_COLOR} strokeWidth={1.5} />
                     </div>
                     <h3 className="text-xl font-bold" style={{ fontFamily: "'Outfit', sans-serif" }}>
                         {title}

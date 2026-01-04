@@ -1,36 +1,12 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
-import {
-    Container,
-    Stack,
-    Group,
-    Button,
-    TextInput,
-    MultiSelect,
-    Paper,
-    Text,
-    Loader,
-    Alert,
-    Pagination,
-    NumberInput,
-    Badge,
-    Box,
-    ThemeIcon,
-    ScrollArea,
-    Tooltip,
-} from '@mantine/core';
-import {
-    IconSearch,
-    IconFilter,
-    IconAlertCircle,
-    IconCopy,
-    IconSparkles,
-    IconFileStack,
-    IconBrandGoogle,
-    IconCheck,
-} from '@tabler/icons-react';
-
+import React, { useState, useEffect, useMemo } from 'react';
+import { Search, Filter, AlertCircle, Copy, Sparkles, Layers, Chrome, Check } from 'lucide-react';
+import { Button } from "@/app/components/ui/button";
+import { Input } from "@/app/components/ui/input";
+import { Card } from "@/app/components/ui/card";
+import { Badge } from "@/app/components/ui/badge";
+import { Alert, AlertDescription, AlertTitle } from "@/app/components/ui/alert";
 import { FileList } from '@/app/(private)/files/_component/FileList';
 import { FiltersModal } from '@/app/(private)/files/_component/FilterModal';
 import { useFilterData } from '@/app/(private)/files/hooks/useFilterData';
@@ -54,7 +30,7 @@ export const Content: React.FC<ContentProps> = ({ userId }) => {
     const [filtersModalOpened, setFiltersModalOpened] = useState(false);
     const [showDuplicatesOnly, setShowDuplicatesOnly] = useState(false);
     const [selectedDriveId, setSelectedDriveId] = useState<string | null>(null);
-    
+
     const [filters, setFilters] = useState<FilterState>({
         dateRange: {},
         fileSize: {},
@@ -68,10 +44,10 @@ export const Content: React.FC<ContentProps> = ({ userId }) => {
         searchQuery: "",
     });
 
-    
+
     const { data: drivesData, isLoading: isDrivesLoading } = useConnectedDrives();
 
-    
+
     useEffect(() => {
         if (drivesData?.drives && drivesData.drives.length > 0 && !selectedDriveId) {
             setSelectedDriveId(drivesData.drives[0].id);
@@ -172,13 +148,13 @@ export const Content: React.FC<ContentProps> = ({ userId }) => {
     const selectedDrive = drivesData?.drives.find(d => d.id === selectedDriveId);
 
     return (
-        <Box
+        <div
             style={{
                 minHeight: "100vh",
                 position: "relative",
             }}
         >
-            <Box
+            <div
                 style={{
                     position: "absolute",
                     top: 0,
@@ -190,270 +166,211 @@ export const Content: React.FC<ContentProps> = ({ userId }) => {
                 }}
             />
 
-            <Container size="xl" py="xl" style={{ position: "relative", zIndex: 1 }}>
-                <Stack gap="lg">
-                    
-                    <Paper
-                        shadow="xl"
-                        p="xl"
-                        radius="lg"
+            <div className="container mx-auto px-4 py-8" style={{ position: "relative", zIndex: 1 }}>
+                <div className="flex flex-col gap-6">
+
+                    <Card
+                        className="shadow-xl p-8 rounded-lg"
                         style={{
                             background: "rgba(255, 255, 255, 0.95)",
                             backdropFilter: "blur(10px)",
                             border: `1px solid ${BORDER_COLOR}`,
                         }}
                     >
-                        <Group justify="space-between" align="center">
-                            <Box>
-                                <Group gap="sm" align="center">
-                                    <ThemeIcon
-                                        size={48}
-                                        radius="lg"
-                                        variant="filled"
-                                        color={PRIMARY_COLOR}
+                        <div className="flex justify-between items-center">
+                            <div>
+                                <div className="flex items-center gap-4">
+                                    <div
+                                        className="flex items-center justify-center rounded-lg"
+                                        style={{
+                                            width: 48,
+                                            height: 48,
+                                            background: PRIMARY_COLOR,
+                                        }}
                                     >
-                                        <IconFileStack size={28} />
-                                    </ThemeIcon>
+                                        <Layers size={28} color="white" />
+                                    </div>
                                     <div>
-                                        <Text
-                                            size="32px"
-                                            fw={700}
-                                            c={PRIMARY_COLOR}
+                                        <h1
+                                            className="text-4xl font-bold"
+                                            style={{ color: PRIMARY_COLOR }}
                                         >
                                             My Files
-                                        </Text>
-                                        <Group gap="xs" mt={4}>
+                                        </h1>
+                                        <div className="flex gap-2 mt-1">
                                             <Badge
-                                                size="lg"
-                                                variant="filled"
-                                                color={PRIMARY_COLOR}
-                                                leftSection={<IconSparkles size={14} />}
+                                                className="text-white"
+                                                style={{ background: PRIMARY_COLOR }}
                                             >
+                                                <Sparkles className="inline mr-1" size={14} />
                                                 {totalFiles} files
                                             </Badge>
                                             {!isDuplicatesLoading && duplicateInfo.duplicateCount > 0 && (
                                                 <Badge
-                                                    size="lg"
-                                                    variant="filled"
-                                                    color="orange"
-                                                    leftSection={<IconCopy size={14} />}
+                                                    variant="secondary"
+                                                    className="bg-orange-500 text-white"
                                                 >
+                                                    <Copy className="inline mr-1" size={14} />
                                                     {duplicateInfo.duplicateCount} duplicates
                                                 </Badge>
                                             )}
-                                        </Group>
+                                        </div>
                                     </div>
-                                </Group>
-                            </Box>
-                        </Group>
-                    </Paper>
+                                </div>
+                            </div>
+                        </div>
+                    </Card>
 
-                    {/* Drive Selector Section */}
                     {!isDrivesLoading && drivesData?.drives && drivesData.drives.length > 0 && (
-                        <Paper
-                            shadow="xl"
-                            p="lg"
-                            radius="lg"
+                        <Card
+                            className="shadow-xl p-6 rounded-lg"
                             style={{
                                 background: "rgba(255, 255, 255, 0.95)",
                                 backdropFilter: "blur(10px)",
                                 border: `1px solid ${BORDER_COLOR}`,
                             }}
                         >
-                            <Stack gap="md">
-                                <Group gap="sm">
-                                    <IconBrandGoogle size={24} color={PRIMARY_COLOR} />
-                                    <Text size="lg" fw={700} c={PRIMARY_COLOR}>
+                            <div className="flex flex-col gap-4">
+                                <div className="flex items-center gap-2">
+                                    <Chrome size={24} color={PRIMARY_COLOR} />
+                                    <h2 className="text-lg font-bold" style={{ color: PRIMARY_COLOR }}>
                                         Select Drive Account
-                                    </Text>
-                                    <Badge size="sm" variant="light" color={PRIMARY_COLOR}>
+                                    </h2>
+                                    <Badge variant="outline" style={{ color: PRIMARY_COLOR }}>
                                         {drivesData.drives.length} connected
                                     </Badge>
-                                </Group>
-                                
-                                <ScrollArea>
-                                    <Group gap="sm" wrap="nowrap">
+                                </div>
+
+                                <div className="overflow-x-auto">
+                                    <div className="flex gap-2">
                                         {drivesData.drives.map((drive) => (
-                                            <Tooltip 
-                                                key={drive.id} 
-                                                label={drive.gmailAccount}
-                                                position="bottom"
+                                            <Button
+                                                key={drive.id}
+                                                variant={selectedDriveId === drive.id ? "default" : "outline"}
+                                                size="sm"
+                                                className="min-w-[200px] rounded-lg"
+                                                style={{
+                                                    background: selectedDriveId === drive.id ? PRIMARY_COLOR : undefined,
+                                                    boxShadow: selectedDriveId === drive.id
+                                                        ? `0 4px 14px 0 rgba(107, 154, 223, 0.4)`
+                                                        : undefined,
+                                                }}
+                                                onClick={() => setSelectedDriveId(drive.id)}
                                             >
-                                                <Button
-                                                    variant={selectedDriveId === drive.id ? "filled" : "light"}
-                                                    color={PRIMARY_COLOR}
-                                                    size="md"
-                                                    radius="lg"
-                                                    leftSection={<IconBrandGoogle size={18} />}
-                                                    rightSection={
-                                                        selectedDriveId === drive.id && (
-                                                            <IconCheck size={16} />
-                                                        )
-                                                    }
-                                                    onClick={() => setSelectedDriveId(drive.id)}
-                                                    style={{
-                                                        minWidth: '200px',
-                                                        boxShadow: selectedDriveId === drive.id 
-                                                            ? `0 4px 14px 0 rgba(107, 154, 223, 0.4)` 
-                                                            : undefined,
-                                                    }}
-                                                >
-                                                    <Text
-                                                        size="sm"
-                                                        fw={600}
-                                                        style={{
-                                                            overflow: 'hidden',
-                                                            textOverflow: 'ellipsis',
-                                                            whiteSpace: 'nowrap',
-                                                            maxWidth: '150px',
-                                                        }}
-                                                    >
-                                                        {drive.gmailAccount}
-                                                    </Text>
-                                                </Button>
-                                            </Tooltip>
+                                                <Chrome className="mr-2" size={18} />
+                                                <span className="truncate max-w-[150px]">
+                                                    {drive.gmailAccount}
+                                                </span>
+                                                {selectedDriveId === drive.id && (
+                                                    <Check className="ml-2" size={16} />
+                                                )}
+                                            </Button>
                                         ))}
-                                    </Group>
-                                </ScrollArea>
+                                    </div>
+                                </div>
 
                                 {selectedDrive && (
-                                    <Paper
-                                        p="sm"
-                                        radius="md"
+                                    <Card
+                                        className="p-3 rounded-md"
                                         style={{
                                             background: ACCENT_BG_COLOR,
                                             border: `1px solid ${BORDER_COLOR}`,
                                         }}
                                     >
-                                        <Group gap="xs">
-                                            <Text size="sm" c="dimmed">
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-sm text-gray-600">
                                                 Viewing files from:
-                                            </Text>
-                                            <Text size="sm" fw={600} c={PRIMARY_COLOR}>
+                                            </span>
+                                            <span className="text-sm font-semibold" style={{ color: PRIMARY_COLOR }}>
                                                 {selectedDrive.gmailAccount}
-                                            </Text>
-                                        </Group>
-                                    </Paper>
+                                            </span>
+                                        </div>
+                                    </Card>
                                 )}
-                            </Stack>
-                        </Paper>
+                            </div>
+                        </Card>
                     )}
 
                     {!isDuplicatesLoading && duplicateInfo.duplicateCount > 0 && (
                         <Alert
-                            icon={<IconCopy size={20} />}
-                            title="Duplicate Files Detected"
-                            color="orange"
-                            radius="lg"
-                            variant="light"
-                            styles={{
-                                root: {
-                                    background: ACCENT_BG_COLOR,
-                                    border: `2px solid ${BORDER_COLOR}`,
-                                    backdropFilter: "blur(10px)",
-                                },
-                                title: {
-                                    fontSize: "18px",
-                                    fontWeight: 700,
-                                },
+                            className="rounded-lg"
+                            style={{
+                                background: ACCENT_BG_COLOR,
+                                border: `2px solid ${BORDER_COLOR}`,
+                                backdropFilter: "blur(10px)",
                             }}
                         >
-                            <Text size="sm" fw={500}>
-                                Found {duplicateInfo.duplicateGroups} groups of duplicate files with{" "}
-                                {duplicateInfo.duplicateCount} total duplicate files.
-                            </Text>
+                            <Copy className="h-5 w-5" style={{ color: "orange" }} />
+                            <AlertTitle className="text-lg font-bold">Duplicate Files Detected</AlertTitle>
+                            <AlertDescription>
+                                <p className="text-sm font-medium">
+                                    Found {duplicateInfo.duplicateGroups} groups of duplicate files with{" "}
+                                    {duplicateInfo.duplicateCount} total duplicate files.
+                                </p>
+                            </AlertDescription>
                         </Alert>
                     )}
 
-                    <Paper
-                        shadow="xl"
-                        p="lg"
-                        radius="lg"
+                    <Card
+                        className="shadow-xl p-6 rounded-lg"
                         style={{
                             background: "rgba(255, 255, 255, 0.95)",
                             backdropFilter: "blur(10px)",
                             border: `1px solid ${BORDER_COLOR}`,
                         }}
                     >
-                        <Stack gap="md">
-                            <Group align="flex-end" grow>
-                                <TextInput
-                                    placeholder="Search your files..."
-                                    leftSection={<IconSearch size={20} />}
-                                    value={tempFilters.searchQuery}
-                                    onChange={(e) => handleSearchChange(e.currentTarget.value)}
-                                    onKeyDown={(e) => {
-                                        if (e.key === "Enter") handleSearchSubmit();
-                                    }}
-                                    size="md"
-                                    radius="lg"
-                                    styles={{
-                                        input: {
-                                            border: `2px solid ${ACCENT_BG_COLOR}`,
-                                            "&:focus": {
-                                                borderColor: PRIMARY_COLOR,
-                                            },
-                                        },
-                                    }}
-                                    rightSection={
-                                        tempFilters.searchQuery && (
-                                            <Button
-                                                size="xs"
-                                                variant="subtle"
-                                                radius="lg"
-                                                onClick={() => {
-                                                    setTempFilters((prev) => ({ ...prev, searchQuery: "" }));
-                                                    setFilters((prev) => ({ ...prev, searchQuery: "" }));
-                                                }}
-                                            >
-                                                Clear
-                                            </Button>
-                                        )
-                                    }
-                                />
-                                <Group gap="xs" wrap="nowrap">
-                                    <Button
-                                        variant="filled"
-                                        color={PRIMARY_COLOR}
-                                        leftSection={<IconSearch size={20} />}
-                                        onClick={handleSearchSubmit}
-                                        size="md"
-                                        radius="lg"
+                        <div className="flex flex-col gap-4">
+                            <div className="flex gap-2 items-end flex-grow">
+                                <div className="flex-grow">
+                                    <Input
+                                        placeholder="Search your files..."
+                                        value={tempFilters.searchQuery}
+                                        onChange={(e) => handleSearchChange(e.currentTarget.value)}
+                                        onKeyDown={(e) => {
+                                            if (e.key === "Enter") handleSearchSubmit();
+                                        }}
+                                        className="h-12"
                                         style={{
+                                            border: `2px solid ${ACCENT_BG_COLOR}`,
+                                        }}
+                                    />
+                                </div>
+                                <div className="flex gap-2">
+                                    <Button
+                                        className="h-12"
+                                        style={{
+                                            background: PRIMARY_COLOR,
                                             boxShadow: `0 4px 14px 0 rgba(107, 154, 223, 0.4)`,
                                         }}
+                                        onClick={handleSearchSubmit}
                                     >
+                                        <Search className="mr-2" size={20} />
                                         Search
                                     </Button>
                                     <Button
-                                        variant="filled"
-                                        color={PRIMARY_COLOR}
-                                        leftSection={<IconFilter size={20} />}
-                                        onClick={() => setFiltersModalOpened(true)}
-                                        size="md"
-                                        radius="lg"
+                                        className="h-12"
                                         style={{
+                                            background: PRIMARY_COLOR,
                                             boxShadow: `0 4px 14px 0 rgba(107, 154, 223, 0.4)`,
                                         }}
-                                        rightSection={
-                                            activeFiltersCount > 0 && (
-                                                <Badge
-                                                    size="sm"
-                                                    variant="filled"
-                                                    color="white"
-                                                    style={{ color: PRIMARY_COLOR }}
-                                                >
-                                                    {activeFiltersCount}
-                                                </Badge>
-                                            )
-                                        }
+                                        onClick={() => setFiltersModalOpened(true)}
                                     >
+                                        <Filter className="mr-2" size={20} />
                                         Filters
+                                        {activeFiltersCount > 0 && (
+                                            <Badge
+                                                variant="secondary"
+                                                className="ml-2 bg-white"
+                                                style={{ color: PRIMARY_COLOR }}
+                                            >
+                                                {activeFiltersCount}
+                                            </Badge>
+                                        )}
                                     </Button>
-                                </Group>
-                            </Group>
-                        </Stack>
-                    </Paper>
+                                </div>
+                            </div>
+                        </div>
+                    </Card>
 
                     <FiltersModal
                         opened={filtersModalOpened}
@@ -465,7 +382,6 @@ export const Content: React.FC<ContentProps> = ({ userId }) => {
                         mimeTypeOptions={mimeTypeOptions}
                         isMimeTypeLoading={isMimeTypeLoading}
                         dateRangeInfo={dateRangeInfo}
-                        // New props for duplicate handling
                         showDuplicatesOnly={showDuplicatesOnly}
                         onShowDuplicatesChange={setShowDuplicatesOnly}
                         duplicateInfo={duplicateInfo}
@@ -473,142 +389,166 @@ export const Content: React.FC<ContentProps> = ({ userId }) => {
                     />
 
                     {isLoading && (
-                        <Paper
-                            shadow="xl"
-                            p="xl"
-                            radius="lg"
+                        <Card
+                            className="shadow-xl p-12 rounded-lg"
                             style={{
                                 background: "rgba(255, 255, 255, 0.95)",
                                 backdropFilter: "blur(10px)",
                             }}
                         >
-                            <Stack align="center" gap="md">
-                                <Box
+                            <div className="flex flex-col items-center gap-4">
+                                <div
+                                    className="rounded-full p-5"
                                     style={{
                                         background: PRIMARY_COLOR,
-                                        borderRadius: "50%",
-                                        padding: "20px",
                                     }}
                                 >
-                                    <Loader size="xl" color="white" />
-                                </Box>
-                                <Text size="lg" fw={600}>
+                                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
+                                </div>
+                                <p className="text-lg font-semibold">
                                     Loading your files...
-                                </Text>
-                            </Stack>
-                        </Paper>
+                                </p>
+                            </div>
+                        </Card>
                     )}
 
                     {isError && (
                         <Alert
-                            icon={<IconAlertCircle size={20} />}
-                            title="Oops! Something went wrong"
-                            color="red"
-                            variant="light"
-                            radius="lg"
-                            styles={{
-                                root: {
-                                    background: "rgba(250, 82, 82, 0.15)",
-                                    border: "2px solid rgba(250, 82, 82, 0.3)",
-                                    backdropFilter: "blur(10px)",
-                                },
+                            variant="destructive"
+                            className="rounded-lg"
+                            style={{
+                                background: "rgba(250, 82, 82, 0.15)",
+                                border: "2px solid rgba(250, 82, 82, 0.3)",
+                                backdropFilter: "blur(10px)",
                             }}
                         >
-                            <Text fw={500}>{error?.message || "Failed to load files. Please try again."}</Text>
+                            <AlertCircle className="h-5 w-5" />
+                            <AlertTitle>Oops! Something went wrong</AlertTitle>
+                            <AlertDescription>
+                                <p className="font-medium">{error?.message || "Failed to load files. Please try again."}</p>
+                            </AlertDescription>
                         </Alert>
                     )}
 
                     {!isLoading && !isError && displayFiles.length === 0 && (
-                        <Paper
-                            shadow="xl"
-                            p="xl"
-                            radius="lg"
+                        <Card
+                            className="shadow-xl p-12 rounded-lg"
                             style={{
                                 background: "rgba(255, 255, 255, 0.95)",
                                 backdropFilter: "blur(10px)",
                             }}
                         >
-                            <Stack align="center" gap="md" py="xl">
-                                <ThemeIcon
-                                    size={120}
-                                    radius="xl"
-                                    variant="filled"
-                                    color={PRIMARY_COLOR}
-                                    style={{ opacity: 0.8 }}
+                            <div className="flex flex-col items-center gap-6 py-8">
+                                <div
+                                    className="flex items-center justify-center rounded-xl"
+                                    style={{
+                                        width: 120,
+                                        height: 120,
+                                        background: PRIMARY_COLOR,
+                                        opacity: 0.8,
+                                    }}
                                 >
-                                    <IconFileStack size={60} />
-                                </ThemeIcon>
-                                <Text
-                                    size="24px"
-                                    fw={700}
-                                    c={PRIMARY_COLOR}
+                                    <Layers size={60} color="white" />
+                                </div>
+                                <h2
+                                    className="text-3xl font-bold"
+                                    style={{ color: PRIMARY_COLOR }}
                                 >
                                     No files found
-                                </Text>
-                                <Text size="md" c="dimmed" ta="center" maw={400}>
+                                </h2>
+                                <p className="text-gray-600 text-center max-w-md">
                                     {showDuplicatesOnly
                                         ? "No duplicate files match your current filters"
                                         : "Try adjusting your filters or search query to find what you're looking for"}
-                                </Text>
+                                </p>
                                 <Button
-                                    variant="filled"
-                                    color={PRIMARY_COLOR}
                                     onClick={handleClearFilters}
-                                    size="md"
-                                    radius="lg"
-                                    mt="md"
+                                    className="mt-4 rounded-lg"
+                                    style={{ background: PRIMARY_COLOR }}
                                 >
                                     Clear Filters
                                 </Button>
-                            </Stack>
-                        </Paper>
+                            </div>
+                        </Card>
                     )}
 
                     {!isLoading && !isError && paginatedData.length > 0 && (
                         <>
-                            <Group justify="space-between">
+                            <div className="flex justify-between">
                                 <Badge
-                                    size="lg"
-                                    variant="light"
-                                    color={PRIMARY_COLOR}
-                                    radius="lg"
+                                    variant="outline"
+                                    className="p-3 text-sm"
                                     style={{
-                                        padding: "12px 20px",
-                                        fontSize: "14px",
+                                        color: PRIMARY_COLOR,
                                     }}
                                 >
                                     Showing {startIndex} - {endIndex} of {totalItems} files
                                     {showDuplicatesOnly && " (duplicates only)"}
                                 </Badge>
-                            </Group>
+                            </div>
 
                             <FileList files={paginatedData} />
 
                             {totalPages > 1 && (
-                                <Group justify="center" mt="xl">
-                                    <Pagination
-                                        value={currentPage}
-                                        onChange={goToPage}
-                                        total={totalPages}
-                                        siblings={1}
-                                        boundaries={1}
-                                        size="lg"
-                                        radius="lg"
-                                        styles={{
-                                            control: {
-                                                "&[data-active]": {
-                                                    background: PRIMARY_COLOR,
-                                                    border: "none",
-                                                },
-                                            },
-                                        }}
-                                    />
-                                </Group>
+                                <div className="flex justify-center mt-8">
+                                    <div className="flex gap-2">
+                                        <Button
+                                            variant="outline"
+                                            onClick={() => goToPage(currentPage - 1)}
+                                            disabled={currentPage === 1}
+                                        >
+                                            Previous
+                                        </Button>
+                                        {Array.from({ length: totalPages }, (_, i) => i + 1)
+                                            .filter(page => {
+                                                return page === 1 ||
+                                                       page === totalPages ||
+                                                       (page >= currentPage - 1 && page <= currentPage + 1);
+                                            })
+                                            .map((page, idx, arr) => {
+                                                if (idx > 0 && page - arr[idx - 1] > 1) {
+                                                    return (
+                                                        <React.Fragment key={page}>
+                                                            <span className="px-2 py-2">...</span>
+                                                            <Button
+                                                                variant={currentPage === page ? "default" : "outline"}
+                                                                onClick={() => goToPage(page)}
+                                                                style={{
+                                                                    background: currentPage === page ? PRIMARY_COLOR : undefined,
+                                                                }}
+                                                            >
+                                                                {page}
+                                                            </Button>
+                                                        </React.Fragment>
+                                                    );
+                                                }
+                                                return (
+                                                    <Button
+                                                        key={page}
+                                                        variant={currentPage === page ? "default" : "outline"}
+                                                        onClick={() => goToPage(page)}
+                                                        style={{
+                                                            background: currentPage === page ? PRIMARY_COLOR : undefined,
+                                                        }}
+                                                    >
+                                                        {page}
+                                                    </Button>
+                                                );
+                                            })}
+                                        <Button
+                                            variant="outline"
+                                            onClick={() => goToPage(currentPage + 1)}
+                                            disabled={currentPage === totalPages}
+                                        >
+                                            Next
+                                        </Button>
+                                    </div>
+                                </div>
                             )}
                         </>
                     )}
-                </Stack>
-            </Container>
-        </Box>
+                </div>
+            </div>
+        </div>
     );
 };

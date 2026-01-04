@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useQuery } from "@tanstack/react-query";
+import useSWR from "swr";
 import { File, Folder, Lightbulb, Save } from "lucide-react";
 import { Card, CardContent } from "@/app/components/ui/card";
 import { Skeleton } from "@/app/components/ui/skeleton";
@@ -92,12 +92,15 @@ const StatCard = ({
 };
 
 export default function StatsPanel() {
-    const { data, isLoading, isError } = useQuery<DashboardStats>({
-        queryKey: ["dashboardStats"],
-        queryFn: fetchDashboardStats,
-        staleTime: 1000 * 60 * 5,
-        refetchOnWindowFocus: false,
-    });
+    const { data, isLoading, error } = useSWR<DashboardStats>(
+        "/api/googleDrive/dashboard",
+        fetchDashboardStats,
+        {
+            revalidateOnFocus: false,
+            dedupingInterval: 1000 * 60 * 5,
+        }
+    );
+    const isError = !!error;
 
     const stats = [
         {

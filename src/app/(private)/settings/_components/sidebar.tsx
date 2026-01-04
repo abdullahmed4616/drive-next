@@ -1,4 +1,4 @@
-import { IconCreditCard, IconUser, IconBell, IconShield, IconSettings } from '@tabler/icons-react'
+import { CreditCard, User, Bell, Shield, Settings } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 
 const PRIMARY_COLOR = '#6B9ADF'
@@ -13,27 +13,27 @@ interface SettingsNavItem {
 const settingsNavItems: SettingsNavItem[] = [
     {
         label: 'Subscription & Billing',
-        icon: IconCreditCard,
+        icon: CreditCard,
         href: '/settings/paddlePayment',
     },
     {
         label: 'Profile Settings',
-        icon: IconUser,
+        icon: User,
         href: '/settings/',
     },
     {
         label: 'Notifications',
-        icon: IconBell,
+        icon: Bell,
         href: '/settings/',
     },
     {
         label: 'Privacy & Security',
-        icon: IconShield,
+        icon: Shield,
         href: '/settings/',
     },
     {
         label: 'General Settings',
-        icon: IconSettings,
+        icon: Settings,
         href: '/settings/',
     },
 ]
