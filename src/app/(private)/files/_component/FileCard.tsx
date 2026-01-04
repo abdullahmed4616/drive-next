@@ -25,16 +25,14 @@ export const FileCard: React.FC<FileCardProps> = ({ file, onClick }) => {
     }
   };
 
+  const PRIMARY_COLOR = '#6B9ADF';
+
   const getCardGradient = (fileName: string) => {
     const gradients = [
-      'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-      'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-      'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
-      'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
-      'linear-gradient(135deg, #30cfd0 0%, #330867 100%)',
-      'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
-      'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)',
+      `linear-gradient(135deg, ${PRIMARY_COLOR} 0%, #5A89CF 100%)`,
+      `linear-gradient(135deg, #7CAAEF 0%, ${PRIMARY_COLOR} 100%)`,
+      `linear-gradient(135deg, ${PRIMARY_COLOR} 0%, #4A78BF 100%)`,
+      `linear-gradient(135deg, #8BB5F0 0%, #5A89CF 100%)`,
     ];
 
     const hash = fileName.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
@@ -44,12 +42,22 @@ export const FileCard: React.FC<FileCardProps> = ({ file, onClick }) => {
   return (
     <TooltipProvider>
       <Card
-        className="cursor-pointer transition-all duration-300 h-full overflow-hidden border-2 border-white/30 hover:shadow-2xl hover:-translate-y-2 hover:scale-[1.02] hover:border-[#667eea]/50"
+        className="cursor-pointer transition-all duration-300 h-full overflow-hidden backdrop-blur-md hover:-translate-y-2"
         style={{
-          background: 'rgba(255, 255, 255, 0.95)',
-          backdropFilter: 'blur(10px)',
+          background: 'rgba(255, 255, 255, 0.9)',
+          backdropFilter: 'blur(12px)',
+          border: `1px solid rgba(107, 154, 223, 0.2)`,
+          boxShadow: '0 2px 12px rgba(107, 154, 223, 0.1)',
         }}
         onClick={handleCardClick}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.borderColor = `${PRIMARY_COLOR}60`;
+          e.currentTarget.style.boxShadow = `0 12px 32px rgba(107, 154, 223, 0.2)`;
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.borderColor = 'rgba(107, 154, 223, 0.2)';
+          e.currentTarget.style.boxShadow = '0 2px 12px rgba(107, 154, 223, 0.1)';
+        }}
       >
         <div className="relative overflow-hidden">
           {file.thumbnailLink ? (
