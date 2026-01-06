@@ -12,12 +12,12 @@ export const GlassmorphicBackground: React.FC<GlassmorphicBackgroundProps> = ({
   children,
 }) => {
   return (
-    <div className="relative min-h-screen w-full overflow-hidden">
+    <div className="relative w-full min-h-screen">
       {/* Animated gradient background */}
-      <div className="fixed inset-0 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 animate-gradient-shift" />
+      <div className="fixed inset-0 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 animate-gradient-shift -z-10" />
 
       {/* Glassmorphic orbs */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+      <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
         {/* Large orb - top right */}
         <div
           className="absolute -top-40 -right-40 w-96 h-96 rounded-full opacity-30 blur-3xl animate-float"
@@ -70,7 +70,7 @@ export const GlassmorphicBackground: React.FC<GlassmorphicBackgroundProps> = ({
       </div>
 
       {/* Content */}
-      <div className="relative z-10">
+      <div className="relative">
         {children}
       </div>
 
