@@ -22,12 +22,12 @@ import { Button } from "@/app/components/ui/button";
 import { Badge } from "@/app/components/ui/badge";
 
 const PRIMARY_COLOR = '#6B9ADF';
-const ACCENT_BG_COLOR = 'rgba(0,0,0, 0.2)';
+const ACCENT_BG_COLOR = 'rgba(107, 154, 223, 0.1)';
 const BORDER_COLOR = 'rgba(107, 154, 223, 0.3)';
 
 export default function HomePage() {
     return (
-        <div style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ minHeight: 'auto', position: 'relative', overflow: 'hidden', background: 'linear-gradient(180deg, #ffffff 0%, #f5f7fa 100%)' }}>
             <div
                 style={{
                     position: 'fixed',
@@ -35,9 +35,9 @@ export default function HomePage() {
                     right: '-5%',
                     width: '600px',
                     height: '600px',
-                    background: ACCENT_BG_COLOR,
+                    background: `radial-gradient(circle, ${PRIMARY_COLOR}30, ${PRIMARY_COLOR}10)`,
                     borderRadius: '50%',
-                    filter: 'blur(60px)',
+                    filter: 'blur(80px)',
                     animation: 'floating 8s ease-in-out infinite',
                     zIndex: 0,
                 }}
@@ -49,9 +49,9 @@ export default function HomePage() {
                     left: '-5%',
                     width: '500px',
                     height: '500px',
-                    background: ACCENT_BG_COLOR,
+                    background: `radial-gradient(circle, ${PRIMARY_COLOR}30, ${PRIMARY_COLOR}10)`,
                     borderRadius: '50%',
-                    filter: 'blur(60px)',
+                    filter: 'blur(80px)',
                     animation: 'floating 10s ease-in-out infinite reverse',
                     zIndex: 0,
                 }}
@@ -227,12 +227,13 @@ export default function HomePage() {
                     <div className="flex justify-center">
                         <Badge
                             variant="outline"
-                            className="text-lg font-semibold"
+                            className="text-lg font-semibold backdrop-blur-md"
                             style={{
-                                background: ACCENT_BG_COLOR,
+                                background: 'rgba(255, 255, 255, 0.8)',
                                 color: PRIMARY_COLOR,
-                                border: `1px solid ${BORDER_COLOR}`,
+                                border: `1px solid ${PRIMARY_COLOR}40`,
                                 padding: '8px 20px',
+                                boxShadow: `0 4px 12px rgba(107, 154, 223, 0.15)`,
                             }}
                         >
                             POWERFUL FEATURES
@@ -425,63 +426,84 @@ export default function HomePage() {
                         <div className="flex gap-4">
                             <a
                                 href="#"
-                                className="flex items-center justify-center"
+                                className="flex items-center justify-center group backdrop-blur-md"
                                 style={{
                                     width: 40,
                                     height: 40,
                                     borderRadius: '50%',
-                                    background: ACCENT_BG_COLOR,
+                                    background: 'rgba(255, 255, 255, 0.8)',
+                                    border: `1px solid ${PRIMARY_COLOR}30`,
                                     transition: 'all 0.3s ease',
                                 }}
                                 onMouseEnter={(e) => {
                                     e.currentTarget.style.background = PRIMARY_COLOR;
                                     e.currentTarget.style.transform = 'translateY(-3px)';
+                                    e.currentTarget.style.boxShadow = `0 8px 16px rgba(107, 154, 223, 0.3)`;
+                                    const icon = e.currentTarget.querySelector('svg');
+                                    if (icon) icon.setAttribute('color', 'white');
                                 }}
                                 onMouseLeave={(e) => {
-                                    e.currentTarget.style.background = ACCENT_BG_COLOR;
+                                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.8)';
                                     e.currentTarget.style.transform = 'translateY(0)';
+                                    e.currentTarget.style.boxShadow = '';
+                                    const icon = e.currentTarget.querySelector('svg');
+                                    if (icon) icon.setAttribute('color', PRIMARY_COLOR);
                                 }}
                             >
                                 <Facebook size={20} color={PRIMARY_COLOR} />
                             </a>
                             <a
                                 href="#"
-                                className="flex items-center justify-center"
+                                className="flex items-center justify-center group backdrop-blur-md"
                                 style={{
                                     width: 40,
                                     height: 40,
                                     borderRadius: '50%',
-                                    background: ACCENT_BG_COLOR,
+                                    background: 'rgba(255, 255, 255, 0.8)',
+                                    border: `1px solid ${PRIMARY_COLOR}30`,
                                     transition: 'all 0.3s ease',
                                 }}
                                 onMouseEnter={(e) => {
                                     e.currentTarget.style.background = PRIMARY_COLOR;
                                     e.currentTarget.style.transform = 'translateY(-3px)';
+                                    e.currentTarget.style.boxShadow = `0 8px 16px rgba(107, 154, 223, 0.3)`;
+                                    const icon = e.currentTarget.querySelector('svg');
+                                    if (icon) icon.setAttribute('color', 'white');
                                 }}
                                 onMouseLeave={(e) => {
-                                    e.currentTarget.style.background = ACCENT_BG_COLOR;
+                                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.8)';
                                     e.currentTarget.style.transform = 'translateY(0)';
+                                    e.currentTarget.style.boxShadow = '';
+                                    const icon = e.currentTarget.querySelector('svg');
+                                    if (icon) icon.setAttribute('color', PRIMARY_COLOR);
                                 }}
                             >
                                 <Twitter size={20} color={PRIMARY_COLOR} />
                             </a>
                             <a
                                 href="#"
-                                className="flex items-center justify-center"
+                                className="flex items-center justify-center group backdrop-blur-md"
                                 style={{
                                     width: 40,
                                     height: 40,
                                     borderRadius: '50%',
-                                    background: ACCENT_BG_COLOR,
+                                    background: 'rgba(255, 255, 255, 0.8)',
+                                    border: `1px solid ${PRIMARY_COLOR}30`,
                                     transition: 'all 0.3s ease',
                                 }}
                                 onMouseEnter={(e) => {
                                     e.currentTarget.style.background = PRIMARY_COLOR;
                                     e.currentTarget.style.transform = 'translateY(-3px)';
+                                    e.currentTarget.style.boxShadow = `0 8px 16px rgba(107, 154, 223, 0.3)`;
+                                    const icon = e.currentTarget.querySelector('svg');
+                                    if (icon) icon.setAttribute('color', 'white');
                                 }}
                                 onMouseLeave={(e) => {
-                                    e.currentTarget.style.background = ACCENT_BG_COLOR;
+                                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.8)';
                                     e.currentTarget.style.transform = 'translateY(0)';
+                                    e.currentTarget.style.boxShadow = '';
+                                    const icon = e.currentTarget.querySelector('svg');
+                                    if (icon) icon.setAttribute('color', PRIMARY_COLOR);
                                 }}
                             >
                                 <Linkedin size={20} color={PRIMARY_COLOR} />

@@ -100,19 +100,31 @@ export default function PrivateNavbar() {
         }
     };
 
+    const PRIMARY_COLOR = '#6B9ADF';
+
     if (checkingConnection) {
         return (
             <div
-                className="w-full"
+                className="w-full backdrop-blur-md border-b"
                 style={{
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+                    background: 'rgba(255, 255, 255, 0.85)',
+                    backdropFilter: 'blur(12px)',
+                    borderColor: 'rgba(107, 154, 223, 0.15)',
+                    boxShadow: '0 2px 12px rgba(107, 154, 223, 0.08)',
                 }}
             >
-                <div className="flex h-[70px] items-center justify-between w-full">
-                    <div className="flex items-center gap-2">
-                        <Cloud size={32} color="white" />
-                        <span className="text-xl font-extrabold text-white" style={{ letterSpacing: '0.5px' }}>
+                <div className="flex h-[70px] items-center justify-between w-full px-6">
+                    <div className="flex items-center gap-3">
+                        <div
+                            className="p-2 rounded-xl backdrop-blur-sm"
+                            style={{
+                                background: `linear-gradient(135deg, ${PRIMARY_COLOR}20, ${PRIMARY_COLOR}10)`,
+                                border: `1px solid ${PRIMARY_COLOR}30`,
+                            }}
+                        >
+                            <Cloud size={28} color={PRIMARY_COLOR} />
+                        </div>
+                        <span className="text-xl font-extrabold" style={{ letterSpacing: '0.5px', color: PRIMARY_COLOR }}>
                             DriveUnity
                         </span>
                     </div>
@@ -126,28 +138,38 @@ export default function PrivateNavbar() {
 
     return (
         <TooltipProvider>
-            <div className="relative w-[95%]">
-                <div className="flex h-[70px] items-center justify-between w-full">
-                    <div className="flex items-center gap-2">
+            <div
+                className="relative w-full backdrop-blur-md border-b"
+                style={{
+                    background: 'rgba(255, 255, 255, 0.85)',
+                    backdropFilter: 'blur(12px)',
+                    borderColor: 'rgba(107, 154, 223, 0.15)',
+                    boxShadow: '0 2px 12px rgba(107, 154, 223, 0.08)',
+                }}
+            >
+                <div className="flex h-[70px] items-center justify-between w-full px-6">
+                    <div className="flex items-center gap-3">
                         <div
-                            className="p-2 rounded-xl backdrop-blur-md"
+                            className="p-2 rounded-xl backdrop-blur-sm transition-all duration-300 hover:scale-105"
                             style={{
-                                background: 'rgba(255, 255, 255, 0.2)',
+                                background: `linear-gradient(135deg, ${PRIMARY_COLOR}20, ${PRIMARY_COLOR}10)`,
+                                border: `1px solid ${PRIMARY_COLOR}30`,
+                                boxShadow: `0 2px 8px ${PRIMARY_COLOR}15`,
                             }}
                         >
-                            <Cloud size={28} color="white" />
+                            <Cloud size={28} color={PRIMARY_COLOR} />
                         </div>
                         <div>
                             <h1
-                                className="text-xl font-extrabold text-black"
+                                className="text-xl font-extrabold"
                                 style={{
                                     letterSpacing: '0.5px',
-                                    textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+                                    color: PRIMARY_COLOR,
                                 }}
                             >
                                 DriveUnity
                             </h1>
-                            <p className="text-xs text-black font-medium">
+                            <p className="text-xs font-medium" style={{ color: `${PRIMARY_COLOR}CC` }}>
                                 Unified Cloud Storage
                             </p>
                         </div>
@@ -158,15 +180,16 @@ export default function PrivateNavbar() {
                             <Tooltip>
                                 <TooltipTrigger asChild>
                                     <Badge
-                                        className="cursor-pointer hover:scale-105 transition-all px-4 py-2 text-base"
+                                        className="cursor-pointer hover:scale-105 transition-all px-4 py-2 text-sm font-semibold backdrop-blur-sm"
                                         style={{
-                                            background: 'rgba(255, 255, 255, 0.95)',
-                                            color: '#12b886',
-                                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+                                            background: `linear-gradient(135deg, ${PRIMARY_COLOR}20, ${PRIMARY_COLOR}10)`,
+                                            border: `1px solid ${PRIMARY_COLOR}30`,
+                                            color: PRIMARY_COLOR,
+                                            boxShadow: `0 2px 8px ${PRIMARY_COLOR}15`,
                                         }}
                                         onClick={() => router.push('/connections')}
                                     >
-                                        <PlugZap className="mr-1" size={14} />
+                                        <PlugZap className="mr-1.5" size={16} />
                                         {accountsCount} Connected
                                     </Badge>
                                 </TooltipTrigger>
@@ -283,7 +306,7 @@ export default function PrivateNavbar() {
                         className="sm:hidden"
                         onClick={() => setOpened(!opened)}
                     >
-                        <MenuIcon size={20} color="white" />
+                        <MenuIcon size={20} color={PRIMARY_COLOR} />
                     </Button>
                 </div>
 
