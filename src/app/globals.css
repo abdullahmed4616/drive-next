@@ -1,16 +1,17 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap');
-body{
-     overflow-x: hidden;
-}
-
-* {
-     box-sizing: border-box;
-     margin: 0;
-     padding: 0;
-}
 
 @layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
   :root {
     /* Base colors - Enhanced for professionalism */
     --background: 0 0% 100%;
