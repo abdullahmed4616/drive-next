@@ -42,22 +42,8 @@ export const FileCard: React.FC<FileCardProps> = ({ file, onClick }) => {
   return (
     <TooltipProvider>
       <Card
-        className="cursor-pointer transition-all duration-300 h-full overflow-hidden backdrop-blur-md hover:-translate-y-2"
-        style={{
-          background: 'rgba(255, 255, 255, 0.9)',
-          backdropFilter: 'blur(12px)',
-          border: `1px solid rgba(107, 154, 223, 0.2)`,
-          boxShadow: '0 2px 12px rgba(107, 154, 223, 0.1)',
-        }}
+        className="cursor-pointer transition-all duration-300 h-full overflow-hidden glass-card border-primary/20 shadow-lg hover:-translate-y-2 hover:shadow-2xl hover:border-primary/40 group"
         onClick={handleCardClick}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.borderColor = `${PRIMARY_COLOR}60`;
-          e.currentTarget.style.boxShadow = `0 12px 32px rgba(107, 154, 223, 0.2)`;
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.borderColor = 'rgba(107, 154, 223, 0.2)';
-          e.currentTarget.style.boxShadow = '0 2px 12px rgba(107, 154, 223, 0.1)';
-        }}
       >
         <div className="relative overflow-hidden">
           {file.thumbnailLink ? (
@@ -154,11 +140,7 @@ export const FileCard: React.FC<FileCardProps> = ({ file, onClick }) => {
                   <TooltipTrigger asChild>
                     <Button
                       size="icon"
-                      className="rounded-lg shadow-md"
-                      style={{
-                        background: 'linear-gradient(45deg, indigo, cyan)',
-                        boxShadow: '0 4px 12px rgba(102, 126, 234, 0.4)',
-                      }}
+                      className="rounded-lg bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 shadow-lg hover:shadow-xl transition-all hover:scale-110"
                       onClick={handleDownload}
                     >
                       <ExternalLink size={18} />
