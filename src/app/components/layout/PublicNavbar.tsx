@@ -13,7 +13,7 @@ import {
 } from '@/app/components/ui/sheet';
 
 const PRIMARY_COLOR = '#6B9ADF';
-const ACCENT_BG_COLOR = 'rgba(0,0,0, 0.2)';
+const ACCENT_BG_COLOR = 'rgba(107, 154, 223, 0.1)';
 const BORDER_COLOR = 'rgba(107, 154, 223, 0.3)';
 
 const navItems = [

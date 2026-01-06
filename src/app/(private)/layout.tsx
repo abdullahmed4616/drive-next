@@ -93,51 +93,59 @@ export default function PrivateLayout({
     );
   }
 
-  return (
-    <div className="min-h-screen">
-      {/* Header */}
-      <header
-        className="sticky top-0 z-40 h-[60px] border-b bg-gradient-to-r from-[#667eea] to-[#764ba2]"
-      >
-        <div className="flex h-full items-center">
-          <div className="flex items-center gap-2 px-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="sm:hidden text-white hover:bg-white/20"
-              onClick={() => setMobileOpened(!mobileOpened)}
-            >
-              {mobileOpened ? <X size={20} /> : <Menu size={20} />}
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="hidden sm:flex text-white hover:bg-white/20"
-              onClick={() => setDesktopOpened(!desktopOpened)}
-            >
-              <Menu size={20} />
-            </Button>
-          </div>
-          <PrivateNavbar />
-        </div>
-      </header>
+  const PRIMARY_COLOR = '#6B9ADF';
 
-      <div className="flex">
+  return (
+    <div className="min-h-screen" style={{ background: 'linear-gradient(180deg, #ffffff 0%, #f5f7fa 100%)' }}>
+      {/* Header */}
+      <PrivateNavbar />
+
+      <div className="flex relative">
+        {/* Sidebar Toggle Button - Desktop */}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="hidden md:flex fixed left-4 top-24 z-50 backdrop-blur-md"
+          style={{
+            background: 'rgba(255, 255, 255, 0.9)',
+            border: `1px solid rgba(107, 154, 223, 0.2)`,
+            boxShadow: '0 4px 12px rgba(107, 154, 223, 0.15)',
+          }}
+          onClick={() => setDesktopOpened(!desktopOpened)}
+        >
+          {desktopOpened ? <X size={20} color={PRIMARY_COLOR} /> : <Menu size={20} color={PRIMARY_COLOR} />}
+        </Button>
+
+        {/* Sidebar Toggle Button - Mobile */}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="md:hidden fixed left-4 top-24 z-50 backdrop-blur-md"
+          style={{
+            background: 'rgba(255, 255, 255, 0.9)',
+            border: `1px solid rgba(107, 154, 223, 0.2)`,
+            boxShadow: '0 4px 12px rgba(107, 154, 223, 0.15)',
+          }}
+          onClick={() => setMobileOpened(!mobileOpened)}
+        >
+          {mobileOpened ? <X size={20} color={PRIMARY_COLOR} /> : <Menu size={20} color={PRIMARY_COLOR} />}
+        </Button>
+
         {/* Desktop Sidebar */}
         {desktopOpened && (
-          <div className="hidden sm:block">
+          <div className="hidden md:block sticky top-[70px] h-[calc(100vh-70px)]">
             <Sidebar />
           </div>
         )}
 
         {/* Mobile Sidebar */}
         {mobileOpened && (
-          <div className="fixed inset-0 z-30 sm:hidden">
+          <div className="fixed inset-0 z-40 md:hidden">
             <div
-              className="absolute inset-0 bg-black/50"
+              className="absolute inset-0 bg-black/50 backdrop-blur-sm"
               onClick={() => setMobileOpened(false)}
             />
-            <div className="absolute left-0 top-[60px] bottom-0 w-[280px] bg-white shadow-xl">
+            <div className="absolute left-0 top-0 bottom-0 w-[280px] bg-white shadow-xl">
               <Sidebar />
             </div>
           </div>

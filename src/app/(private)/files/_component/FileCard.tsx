@@ -25,16 +25,14 @@ export const FileCard: React.FC<FileCardProps> = ({ file, onClick }) => {
     }
   };
 
+  const PRIMARY_COLOR = '#6B9ADF';
+
   const getCardGradient = (fileName: string) => {
     const gradients = [
-      'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-      'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-      'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
-      'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
-      'linear-gradient(135deg, #30cfd0 0%, #330867 100%)',
-      'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
-      'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)',
+      `linear-gradient(135deg, ${PRIMARY_COLOR} 0%, #5A89CF 100%)`,
+      `linear-gradient(135deg, #7CAAEF 0%, ${PRIMARY_COLOR} 100%)`,
+      `linear-gradient(135deg, ${PRIMARY_COLOR} 0%, #4A78BF 100%)`,
+      `linear-gradient(135deg, #8BB5F0 0%, #5A89CF 100%)`,
     ];
 
     const hash = fileName.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
@@ -44,11 +42,7 @@ export const FileCard: React.FC<FileCardProps> = ({ file, onClick }) => {
   return (
     <TooltipProvider>
       <Card
-        className="cursor-pointer transition-all duration-300 h-full overflow-hidden border-2 border-white/30 hover:shadow-2xl hover:-translate-y-2 hover:scale-[1.02] hover:border-[#667eea]/50"
-        style={{
-          background: 'rgba(255, 255, 255, 0.95)',
-          backdropFilter: 'blur(10px)',
-        }}
+        className="cursor-pointer transition-all duration-300 h-full overflow-hidden glass-card border-primary/20 shadow-lg hover:-translate-y-2 hover:shadow-2xl hover:border-primary/40 group"
         onClick={handleCardClick}
       >
         <div className="relative overflow-hidden">
@@ -146,11 +140,7 @@ export const FileCard: React.FC<FileCardProps> = ({ file, onClick }) => {
                   <TooltipTrigger asChild>
                     <Button
                       size="icon"
-                      className="rounded-lg shadow-md"
-                      style={{
-                        background: 'linear-gradient(45deg, indigo, cyan)',
-                        boxShadow: '0 4px 12px rgba(102, 126, 234, 0.4)',
-                      }}
+                      className="rounded-lg bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 shadow-lg hover:shadow-xl transition-all hover:scale-110"
                       onClick={handleDownload}
                     >
                       <ExternalLink size={18} />
