@@ -148,35 +148,11 @@ export const Content: React.FC<ContentProps> = ({ userId }) => {
     const selectedDrive = drivesData?.drives.find(d => d.id === selectedDriveId);
 
     return (
-        <div
-            style={{
-                minHeight: "100vh",
-                position: "relative",
-            }}
-        >
-            <div
-                style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    background: "rgba(107, 154, 223, 0.05)",
-                    pointerEvents: "none",
-                }}
-            />
+        <div className="min-h-screen">
+            <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 lg:py-12">
+                <div className="flex flex-col gap-6 lg:gap-8">
 
-            <div className="container mx-auto px-4 py-8" style={{ position: "relative", zIndex: 1 }}>
-                <div className="flex flex-col gap-6">
-
-                    <Card
-                        className="shadow-xl p-8 rounded-lg"
-                        style={{
-                            background: "rgba(255, 255, 255, 0.95)",
-                            backdropFilter: "blur(10px)",
-                            border: `1px solid ${BORDER_COLOR}`,
-                        }}
-                    >
+                    <Card className="backdrop-blur-2xl bg-white/40 border-white/30 shadow-2xl p-6 sm:p-8 rounded-2xl">
                         <div className="flex justify-between items-center">
                             <div>
                                 <div className="flex items-center gap-4">
@@ -222,14 +198,7 @@ export const Content: React.FC<ContentProps> = ({ userId }) => {
                     </Card>
 
                     {!isDrivesLoading && drivesData?.drives && drivesData.drives.length > 0 && (
-                        <Card
-                            className="shadow-xl p-6 rounded-lg"
-                            style={{
-                                background: "rgba(255, 255, 255, 0.95)",
-                                backdropFilter: "blur(10px)",
-                                border: `1px solid ${BORDER_COLOR}`,
-                            }}
-                        >
+                        <Card className="backdrop-blur-2xl bg-white/40 border-white/30 shadow-2xl p-6 sm:p-8 rounded-2xl">
                             <div className="flex flex-col gap-4">
                                 <div className="flex items-center gap-2">
                                     <Chrome size={24} color={PRIMARY_COLOR} />
@@ -311,14 +280,7 @@ export const Content: React.FC<ContentProps> = ({ userId }) => {
                         </Alert>
                     )}
 
-                    <Card
-                        className="shadow-xl p-6 rounded-lg"
-                        style={{
-                            background: "rgba(255, 255, 255, 0.95)",
-                            backdropFilter: "blur(10px)",
-                            border: `1px solid ${BORDER_COLOR}`,
-                        }}
-                    >
+                    <Card className="backdrop-blur-2xl bg-white/40 border-white/30 shadow-2xl p-6 sm:p-8 rounded-2xl">
                         <div className="flex flex-col gap-4">
                             <div className="flex gap-2 items-end flex-grow">
                                 <div className="flex-grow">
@@ -329,30 +291,19 @@ export const Content: React.FC<ContentProps> = ({ userId }) => {
                                         onKeyDown={(e) => {
                                             if (e.key === "Enter") handleSearchSubmit();
                                         }}
-                                        className="h-12"
-                                        style={{
-                                            border: `2px solid ${ACCENT_BG_COLOR}`,
-                                        }}
+                                        className="h-12 bg-white/60 border-white/40 focus:border-primary/50"
                                     />
                                 </div>
                                 <div className="flex gap-2">
                                     <Button
-                                        className="h-12"
-                                        style={{
-                                            background: PRIMARY_COLOR,
-                                            boxShadow: `0 4px 14px 0 rgba(107, 154, 223, 0.4)`,
-                                        }}
+                                        className="h-12 bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 shadow-lg"
                                         onClick={handleSearchSubmit}
                                     >
                                         <Search className="mr-2" size={20} />
                                         Search
                                     </Button>
                                     <Button
-                                        className="h-12"
-                                        style={{
-                                            background: PRIMARY_COLOR,
-                                            boxShadow: `0 4px 14px 0 rgba(107, 154, 223, 0.4)`,
-                                        }}
+                                        className="h-12 bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 shadow-lg"
                                         onClick={() => setFiltersModalOpened(true)}
                                     >
                                         <Filter className="mr-2" size={20} />
@@ -389,20 +340,9 @@ export const Content: React.FC<ContentProps> = ({ userId }) => {
                     />
 
                     {isLoading && (
-                        <Card
-                            className="shadow-xl p-12 rounded-lg"
-                            style={{
-                                background: "rgba(255, 255, 255, 0.95)",
-                                backdropFilter: "blur(10px)",
-                            }}
-                        >
+                        <Card className="backdrop-blur-2xl bg-white/40 border-white/30 shadow-2xl p-12 rounded-2xl">
                             <div className="flex flex-col items-center gap-4">
-                                <div
-                                    className="rounded-full p-5"
-                                    style={{
-                                        background: PRIMARY_COLOR,
-                                    }}
-                                >
+                                <div className="rounded-full p-5 bg-primary">
                                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
                                 </div>
                                 <p className="text-lg font-semibold">
@@ -415,12 +355,7 @@ export const Content: React.FC<ContentProps> = ({ userId }) => {
                     {isError && (
                         <Alert
                             variant="destructive"
-                            className="rounded-lg"
-                            style={{
-                                background: "rgba(250, 82, 82, 0.15)",
-                                border: "2px solid rgba(250, 82, 82, 0.3)",
-                                backdropFilter: "blur(10px)",
-                            }}
+                            className="rounded-2xl backdrop-blur-2xl bg-destructive/10 border-destructive/30"
                         >
                             <AlertCircle className="h-5 w-5" />
                             <AlertTitle>Oops! Something went wrong</AlertTitle>
@@ -431,29 +366,12 @@ export const Content: React.FC<ContentProps> = ({ userId }) => {
                     )}
 
                     {!isLoading && !isError && displayFiles.length === 0 && (
-                        <Card
-                            className="shadow-xl p-12 rounded-lg"
-                            style={{
-                                background: "rgba(255, 255, 255, 0.95)",
-                                backdropFilter: "blur(10px)",
-                            }}
-                        >
+                        <Card className="backdrop-blur-2xl bg-white/40 border-white/30 shadow-2xl p-12 rounded-2xl">
                             <div className="flex flex-col items-center gap-6 py-8">
-                                <div
-                                    className="flex items-center justify-center rounded-xl"
-                                    style={{
-                                        width: 120,
-                                        height: 120,
-                                        background: PRIMARY_COLOR,
-                                        opacity: 0.8,
-                                    }}
-                                >
+                                <div className="flex items-center justify-center rounded-2xl w-32 h-32 bg-primary opacity-80">
                                     <Layers size={60} color="white" />
                                 </div>
-                                <h2
-                                    className="text-3xl font-bold"
-                                    style={{ color: PRIMARY_COLOR }}
-                                >
+                                <h2 className="text-3xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
                                     No files found
                                 </h2>
                                 <p className="text-gray-600 text-center max-w-md">
@@ -463,8 +381,7 @@ export const Content: React.FC<ContentProps> = ({ userId }) => {
                                 </p>
                                 <Button
                                     onClick={handleClearFilters}
-                                    className="mt-4 rounded-lg"
-                                    style={{ background: PRIMARY_COLOR }}
+                                    className="mt-4 rounded-lg bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90"
                                 >
                                     Clear Filters
                                 </Button>
