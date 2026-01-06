@@ -1,56 +1,44 @@
 'use client'
 
 import { SettingsSidebar } from '@/app/(private)/settings/_components/sidebar'
-
-const PRIMARY_COLOR = '#6B9ADF'
+import { GlassmorphicBackground } from '@/app/components/layout/GlassmorphicBackground'
+import { FloatingIcons } from '@/app/components/decorative/FloatingIcons'
 
 export default function Page() {
     return (
-        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '24px' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                <div>
-                    <h1
-                        style={{
-                            fontSize: '48px',
-                            fontWeight: 700,
-                            background: `linear-gradient(135deg, ${PRIMARY_COLOR} 0%, #5080C8 100%)`,
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent',
-                            backgroundClip: 'text',
-                            margin: 0,
-                        }}
-                    >
-                        Settings
-                    </h1>
-                    <div style={{ fontSize: '18px', color: '#868e96', marginTop: '8px' }}>
-                        Manage your account settings and preferences
-                    </div>
-                </div>
+        <GlassmorphicBackground>
+            <FloatingIcons />
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 3fr', gap: '24px' }}>
-                    <div>
-                        <SettingsSidebar />
+            <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 lg:py-12">
+                <div className="flex flex-col gap-8">
+                    {/* Header */}
+                    <div className="space-y-3">
+                        <h1 className="text-5xl sm:text-6xl font-bold bg-gradient-to-r from-primary via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                            Settings
+                        </h1>
+                        <p className="text-lg text-muted-foreground">
+                            Manage your account settings and preferences
+                        </p>
                     </div>
-                    <div
-                        style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: '16px',
-                            background: 'rgba(255, 255, 255, 0.9)',
-                            backdropFilter: 'blur(10px)',
-                            borderRadius: '12px',
-                            padding: '32px',
-                            border: '1px solid rgba(107, 154, 223, 0.3)',
-                            boxShadow: '0 4px 16px rgba(107, 154, 223, 0.12)',
-                            minHeight: '400px',
-                        }}
-                    >
-                        <div style={{ fontSize: '18px', fontWeight: 600, color: '#868e96' }}>
-                            Select a setting from the sidebar
+
+                    {/* Settings Grid */}
+                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8">
+                        {/* Sidebar */}
+                        <div className="lg:col-span-1">
+                            <SettingsSidebar />
+                        </div>
+
+                        {/* Content Area */}
+                        <div className="lg:col-span-3">
+                            <div className="flex flex-col gap-6 backdrop-blur-2xl bg-white/40 border border-white/30 rounded-2xl p-8 lg:p-12 shadow-2xl min-h-[400px]">
+                                <p className="text-lg font-medium text-muted-foreground">
+                                    Select a setting from the sidebar
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </GlassmorphicBackground>
     )
 }
