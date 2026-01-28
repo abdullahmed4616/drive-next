@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Sparkles, Menu } from 'lucide-react';
-import { Button } from '@/app/components/ui/button';
+import { Button } from '@/app/components/ui/Button';
 import {
     Sheet,
     SheetContent,

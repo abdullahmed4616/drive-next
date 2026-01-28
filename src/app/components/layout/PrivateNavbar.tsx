@@ -18,7 +18,7 @@ import { useToast } from '@/app/components/ui/use-toast';
 import { useSession } from '@/app/providers/SessionProvider';
 import { Avatar, AvatarFallback, AvatarImage } from '@/app/components/ui/avatar';
 import { Badge } from '@/app/components/ui/badge';
-import { Button } from '@/app/components/ui/button';
+import { Button } from '@/app/components/ui/Button';
 import {
     DropdownMenu,
     DropdownMenuContent,

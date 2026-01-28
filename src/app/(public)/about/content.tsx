@@ -4,7 +4,7 @@ import React, { ReactNode } from 'react';
 import Image from 'next/image';
 import { X, Check, Lightbulb, Shield, TrendingUp, Sparkles } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { Button } from "@/app/components/ui/button";
+import { Button } from "@/app/components/ui/Button";
 import { Badge } from "@/app/components/ui/badge";
 import { Card } from "@/app/components/ui/card";
 

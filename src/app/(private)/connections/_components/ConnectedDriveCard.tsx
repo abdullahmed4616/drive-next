@@ -5,7 +5,7 @@ import { Cloud, MoreVertical, Trash2, RefreshCw, ShieldCheck } from "lucide-reac
 import { FcGoogle } from "react-icons/fc";
 import { ConnectedDrive } from "@/app/(private)/connections/hooks/useConnectedDrives";
 import { Card, CardContent } from "@/app/components/ui/card";
-import { Button } from "@/app/components/ui/button";
+import { Button } from "@/app/components/ui/Button";
 import {
   Dialog,
   DialogContent,

@@ -8,7 +8,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/app/components/ui/dialog";
-import { Button } from "@/app/components/ui/button";
+import { Button } from "@/app/components/ui/Button";
 import { Input } from "@/app/components/ui/input";
 import { Label } from "@/app/components/ui/label";
 import { Card, CardContent } from "@/app/components/ui/card";

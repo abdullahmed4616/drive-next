@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Check, Sparkles, Rocket, Crown, Zap, Shield, TrendingUp, Star, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-import { Button } from "@/app/components/ui/button";
+import { Button } from "@/app/components/ui/Button";
 import { Badge } from "@/app/components/ui/badge";
 import { Card } from "@/app/components/ui/card";
 import { Switch } from "@/app/components/ui/switch";

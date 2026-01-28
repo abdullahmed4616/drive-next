@@ -38,7 +38,6 @@ export async function POST(req: NextRequest) {
         id: true,
         name: true,
         email: true,
-        isActive: true,
       },
     });
 
@@ -54,25 +53,16 @@ export async function POST(req: NextRequest) {
           email,
           name: name.trim(),
           password: null,
-          isActive: true,
           role: "USER",
         },
         select: {
           id: true,
           name: true,
           email: true,
-          isActive: true,
         },
       });
     }
 
-    if (!user.isActive) {
-      return apiError(
-        "Account is inactive. Please contact support.",
-        403,
-        "ACCOUNT_INACTIVE"
-      );
-    }
     const code = await createOTPCode(user.id);
     await sendOTPEmail(user.email, user.name, code);
 

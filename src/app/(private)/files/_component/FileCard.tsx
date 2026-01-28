@@ -5,7 +5,7 @@ import { FileCardProps } from '@/app/(private)/files/types/File.types';
 import { formatDate, formatFileSize, getMimeTypeColor, getMimeTypeLabel } from '@/app/(private)/files/utils/helper';
 import { Card, CardContent } from '@/app/components/ui/card';
 import { Badge } from '@/app/components/ui/badge';
-import { Button } from '@/app/components/ui/button';
+import { Button } from '@/app/components/ui/Button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/app/components/ui/tooltip';
 import Image from 'next/image';
 

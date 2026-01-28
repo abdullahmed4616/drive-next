@@ -8,7 +8,7 @@ import {
     useDeleteDrive,
 } from "@/app/(private)/connections/hooks/useConnectedDrives";
 import { Card } from "@/app/components/ui/card";
-import { Button } from "@/app/components/ui/button";
+import { Button } from "@/app/components/ui/Button";
 import {
   Dialog,
   DialogContent,

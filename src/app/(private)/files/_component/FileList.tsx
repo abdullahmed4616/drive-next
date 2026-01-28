@@ -12,7 +12,7 @@ import {
     TableRow,
 } from '@/app/components/ui/table';
 import { Badge } from '@/app/components/ui/badge';
-import { Button } from '@/app/components/ui/button';
+import { Button } from '@/app/components/ui/Button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/app/components/ui/tooltip';
 import { Avatar, AvatarFallback, AvatarImage } from '@/app/components/ui/avatar';
 import { Card, CardContent } from '@/app/components/ui/card';

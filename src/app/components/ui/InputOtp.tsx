@@ -1,91 +1,61 @@
-'use client';
+import * as React from "react";
+import { OTPInput, OTPInputContext } from "input-otp";
+import { Dot } from "lucide-react";
 
-import { OTPInput, SlotProps } from 'input-otp';
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
-interface OTPInputComponentProps {
-  value: string;
-  onChange: (value: string) => void;
-  onComplete?: (value: string) => void;
-  disabled?: boolean;
-}
+const InputOTP = React.forwardRef<React.ElementRef<typeof OTPInput>, React.ComponentPropsWithoutRef<typeof OTPInput>>(
+    ({ className, containerClassName, ...props }, ref) => (
+        <OTPInput
+            ref={ref}
+            containerClassName={cn("flex items-center gap-2 has-[:disabled]:opacity-50", containerClassName)}
+            className={cn("disabled:cursor-not-allowed", className)}
+            {...props}
+        />
+    ),
+);
+InputOTP.displayName = "InputOTP";
 
-export function OTPInputComponent({
-  value,
-  onChange,
-  onComplete,
-  disabled = false,
-}: OTPInputComponentProps) {
-  return (
-    <OTPInput
-      maxLength={6}
-      value={value}
-      onChange={(newValue) => {
-        onChange(newValue);
-        if (newValue.length === 6 && onComplete) {
-          onComplete(newValue);
-        }
-      }}
-      disabled={disabled}
-      containerClassName="group flex items-center has-[:disabled]:opacity-30 justify-center gap-2"
-      render={({ slots }) => (
-        <>
-          <div className="flex gap-2">
-            {slots.slice(0, 3).map((slot, idx) => (
-              <Slot key={idx} {...slot} />
-            ))}
-          </div>
+const InputOTPGroup = React.forwardRef<React.ElementRef<"div">, React.ComponentPropsWithoutRef<"div">>(
+    ({ className, ...props }, ref) => <div ref={ref} className={cn("flex items-center", className)} {...props} />,
+);
+InputOTPGroup.displayName = "InputOTPGroup";
 
-          <FakeDash />
+const InputOTPSlot = React.forwardRef<
+    React.ElementRef<"div">,
+    React.ComponentPropsWithoutRef<"div"> & { index: number }
+>(({ index, className, ...props }, ref) => {
+    const inputOTPContext = React.useContext(OTPInputContext);
+    const { char, hasFakeCaret, isActive } = inputOTPContext.slots[index];
 
-          <div className="flex gap-2">
-            {slots.slice(3).map((slot, idx) => (
-              <Slot key={idx} {...slot} />
-            ))}
-          </div>
-        </>
-      )}
-    />
-  );
-}
+    return (
+        <div
+            ref={ref}
+            className={cn(
+                "relative flex h-10 w-10 items-center justify-center border-y border-r border-input text-sm transition-all first:rounded-l-md first:border-l last:rounded-r-md",
+                isActive && "z-10 ring-2 ring-ring ring-offset-background",
+                className,
+            )}
+            {...props}
+        >
+            {char}
+            {hasFakeCaret && (
+                <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+                    <div className="animate-caret-blink h-4 w-px bg-foreground duration-1000" />
+                </div>
+            )}
+        </div>
+    );
+});
+InputOTPSlot.displayName = "InputOTPSlot";
 
-function Slot(props: SlotProps) {
-  return (
-    <div
-      className={cn(
-        'relative w-14 h-16 text-[2rem]',
-        'flex items-center justify-center',
-        'transition-all duration-200',
-        'border-2 rounded-lg',
-        'bg-white',
-        'font-bold',
-        'focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200',
-        {
-          'border-blue-500 ring-2 ring-blue-200': props.isActive,
-          'border-gray-300': !props.isActive,
-        }
-      )}
-    >
-      {props.char !== null && (
-        <div className="text-gray-900">{props.char}</div>
-      )}
-      {props.hasFakeCaret && <FakeCaret />}
-    </div>
-  );
-}
+const InputOTPSeparator = React.forwardRef<React.ElementRef<"div">, React.ComponentPropsWithoutRef<"div">>(
+    ({ ...props }, ref) => (
+        <div ref={ref} role="separator" {...props}>
+            <Dot />
+        </div>
+    ),
+);
+InputOTPSeparator.displayName = "InputOTPSeparator";
 
-function FakeCaret() {
-  return (
-    <div className="absolute pointer-events-none inset-0 flex items-center justify-center animate-caret-blink">
-      <div className="w-px h-8 bg-blue-500" />
-    </div>
-  );
-}
-
-function FakeDash() {
-  return (
-    <div className="flex w-6 justify-center items-center">
-      <div className="w-3 h-1 rounded-full bg-gray-400" />
-    </div>
-  );
-}
+export { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator };

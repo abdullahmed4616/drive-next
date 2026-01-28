@@ -5,7 +5,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import PrivateNavbar from '@/app/components/layout/PrivateNavbar';
 import Sidebar from '@/app/components/layout/Sidebar';
 import { Menu, X } from 'lucide-react';
-import { Button } from '@/app/components/ui/button';
+import { Button } from '@/app/components/ui/Button';
 import { Skeleton } from '@/app/components/ui/skeleton';
 
 interface User {

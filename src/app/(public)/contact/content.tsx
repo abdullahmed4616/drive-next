@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Check, Mail } from 'lucide-react';
-import { Button } from "@/app/components/ui/button";
+import { Button } from "@/app/components/ui/Button";
 import { Input } from "@/app/components/ui/input";
 import { Textarea } from "@/app/components/ui/textarea";
 import { Label } from "@/app/components/ui/label";

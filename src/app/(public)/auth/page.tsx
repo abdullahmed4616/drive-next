@@ -5,7 +5,7 @@ import { Mail, Check, X, ArrowLeft, User, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { OTPInputComponent } from '@/app/components/ui/InputOtp';
 import { Card, CardContent } from '@/app/components/ui/card';
-import { Button } from '@/app/components/ui/button';
+import { Button } from '@/app/components/ui/Button';
 import { Input } from '@/app/components/ui/input';
 import { Label } from '@/app/components/ui/label';
 import { Alert, AlertDescription } from '@/app/components/ui/alert';
