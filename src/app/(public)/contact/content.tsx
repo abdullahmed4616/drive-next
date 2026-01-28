@@ -1,12 +1,18 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Check, Mail } from 'lucide-react';
+import { Check, Mail, MapPin, Phone, Clock, Twitter, Linkedin, ChevronDown } from 'lucide-react';
 import { Button } from "@/app/components/ui/Button";
 import { Input } from "@/app/components/ui/input";
 import { Textarea } from "@/app/components/ui/textarea";
 import { Label } from "@/app/components/ui/label";
 import { Card } from "@/app/components/ui/card";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/app/components/ui/accordion";
 
 const PRIMARY_COLOR = '#6B9ADF';
 const ACCENT_BG_COLOR = 'rgba(0,0,0, 0.2)';
@@ -163,13 +169,164 @@ export default function ContactUsPage() {
             )}
           </Card>
 
-          <div className="flex flex-col items-center gap-2 mt-16 text-center">
-            <p className="text-lg font-semibold flex items-center gap-2">
-              <Mail size={24} style={{ color: PRIMARY_COLOR }} /> Email us at contact@driveunity.com
-            </p>
-            <p className="text-gray-600">We aim to respond within 24 hours.</p>
+          {/* Contact Information Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
+            <ContactInfoCard
+              icon={<Mail size={24} style={{ color: PRIMARY_COLOR }} />}
+              title="Email"
+              content="contact@driveunity.com"
+              subtitle="We respond within 24 hours"
+            />
+            <ContactInfoCard
+              icon={<MapPin size={24} style={{ color: PRIMARY_COLOR }} />}
+              title="Office"
+              content="San Francisco, CA"
+              subtitle="United States"
+            />
+            <ContactInfoCard
+              icon={<Clock size={24} style={{ color: PRIMARY_COLOR }} />}
+              title="Business Hours"
+              content="Mon - Fri: 9AM - 6PM"
+              subtitle="Pacific Time (PT)"
+            />
+          </div>
+
+          {/* Social Links */}
+          <div className="flex justify-center gap-4 mt-8">
+            <a
+              href="https://twitter.com/driveunity"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-12 h-12 rounded-full flex items-center justify-center transition-all hover:scale-110"
+              style={{ background: `${PRIMARY_COLOR}15` }}
+            >
+              <Twitter size={22} style={{ color: PRIMARY_COLOR }} />
+            </a>
+            <a
+              href="https://linkedin.com/company/driveunity"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-12 h-12 rounded-full flex items-center justify-center transition-all hover:scale-110"
+              style={{ background: `${PRIMARY_COLOR}15` }}
+            >
+              <Linkedin size={22} style={{ color: PRIMARY_COLOR }} />
+            </a>
+          </div>
+
+          {/* FAQ Section */}
+          <div className="mt-20">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold mb-2" style={gradientText}>
+                Frequently Asked Questions
+              </h2>
+              <p className="text-gray-600">
+                Quick answers to common questions
+              </p>
+            </div>
+
+            <Card
+              className="shadow-lg"
+              style={{
+                backdropFilter: 'blur(16px)',
+                background: BORDER_COLOR,
+                border: `1px solid ${BORDER_COLOR}`,
+              }}
+            >
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="item-1" className="border-b px-6" style={{ borderColor: BORDER_COLOR }}>
+                  <AccordionTrigger className="text-left hover:no-underline py-6">
+                    <span className="font-semibold">How do I connect my Google Drive?</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="pb-6 text-gray-600">
+                    After signing up, click "Connect Drive" on your dashboard. You'll be redirected to
+                    Google's authentication page where you can safely authorize DriveUnity to access
+                    your Drive. We only request necessary permissions and never store your files on
+                    our servers.
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="item-2" className="border-b px-6" style={{ borderColor: BORDER_COLOR }}>
+                  <AccordionTrigger className="text-left hover:no-underline py-6">
+                    <span className="font-semibold">Is my data secure with DriveUnity?</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="pb-6 text-gray-600">
+                    Absolutely. We use industry-standard encryption for all data transfers. Your files
+                    remain on Google's servers - we only store metadata to provide our features. We're
+                    also SOC 2 Type II compliant and undergo regular security audits.
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="item-3" className="border-b px-6" style={{ borderColor: BORDER_COLOR }}>
+                  <AccordionTrigger className="text-left hover:no-underline py-6">
+                    <span className="font-semibold">Can I connect multiple Google accounts?</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="pb-6 text-gray-600">
+                    Yes! That's exactly what DriveUnity is designed for. Depending on your plan, you
+                    can connect 2 to unlimited Google Drive accounts and manage them all from a
+                    single dashboard.
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="item-4" className="border-b px-6" style={{ borderColor: BORDER_COLOR }}>
+                  <AccordionTrigger className="text-left hover:no-underline py-6">
+                    <span className="font-semibold">How does the AI search work?</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="pb-6 text-gray-600">
+                    Our AI-powered search understands natural language queries. Instead of searching
+                    for exact file names, you can search for concepts like "budget documents from
+                    last month" or "images from the marketing folder." The AI analyzes your query
+                    and finds the most relevant files across all your connected drives.
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="item-5" className="px-6">
+                  <AccordionTrigger className="text-left hover:no-underline py-6">
+                    <span className="font-semibold">What happens if I cancel my subscription?</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="pb-6 text-gray-600">
+                    If you cancel, your account will be downgraded to the free plan at the end of
+                    your billing period. You'll keep your data and connected drives (up to the free
+                    plan limit). You can export all your data at any time from the Settings page.
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </Card>
           </div>
         </div>
       </div>
+  );
+}
+
+interface ContactInfoCardProps {
+  icon: React.ReactNode;
+  title: string;
+  content: string;
+  subtitle: string;
+}
+
+function ContactInfoCard({ icon, title, content, subtitle }: ContactInfoCardProps) {
+  return (
+    <Card
+      className="p-6 text-center"
+      style={{
+        backdropFilter: 'blur(16px)',
+        background: BORDER_COLOR,
+        border: `1px solid ${BORDER_COLOR}`,
+      }}
+    >
+      <div className="flex flex-col items-center gap-3">
+        <div
+          className="w-14 h-14 rounded-full flex items-center justify-center"
+          style={{ background: `${PRIMARY_COLOR}15` }}
+        >
+          {icon}
+        </div>
+        <div>
+          <p className="font-semibold text-sm text-gray-500 uppercase tracking-wider">{title}</p>
+          <p className="font-bold text-lg mt-1">{content}</p>
+          <p className="text-sm text-gray-600">{subtitle}</p>
+        </div>
+      </div>
+    </Card>
   );
 }

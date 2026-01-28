@@ -146,6 +146,91 @@ export default function AboutPage() {
                 </div>
             </div>
 
+            {/* Team Section */}
+            <div className="container mx-auto px-4 py-16">
+                <div className="flex flex-col gap-8">
+                    <div className="text-center">
+                        <h2 className="text-4xl font-bold mb-4" style={gradientText}>Meet Our Team</h2>
+                        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                            The passionate people behind DriveUnity working to simplify your cloud experience.
+                        </p>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <TeamMemberCard
+                            name="Sarah Chen"
+                            role="CEO & Co-founder"
+                            bio="10+ years in cloud technology and product leadership"
+                        />
+                        <TeamMemberCard
+                            name="Michael Rodriguez"
+                            role="CTO & Co-founder"
+                            bio="Former Google engineer, cloud infrastructure expert"
+                        />
+                        <TeamMemberCard
+                            name="Emily Watson"
+                            role="Head of Design"
+                            bio="Award-winning UX designer focused on simplicity"
+                        />
+                        <TeamMemberCard
+                            name="David Kim"
+                            role="Head of Engineering"
+                            bio="Scaling distributed systems for millions of users"
+                        />
+                    </div>
+                </div>
+            </div>
+
+            {/* Story Section */}
+            <div className="container mx-auto px-4 py-16">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <Badge
+                            className="text-white border-none font-semibold mb-4"
+                            style={{
+                                background: PRIMARY_COLOR,
+                                padding: '6px 16px',
+                            }}
+                        >
+                            Our Story
+                        </Badge>
+                        <h2 className="text-4xl font-bold mb-6" style={gradientText}>
+                            Born from Frustration, Built with Purpose
+                        </h2>
+                        <div className="space-y-4 text-gray-600">
+                            <p>
+                                In 2023, our founders experienced firsthand the chaos of managing multiple cloud drives
+                                across personal and work accounts. Switching between tabs, losing track of files,
+                                and dealing with duplicate storage became daily frustrations.
+                            </p>
+                            <p>
+                                That frustration sparked an idea: What if there was one platform to unify them all?
+                                DriveUnity was born from that vision—a simple, powerful solution that brings all
+                                your cloud storage together in one intelligent dashboard.
+                            </p>
+                            <p>
+                                Today, thousands of users trust DriveUnity to manage their digital lives more
+                                efficiently. We're just getting started on our mission to make cloud storage
+                                management effortless for everyone.
+                            </p>
+                        </div>
+                    </div>
+                    <div
+                        className="rounded-2xl p-8"
+                        style={{
+                            background: `linear-gradient(135deg, ${PRIMARY_COLOR}15 0%, ${PRIMARY_COLOR}05 100%)`,
+                            border: `1px solid ${BORDER_COLOR}`,
+                        }}
+                    >
+                        <div className="grid grid-cols-2 gap-6">
+                            <StatBlock value="2023" label="Founded" />
+                            <StatBlock value="50K+" label="Active Users" />
+                            <StatBlock value="1M+" label="Files Managed" />
+                            <StatBlock value="15+" label="Team Members" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div className="container mx-auto px-4 py-20">
                 <Card
                     style={{
@@ -277,5 +362,54 @@ function ValueCard({ icon, iconColor, title, description, gradient = false }: Va
                 <p className="text-sm text-gray-600">{description}</p>
             </div>
         </Card>
+    );
+}
+
+interface TeamMemberCardProps {
+    name: string;
+    role: string;
+    bio: string;
+}
+function TeamMemberCard({ name, role, bio }: TeamMemberCardProps) {
+    const initials = name.split(' ').map(n => n[0]).join('');
+    return (
+        <Card className="shadow-sm overflow-hidden" style={{
+            backdropFilter: 'blur(14px)',
+            background: BORDER_COLOR,
+            border: `1px solid ${BORDER_COLOR}`,
+            transition: '0.3s',
+        }}>
+            <div className="p-6">
+                <div className="flex flex-col items-center text-center gap-4">
+                    <div
+                        className="w-20 h-20 rounded-full flex items-center justify-center text-2xl font-bold"
+                        style={{
+                            background: `linear-gradient(135deg, ${PRIMARY_COLOR} 0%, #5A8ACF 100%)`,
+                            color: 'white',
+                        }}
+                    >
+                        {initials}
+                    </div>
+                    <div>
+                        <h4 className="font-bold text-lg">{name}</h4>
+                        <p className="text-sm font-medium" style={{ color: PRIMARY_COLOR }}>{role}</p>
+                    </div>
+                    <p className="text-sm text-gray-600">{bio}</p>
+                </div>
+            </div>
+        </Card>
+    );
+}
+
+interface StatBlockProps {
+    value: string;
+    label: string;
+}
+function StatBlock({ value, label }: StatBlockProps) {
+    return (
+        <div className="text-center p-4">
+            <p className="text-3xl font-bold" style={{ color: PRIMARY_COLOR }}>{value}</p>
+            <p className="text-sm text-gray-600 mt-1">{label}</p>
+        </div>
     );
 }

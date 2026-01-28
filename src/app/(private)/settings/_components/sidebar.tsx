@@ -1,3 +1,5 @@
+'use client';
+
 import { CreditCard, User, Bell, Shield, Settings } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 
@@ -12,29 +14,29 @@ interface SettingsNavItem {
 
 const settingsNavItems: SettingsNavItem[] = [
     {
-        label: 'Subscription & Billing',
-        icon: CreditCard,
-        href: '/settings/paddlePayment',
-    },
-    {
         label: 'Profile Settings',
         icon: User,
-        href: '/settings/',
+        href: '/settings/profile',
+    },
+    {
+        label: 'Subscription & Billing',
+        icon: CreditCard,
+        href: '/settings/billing',
     },
     {
         label: 'Notifications',
         icon: Bell,
-        href: '/settings/',
+        href: '/settings/notifications',
     },
     {
         label: 'Privacy & Security',
         icon: Shield,
-        href: '/settings/',
+        href: '/settings/privacy-security',
     },
     {
         label: 'General Settings',
         icon: Settings,
-        href: '/settings/',
+        href: '/settings/general',
     },
 ]
 
@@ -58,7 +60,7 @@ export const SettingsSidebar = () => {
         >
             {settingsNavItems.map((item) => {
                 const Icon = item.icon
-                const isActive = pathname === item.href
+                const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
                 return (
                     <button
                         key={item.href}
