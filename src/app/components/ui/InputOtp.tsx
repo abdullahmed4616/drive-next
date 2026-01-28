@@ -58,4 +58,36 @@ const InputOTPSeparator = React.forwardRef<React.ElementRef<"div">, React.Compon
 );
 InputOTPSeparator.displayName = "InputOTPSeparator";
 
-export { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator };
+interface OTPInputComponentProps {
+    value: string;
+    onChange: (value: string) => void;
+    onComplete?: (value: string) => void;
+    disabled?: boolean;
+    maxLength?: number;
+}
+
+const OTPInputComponent: React.FC<OTPInputComponentProps> = ({
+    value,
+    onChange,
+    onComplete,
+    disabled = false,
+    maxLength = 6,
+}) => {
+    return (
+        <InputOTP
+            value={value}
+            onChange={onChange}
+            onComplete={onComplete}
+            maxLength={maxLength}
+            disabled={disabled}
+        >
+            <InputOTPGroup>
+                {Array.from({ length: maxLength }, (_, i) => (
+                    <InputOTPSlot key={i} index={i} />
+                ))}
+            </InputOTPGroup>
+        </InputOTP>
+    );
+};
+
+export { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator, OTPInputComponent };
