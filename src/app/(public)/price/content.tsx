@@ -1,12 +1,20 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Check, Sparkles, Rocket, Crown, Zap, Shield, TrendingUp, Star, ArrowRight } from 'lucide-react';
+import { Check, Sparkles, Rocket, Crown, Zap, Shield, TrendingUp, Star, ArrowRight, X, Minus } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from "@/app/components/ui/Button";
 import { Badge } from "@/app/components/ui/badge";
 import { Card } from "@/app/components/ui/card";
 import { Switch } from "@/app/components/ui/switch";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/app/components/ui/table";
 
 const PRIMARY_COLOR = '#6B9ADF';
 const ACCENT_BG_COLOR = 'rgba(0,0,0, 0.2)';
@@ -235,6 +243,130 @@ export default function PricingPage() {
                             index={index}
                         />
                     ))}
+                </div>
+            </div>
+
+            {/* Feature Comparison Table */}
+            <div className="container mx-auto px-4 py-16" style={{ position: 'relative', zIndex: 1 }}>
+                <div className="flex flex-col gap-8 max-w-5xl mx-auto">
+                    <div className="text-center">
+                        <Badge
+                            variant="outline"
+                            className="text-lg font-semibold mb-4"
+                            style={{
+                                background: ACCENT_BG_COLOR,
+                                color: PRIMARY_COLOR,
+                                border: `1px solid ${BORDER_COLOR}`,
+                                padding: '8px 20px',
+                            }}
+                        >
+                            COMPARE PLANS
+                        </Badge>
+                        <h2 className="text-4xl font-bold" style={{ fontFamily: "'Outfit', sans-serif" }}>
+                            Detailed Feature{' '}
+                            <span style={{ color: PRIMARY_COLOR }}>Comparison</span>
+                        </h2>
+                    </div>
+
+                    <Card
+                        className="overflow-hidden"
+                        style={{
+                            border: `1px solid ${BORDER_COLOR}`,
+                            borderRadius: '16px',
+                        }}
+                    >
+                        <Table>
+                            <TableHeader>
+                                <TableRow style={{ background: `${PRIMARY_COLOR}10` }}>
+                                    <TableHead className="w-[280px] font-bold text-foreground">Feature</TableHead>
+                                    <TableHead className="text-center font-bold text-foreground">Free</TableHead>
+                                    <TableHead className="text-center font-bold text-foreground">
+                                        <div className="flex items-center justify-center gap-2">
+                                            Basic
+                                            <Badge className="text-white border-none text-xs" style={{ background: PRIMARY_COLOR }}>
+                                                Popular
+                                            </Badge>
+                                        </div>
+                                    </TableHead>
+                                    <TableHead className="text-center font-bold text-foreground">Pro</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                <ComparisonRow
+                                    feature="Connected Drives"
+                                    free="1"
+                                    basic="3"
+                                    pro="Unlimited"
+                                />
+                                <ComparisonRow
+                                    feature="File Indexing"
+                                    free="Unlimited"
+                                    basic="Unlimited"
+                                    pro="Unlimited"
+                                />
+                                <ComparisonRow
+                                    feature="Advanced Filtration"
+                                    free={true}
+                                    basic={true}
+                                    pro={true}
+                                />
+                                <ComparisonRow
+                                    feature="AI Semantic Search"
+                                    free={false}
+                                    basic={true}
+                                    pro={true}
+                                />
+                                <ComparisonRow
+                                    feature="Move Files Between Drives"
+                                    free={false}
+                                    basic="1,000/month"
+                                    pro="Unlimited"
+                                />
+                                <ComparisonRow
+                                    feature="Duplicate Detection"
+                                    free={false}
+                                    basic={true}
+                                    pro={true}
+                                />
+                                <ComparisonRow
+                                    feature="Storage Analytics"
+                                    free="5 GB"
+                                    basic="Unlimited"
+                                    pro="Unlimited"
+                                />
+                                <ComparisonRow
+                                    feature="API Access"
+                                    free={false}
+                                    basic={false}
+                                    pro={true}
+                                />
+                                <ComparisonRow
+                                    feature="Priority Support"
+                                    free={false}
+                                    basic="Email"
+                                    pro="24/7"
+                                />
+                                <ComparisonRow
+                                    feature="Team Collaboration"
+                                    free={false}
+                                    basic={false}
+                                    pro={true}
+                                />
+                                <ComparisonRow
+                                    feature="Custom Integrations"
+                                    free={false}
+                                    basic={false}
+                                    pro={true}
+                                />
+                                <ComparisonRow
+                                    feature="Export Reports"
+                                    free={false}
+                                    basic="CSV"
+                                    pro="CSV, PDF, Excel"
+                                />
+                            </TableBody>
+                        </Table>
+                    </Card>
                 </div>
             </div>
 
@@ -663,5 +795,46 @@ function FAQItem({ question, answer }: FAQItemProps) {
                 </p>
             </div>
         </Card>
+    );
+}
+
+interface ComparisonRowProps {
+    feature: string;
+    free: boolean | string;
+    basic: boolean | string;
+    pro: boolean | string;
+}
+
+function ComparisonRow({ feature, free, basic, pro }: ComparisonRowProps) {
+    const renderValue = (value: boolean | string) => {
+        if (typeof value === 'boolean') {
+            return value ? (
+                <div
+                    className="w-6 h-6 rounded-full flex items-center justify-center mx-auto"
+                    style={{ background: 'rgba(16, 185, 129, 0.15)' }}
+                >
+                    <Check size={14} className="text-green-600" />
+                </div>
+            ) : (
+                <div
+                    className="w-6 h-6 rounded-full flex items-center justify-center mx-auto"
+                    style={{ background: 'rgba(156, 163, 175, 0.15)' }}
+                >
+                    <Minus size={14} className="text-gray-400" />
+                </div>
+            );
+        }
+        return <span className="font-medium">{value}</span>;
+    };
+
+    return (
+        <TableRow className="hover:bg-muted/50">
+            <TableCell className="font-medium">{feature}</TableCell>
+            <TableCell className="text-center">{renderValue(free)}</TableCell>
+            <TableCell className="text-center" style={{ background: `${PRIMARY_COLOR}05` }}>
+                {renderValue(basic)}
+            </TableCell>
+            <TableCell className="text-center">{renderValue(pro)}</TableCell>
+        </TableRow>
     );
 }
