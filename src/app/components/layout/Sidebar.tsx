@@ -9,16 +9,11 @@ import {
   Search,
   BarChart3,
   Settings,
-  AlertCircle,
+  Cloud,
 } from 'lucide-react';
 import { useToast } from '@/app/components/ui/use-toast';
 import { Badge } from '@/app/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/app/components/ui/tooltip';
-
-// --- Define the Uniform Light Blue Color Scheme ---
-const PRIMARY_COLOR = '#6B9ADF'; // A pleasing light blue
-const ACCENT_BG_COLOR = 'rgba(107, 154, 223, 0.1)'; // Light blue with low opacity
-const BORDER_COLOR = 'rgba(107, 154, 223, 0.2)'; // Light blue with low opacity
 
 const navLinks = [
   {
@@ -102,167 +97,147 @@ export default function Sidebar() {
   };
 
   return (
-      <TooltipProvider>
-        <aside
-            className="w-[280px] min-h-screen border-r p-6 relative overflow-hidden"
-            style={{
-              background: 'linear-gradient(180deg, #ffffff 0%, #f5f7fa 100%)',
-              borderRight: `1px solid ${BORDER_COLOR}`,
-            }}
-        >
-          <div className="flex flex-col gap-2 relative z-10">
+    <TooltipProvider>
+      <aside className="w-[280px] min-h-full bg-card border-r border-border relative overflow-hidden">
+        {/* Cloud decoration */}
+        <div className="absolute -bottom-16 -left-16 w-48 h-48 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
+        <div className="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-secondary/5 blur-3xl pointer-events-none" />
+
+        {/* Navigation */}
+        <div className="flex flex-col gap-2 p-6 relative z-10">
+          {/* Brand header */}
+          <div className="flex items-center gap-3 mb-6 pb-6 border-b border-border">
+            <div className="w-10 h-10 rounded-xl bg-gradient-cloud flex items-center justify-center shadow-md">
+              <Cloud size={20} className="text-white" />
+            </div>
+            <div>
+              <p className="font-semibold text-foreground">DriveUnity</p>
+              <p className="text-xs text-muted-foreground">Cloud Manager</p>
+            </div>
+          </div>
+
+          {/* Navigation links */}
+          <nav className="flex flex-col gap-1.5">
             {navLinks.map((link, index) => {
               const Icon = link.icon;
-              const isActive = pathname === link.href;
+              const isActive = pathname === link.href || pathname.startsWith(link.href.split('/')[1] === 'settings' ? '/settings' : link.href + '/');
               const isDisabled = link.requiresConnection && !isConnected;
 
               const navItem = (
+                <button
+                  key={link.href}
+                  onClick={() => !isDisabled && handleNavClick(link)}
+                  disabled={isDisabled}
+                  className={`
+                    w-full p-3.5 rounded-xl flex items-center gap-3 transition-all duration-200 text-left
+                    ${isActive
+                      ? 'bg-primary text-primary-foreground shadow-md'
+                      : 'hover:bg-accent text-foreground'
+                    }
+                    ${isDisabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+                    ${!isDisabled && !isActive ? 'hover:translate-x-0.5' : ''}
+                  `}
+                  style={{
+                    animationDelay: `${index * 50}ms`,
+                  }}
+                >
                   <div
-                      key={link.href}
-                      onClick={() => !isDisabled && handleNavClick(link)}
-                      className={`p-3.5 rounded-2xl cursor-pointer transition-all relative overflow-hidden fade-in ${
-                          isDisabled ? 'opacity-50 cursor-not-allowed' : ''
-                      } ${
-                          !isDisabled && !isActive ? 'hover:translate-x-1' : ''
-                      }`}
-                      style={{
-                        background: isActive
-                            ? PRIMARY_COLOR
-                            : 'white',
-                        border: `1px solid ${isActive ? 'transparent' : BORDER_COLOR}`,
-                        boxShadow: isActive
-                            ? `0 8px 24px ${ACCENT_BG_COLOR}`
-                            : `0 2px 8px ${ACCENT_BG_COLOR}`,
-                        animationDelay: `${index * 0.05}s`,
-                      }}
+                    className={`
+                      w-9 h-9 rounded-lg flex items-center justify-center transition-all
+                      ${isActive
+                        ? 'bg-white/20'
+                        : 'bg-primary/10'
+                      }
+                    `}
                   >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <div
-                            className="w-9 h-9 rounded-lg flex items-center justify-center transition-all"
-                            style={{
-                              background: isActive
-                                  ? 'rgba(255, 255, 255, 0.2)'
-                                  : ACCENT_BG_COLOR,
-                            }}
-                        >
-                          <Icon
-                              size={20}
-                              color={isActive ? 'white' : PRIMARY_COLOR}
-                              strokeWidth={2}
-                          />
-                        </div>
-                        <span
-                            className={`text-sm transition-all ${
-                                isActive ? 'font-semibold text-white' : 'font-medium'
-                            }`}
-                        >
-                          {link.label}
-                        </span>
-                      </div>
-
-                      {isDisabled && (
-                          <Badge
-                              className="text-xs"
-                              style={{
-                                background: PRIMARY_COLOR,
-                                color: 'white',
-                              }}
-                          >
-                            Setup
-                          </Badge>
-                      )}
-                    </div>
-
-                    {isActive && (
-                        <div
-                            className="absolute top-1/2 right-2 -translate-y-1/2 w-1 h-5 bg-white rounded-full opacity-60"
-                        />
-                    )}
+                    <Icon
+                      size={18}
+                      className={isActive ? 'text-white' : 'text-primary'}
+                    />
                   </div>
+                  <span className={`text-sm font-medium flex-1 ${isActive ? 'text-white' : ''}`}>
+                    {link.label}
+                  </span>
+
+                  {isDisabled && (
+                    <Badge variant="secondary" className="text-[10px] px-1.5 py-0.5 bg-primary/10 text-primary border-0">
+                      Setup
+                    </Badge>
+                  )}
+
+                  {isActive && (
+                    <div className="w-1 h-5 bg-white/60 rounded-full" />
+                  )}
+                </button>
               );
 
               return isDisabled ? (
-                  <Tooltip key={link.href}>
-                    <TooltipTrigger asChild>
-                      <div>{navItem}</div>
-                    </TooltipTrigger>
-                    <TooltipContent side="right">
-                      Connect a drive to access this feature
-                    </TooltipContent>
-                  </Tooltip>
+                <Tooltip key={link.href}>
+                  <TooltipTrigger asChild>
+                    <div>{navItem}</div>
+                  </TooltipTrigger>
+                  <TooltipContent side="right" className="text-xs">
+                    Connect a drive to access this feature
+                  </TooltipContent>
+                </Tooltip>
               ) : (
-                  navItem
+                navItem
               );
             })}
-          </div>
+          </nav>
+        </div>
 
-          {!checking && (
-              <div
-                  className="mt-6 p-4 rounded-2xl relative z-10"
-                  style={{
-                    background: isConnected
-                        ? ACCENT_BG_COLOR
-                        : 'rgba(242, 153, 74, 0.1)',
-                    border: `1px solid ${isConnected ? BORDER_COLOR : 'rgba(242, 153, 74, 0.2)'}`,
-                  }}
-              >
-                <div className="flex items-center gap-2 mb-2">
-                  <div
-                      className="w-2 h-2 rounded-full animate-pulse"
-                      style={{
-                        background: isConnected ? PRIMARY_COLOR : '#f2994a',
-                      }}
-                  />
-                  <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                    Status
-                  </span>
-                </div>
-                <p className="text-sm font-semibold text-foreground">
-                  {isConnected ? 'Connected & Ready' : 'Setup Required'}
-                </p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  {isConnected
-                      ? 'All systems operational'
-                      : 'Connect a drive to get started'}
-                </p>
+        {/* Status Card */}
+        {!checking && (
+          <div className="p-6 pt-0 relative z-10">
+            <div
+              className={`
+                p-4 rounded-xl border transition-all
+                ${isConnected
+                  ? 'bg-primary/5 border-primary/20'
+                  : 'bg-warning/5 border-warning/20'
+                }
+              `}
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <div
+                  className={`
+                    w-2 h-2 rounded-full animate-pulse
+                    ${isConnected ? 'bg-primary' : 'bg-warning'}
+                  `}
+                />
+                <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
+                  Status
+                </span>
               </div>
-          )}
+              <p className="text-sm font-semibold text-foreground">
+                {isConnected ? 'Connected & Ready' : 'Setup Required'}
+              </p>
+              <p className="text-xs text-muted-foreground mt-1">
+                {isConnected
+                  ? 'All systems operational'
+                  : 'Connect a drive to get started'}
+              </p>
+            </div>
+          </div>
+        )}
 
-          {/* Decorative background */}
-          <div
-              className="absolute -bottom-12 -left-12 w-[200px] h-[200px] rounded-full opacity-5 blur-[40px] pointer-events-none"
-              style={{
-                background: PRIMARY_COLOR,
-              }}
-          />
-
-          <style jsx global>{`
-            @keyframes floating {
-              0%, 100% {
-                transform: translateY(0px);
-              }
-              50% {
-                transform: translateY(-6px);
-              }
-            }
-
-            @keyframes fadeIn {
-              from {
-                opacity: 0;
-                transform: translateY(10px);
-              }
-              to {
-                opacity: 1;
-                transform: translateY(0);
-              }
-            }
-
-            .fade-in {
-              animation: fadeIn 0.4s ease-out forwards;
-            }
-          `}</style>
-        </aside>
-      </TooltipProvider>
+        {/* Cloud illustration at bottom */}
+        <div className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none overflow-hidden opacity-30">
+          <svg
+            viewBox="0 0 280 80"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-full h-full text-primary"
+          >
+            <path
+              d="M240 60H50c-22.091 0-40-17.909-40-40S27.909-20 50-20h0c22.091 0 40 17.909 40 40 0-22.091 17.909-40 40-40h0c22.091 0 40 17.909 40 40 0-22.091 17.909-40 40-40h30c22.091 0 40 17.909 40 40s-17.909 40-40 40H50"
+              fill="currentColor"
+              fillOpacity="0.1"
+            />
+          </svg>
+        </div>
+      </aside>
+    </TooltipProvider>
   );
 }

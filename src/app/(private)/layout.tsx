@@ -7,6 +7,7 @@ import Sidebar from '@/app/components/layout/Sidebar';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/app/components/ui/Button';
 import { Skeleton } from '@/app/components/ui/skeleton';
+import { CloudBackground } from '@/app/components/ui/CloudBackground';
 
 interface User {
   id: string;
@@ -68,12 +69,15 @@ export default function PrivateLayout({
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <Skeleton className="h-12 w-12 rounded-full" />
-          <div className="space-y-2">
-            <Skeleton className="h-4 w-[200px]" />
-            <Skeleton className="h-4 w-[150px]" />
+      <div className="flex h-screen items-center justify-center bg-background">
+        <div className="flex flex-col items-center gap-6">
+          <div className="relative">
+            <Skeleton className="h-16 w-16 rounded-2xl" />
+            <div className="absolute inset-0 bg-primary/20 rounded-2xl animate-pulse" />
+          </div>
+          <div className="space-y-3 text-center">
+            <Skeleton className="h-4 w-48 mx-auto" />
+            <Skeleton className="h-3 w-32 mx-auto" />
           </div>
         </div>
       </div>
@@ -82,9 +86,13 @@ export default function PrivateLayout({
 
   if (!user) {
     return (
-      <div className="flex h-screen items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <Skeleton className="h-12 w-12 rounded-full animate-spin" />
+      <div className="flex h-screen items-center justify-center bg-background">
+        <div className="flex flex-col items-center gap-6">
+          <div className="relative">
+            <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center">
+              <div className="h-8 w-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+            </div>
+          </div>
           <p className="text-sm text-muted-foreground">
             Redirecting to login...
           </p>
@@ -93,67 +101,70 @@ export default function PrivateLayout({
     );
   }
 
-  const PRIMARY_COLOR = '#6B9ADF';
-
   return (
-    <div className="min-h-screen" style={{ background: 'linear-gradient(180deg, #ffffff 0%, #f5f7fa 100%)' }}>
+    <div className="min-h-screen bg-background">
+      {/* Background decorations */}
+      <CloudBackground variant="minimal" showFloatingClouds={false} />
+
       {/* Header */}
-      <PrivateNavbar />
+      <div className="sticky top-0 z-40">
+        <PrivateNavbar />
+      </div>
 
       <div className="flex relative">
         {/* Sidebar Toggle Button - Desktop */}
         <Button
           variant="ghost"
           size="icon"
-          className="hidden md:flex fixed left-4 top-24 z-50 backdrop-blur-md"
-          style={{
-            background: 'rgba(255, 255, 255, 0.9)',
-            border: `1px solid rgba(107, 154, 223, 0.2)`,
-            boxShadow: '0 4px 12px rgba(107, 154, 223, 0.15)',
-          }}
+          className="hidden md:flex fixed left-4 top-24 z-50 bg-card/90 backdrop-blur-md border border-border shadow-md hover:shadow-lg hover:bg-card transition-all duration-200"
           onClick={() => setDesktopOpened(!desktopOpened)}
         >
-          {desktopOpened ? <X size={20} color={PRIMARY_COLOR} /> : <Menu size={20} color={PRIMARY_COLOR} />}
+          {desktopOpened ? (
+            <X size={18} className="text-muted-foreground" />
+          ) : (
+            <Menu size={18} className="text-muted-foreground" />
+          )}
         </Button>
 
         {/* Sidebar Toggle Button - Mobile */}
         <Button
           variant="ghost"
           size="icon"
-          className="md:hidden fixed left-4 top-24 z-50 backdrop-blur-md"
-          style={{
-            background: 'rgba(255, 255, 255, 0.9)',
-            border: `1px solid rgba(107, 154, 223, 0.2)`,
-            boxShadow: '0 4px 12px rgba(107, 154, 223, 0.15)',
-          }}
+          className="md:hidden fixed left-4 top-24 z-50 bg-card/90 backdrop-blur-md border border-border shadow-md hover:shadow-lg hover:bg-card transition-all duration-200"
           onClick={() => setMobileOpened(!mobileOpened)}
         >
-          {mobileOpened ? <X size={20} color={PRIMARY_COLOR} /> : <Menu size={20} color={PRIMARY_COLOR} />}
+          {mobileOpened ? (
+            <X size={18} className="text-muted-foreground" />
+          ) : (
+            <Menu size={18} className="text-muted-foreground" />
+          )}
         </Button>
 
         {/* Desktop Sidebar */}
         {desktopOpened && (
-          <div className="hidden md:block sticky top-[70px] h-[calc(100vh-70px)]">
+          <div className="hidden md:block sticky top-[73px] h-[calc(100vh-73px)]">
             <Sidebar />
           </div>
         )}
 
-        {/* Mobile Sidebar */}
+        {/* Mobile Sidebar Overlay */}
         {mobileOpened && (
           <div className="fixed inset-0 z-40 md:hidden">
             <div
-              className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+              className="absolute inset-0 bg-background/80 backdrop-blur-sm"
               onClick={() => setMobileOpened(false)}
             />
-            <div className="absolute left-0 top-0 bottom-0 w-[280px] bg-white shadow-xl">
+            <div className="absolute left-0 top-0 bottom-0 w-[280px] bg-card shadow-xl border-r border-border">
               <Sidebar />
             </div>
           </div>
         )}
 
         {/* Main Content */}
-        <main className="flex-1 p-4 md:p-6">
-          {children}
+        <main className="flex-1 min-h-[calc(100vh-73px)]">
+          <div className="p-4 sm:p-6 lg:p-8">
+            {children}
+          </div>
         </main>
       </div>
     </div>

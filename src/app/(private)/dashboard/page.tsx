@@ -1,46 +1,63 @@
 "use client"
+import { Cloud, Sparkles } from "lucide-react";
 import StatsPanel from "@/app/(private)/dashboard/_components/StatsCard";
 import RecentActivity from "@/app/(private)/dashboard/_components/RecentActivity";
 import MimeTypeOverview from "@/app/(private)/dashboard/_components/MimitypeOverview";
-import QuickActions from "@/app/(private)/dashboard/_components/QuickActions";
 import { useGoogleDriveStatus, useUserId } from "@/app/(private)/hooks/useAuthStatus";
-
-const PRIMARY_COLOR = '#6B9ADF';
+import { PageHeader } from "@/app/components/ui/CloudBackground";
 
 const Dashboard = () => {
   const {userId} = useUserId()
   const {accounts} = useGoogleDriveStatus();
 
   return (
-    <div className="container max-w-7xl py-6 md:py-8">
-      <div className="flex flex-col gap-6 md:gap-8">
-        {/* Header */}
-        <div>
-          <h1
-            className="text-3xl md:text-4xl font-bold mb-2"
-            style={{
-              background: `linear-gradient(135deg, ${PRIMARY_COLOR} 0%, #5080C8 100%)`,
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
-          >
-            Dashboard
-          </h1>
-          <p className="text-muted-foreground">
-            Welcome back! Here's an overview of your connected drives.
-          </p>
-        </div>
+    <div className="container max-w-7xl mx-auto">
+      <div className="flex flex-col gap-8 md:gap-10">
+        {/* Header Section */}
+        <PageHeader
+          title="Dashboard"
+          description="Welcome back! Here's an overview of your connected drives and cloud storage."
+        >
+          <div className="flex items-center gap-3 mt-2">
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/20 text-white text-sm">
+              <Cloud size={14} />
+              <span>{accounts?.length || 0} Drives</span>
+            </div>
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/20 text-white text-sm">
+              <Sparkles size={14} />
+              <span>AI Ready</span>
+            </div>
+          </div>
+        </PageHeader>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-          <StatsPanel />
-        </div>
+        <section>
+          <div className="flex items-center gap-3 mb-6">
+            <h2 className="text-lg font-semibold text-foreground">Overview</h2>
+            <div className="flex-1 h-px bg-border" />
+          </div>
+          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            <StatsPanel />
+          </div>
+        </section>
 
         {/* Mime Type Overview */}
-        <MimeTypeOverview userId={userId} accounts={accounts || []} />
+        <section>
+          <div className="flex items-center gap-3 mb-6">
+            <h2 className="text-lg font-semibold text-foreground">File Distribution</h2>
+            <div className="flex-1 h-px bg-border" />
+          </div>
+          <MimeTypeOverview userId={userId} accounts={accounts || []} />
+        </section>
 
         {/* Recent Activity */}
-        <RecentActivity />
+        <section>
+          <div className="flex items-center gap-3 mb-6">
+            <h2 className="text-lg font-semibold text-foreground">Recent Activity</h2>
+            <div className="flex-1 h-px bg-border" />
+          </div>
+          <RecentActivity />
+        </section>
       </div>
     </div>
   );

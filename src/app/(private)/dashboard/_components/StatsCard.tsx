@@ -2,7 +2,7 @@
 
 import React from "react";
 import useSWR from "swr";
-import { File, Folder, Lightbulb, Save } from "lucide-react";
+import { File, Folder, Lightbulb, Save, TrendingUp } from "lucide-react";
 import { Card, CardContent } from "@/app/components/ui/card";
 import { Skeleton } from "@/app/components/ui/skeleton";
 
@@ -21,75 +21,57 @@ const fetchDashboardStats = async (): Promise<DashboardStats> => {
 };
 
 const StatCard = ({
-                      title,
-                      value,
-                      subtitle,
-                      icon,
-                      color,
-                      loading,
-                  }: {
+    title,
+    value,
+    subtitle,
+    icon,
+    gradient,
+    loading,
+}: {
     title: string;
     value: string | number;
     subtitle: string;
     icon: React.ReactNode;
-    color: string;
+    gradient: string;
     loading?: boolean;
 }) => {
-    const [isHovered, setIsHovered] = React.useState(false);
-
     return (
-        <Card
-            className="h-full border transition-all duration-300 cursor-default backdrop-blur-sm"
-            style={{
-                background: isHovered
-                    ? 'rgba(255, 255, 255, 0.95)'
-                    : 'rgba(255, 255, 255, 0.8)',
-                borderColor: isHovered ? `${color}40` : 'rgba(107, 154, 223, 0.15)',
-                transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',
-                boxShadow: isHovered
-                    ? `0 12px 24px rgba(107, 154, 223, 0.2), 0 0 0 1px ${color}20`
-                    : '0 2px 8px rgba(107, 154, 223, 0.08)',
-                backdropFilter: 'blur(10px)',
-            }}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-        >
-            <CardContent className="p-6">
-                <div className="flex flex-col gap-4">
-                    <div className="flex items-center justify-between">
+        <Card className="group h-full border border-border bg-card hover:shadow-lg transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+            <CardContent className="p-6 relative">
+                {/* Background decoration */}
+                <div
+                    className="absolute -top-12 -right-12 w-32 h-32 rounded-full opacity-10 blur-2xl transition-opacity group-hover:opacity-20"
+                    style={{ background: gradient }}
+                />
+
+                <div className="relative flex flex-col gap-4">
+                    {/* Icon and indicator */}
+                    <div className="flex items-start justify-between">
                         <div
-                            className="w-14 h-14 rounded-2xl flex items-center justify-center backdrop-blur-sm transition-all duration-300"
-                            style={{
-                                background: `linear-gradient(135deg, ${color}15, ${color}08)`,
-                                border: `1px solid ${color}20`,
-                                boxShadow: isHovered ? `0 4px 12px ${color}20` : 'none',
-                            }}
+                            className="w-12 h-12 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110"
+                            style={{ background: gradient }}
                         >
                             {icon}
                         </div>
-                        <div
-                            className="w-1 h-12 rounded-full"
-                            style={{
-                                background: `linear-gradient(to bottom, ${color}, ${color}80)`,
-                            }}
-                        />
+                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                            <TrendingUp size={12} className="text-success" />
+                            <span>Active</span>
+                        </div>
                     </div>
 
-                    <div>
-                        <p className="text-xs text-muted-foreground font-medium uppercase mb-2">
+                    {/* Stats */}
+                    <div className="space-y-1">
+                        <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">
                             {title}
                         </p>
                         {loading ? (
-                            <Skeleton className="h-9 w-3/5 mb-1.5" />
+                            <Skeleton className="h-8 w-20" />
                         ) : (
-                            <p
-                                className="text-4xl font-bold leading-none mb-1.5"
-                                style={{ color }}
-                            >
+                            <p className="text-3xl font-bold text-foreground tracking-tight">
                                 {value}
                             </p>
                         )}
-                        <p className="text-sm text-muted-foreground leading-tight">
+                        <p className="text-sm text-muted-foreground">
                             {subtitle}
                         </p>
                     </div>
@@ -115,38 +97,38 @@ export default function StatsPanel() {
             title: "Total Files",
             value: data?.fileCount ?? 0,
             subtitle: "Across all clouds",
-            icon: <File size={22} strokeWidth={2} style={{ color: "#6B9ADF" }} />,
-            color: "#6B9ADF",
+            icon: <File size={20} strokeWidth={2} className="text-white" />,
+            gradient: "linear-gradient(135deg, hsl(210 100% 50%) 0%, hsl(200 80% 55%) 100%)",
         },
         {
             title: "Total Folders",
             value: data?.folderCount ?? 0,
             subtitle: "Across all clouds",
-            icon: <Folder size={22} strokeWidth={2} style={{ color: "#5A89CF" }} />,
-            color: "#5A89CF",
+            icon: <Folder size={20} strokeWidth={2} className="text-white" />,
+            gradient: "linear-gradient(135deg, hsl(200 80% 50%) 0%, hsl(195 85% 55%) 100%)",
         },
         {
             title: "AI Insights",
             value: "0 new",
             subtitle: "Suggestions available",
-            icon: <Lightbulb size={22} strokeWidth={2} style={{ color: "#7CAAEF" }} />,
-            color: "#7CAAEF",
+            icon: <Lightbulb size={20} strokeWidth={2} className="text-white" />,
+            gradient: "linear-gradient(135deg, hsl(195 90% 55%) 0%, hsl(190 85% 50%) 100%)",
         },
         {
             title: "Potential Savings",
             value: "0 GB",
-            subtitle: "From duplicates & unused files",
-            icon: <Save size={22} strokeWidth={2} style={{ color: "#4A78BF" }} />,
-            color: "#4A78BF",
+            subtitle: "From duplicates & unused",
+            icon: <Save size={20} strokeWidth={2} className="text-white" />,
+            gradient: "linear-gradient(135deg, hsl(142 76% 36%) 0%, hsl(150 70% 40%) 100%)",
         },
     ];
 
     if (isError) {
         return (
-            <Card className="border">
-                <CardContent className="p-4">
+            <Card className="col-span-full border border-destructive/20 bg-destructive/5">
+                <CardContent className="p-6">
                     <p className="text-sm text-destructive">
-                        Failed to load statistics
+                        Failed to load statistics. Please try again later.
                     </p>
                 </CardContent>
             </Card>
