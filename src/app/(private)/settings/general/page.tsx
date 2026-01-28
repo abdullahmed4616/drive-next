@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import {
-  Settings,
   Globe,
   Clock,
   Calendar,

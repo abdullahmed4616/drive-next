@@ -36,9 +36,6 @@ const Dashboard = () => {
           <StatsPanel />
         </div>
 
-        {/* Quick Actions */}
-        <QuickActions />
-
         {/* Mime Type Overview */}
         <MimeTypeOverview userId={userId} accounts={accounts || []} />
 

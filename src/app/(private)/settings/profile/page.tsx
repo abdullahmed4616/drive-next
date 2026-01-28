@@ -35,7 +35,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/app/components/ui/alert-dialog';
+} from '@/app/components/ui/AlertDialog';
 
 const PRIMARY_COLOR = '#6B9ADF';
 const BORDER_COLOR = 'rgba(107, 154, 223, 0.3)';

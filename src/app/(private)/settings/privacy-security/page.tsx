@@ -18,8 +18,6 @@ import {
 } from 'lucide-react';
 import { Button } from '@/app/components/ui/Button';
 import { Badge } from '@/app/components/ui/badge';
-import { Input } from '@/app/components/ui/input';
-import { Label } from '@/app/components/ui/label';
 import { Switch } from '@/app/components/ui/switch';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/app/components/ui/card';
 import {
@@ -31,15 +29,6 @@ import {
   TableRow,
 } from '@/app/components/ui/table';
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/app/components/ui/dialog';
-import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -49,7 +38,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/app/components/ui/alert-dialog';
+} from '@/app/components/ui/AlertDialog';
 
 const PRIMARY_COLOR = '#6B9ADF';
 const BORDER_COLOR = 'rgba(107, 154, 223, 0.3)';

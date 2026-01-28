@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Bell, Mail, Smartphone, FileSync, Shield, TrendingUp, Save } from 'lucide-react';
+import { Bell, Mail, Smartphone, RefreshCw, Shield, TrendingUp, Save } from 'lucide-react';
 import { Button } from '@/app/components/ui/Button';
 import { Label } from '@/app/components/ui/label';
 import { Switch } from '@/app/components/ui/switch';
@@ -26,7 +26,7 @@ export default function NotificationsPage() {
       id: 'sync',
       title: 'Drive Sync Alerts',
       description: 'Get notified when your drives sync successfully or encounter issues',
-      icon: FileSync,
+      icon: RefreshCw,
       email: true,
       push: true,
     },
