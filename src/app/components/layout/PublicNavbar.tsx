@@ -2,22 +2,17 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Sparkles, Menu } from 'lucide-react';
+import { Cloud, Menu, X } from 'lucide-react';
 import { Button } from '@/app/components/ui/Button';
 import {
     Sheet,
     SheetContent,
     SheetHeader,
     SheetTitle,
-    SheetTrigger,
 } from '@/app/components/ui/sheet';
 
-const PRIMARY_COLOR = '#6B9ADF';
-const ACCENT_BG_COLOR = 'rgba(107, 154, 223, 0.1)';
-const BORDER_COLOR = 'rgba(107, 154, 223, 0.3)';
-
 const navItems = [
-    { label: 'Home', href: '/' },
+    { label: 'Home', href: '/home' },
     { label: 'Pricing', href: '/price' },
     { label: 'About Us', href: '/about' },
     { label: 'Contact Us', href: '/contact' },
@@ -38,176 +33,118 @@ export default function PublicNavbar() {
     return (
         <>
             <header
-                className="sticky top-0 z-50 transition-all duration-300"
-                style={{
-                    background: scrolled
-                        ? 'rgba(255, 255, 255, 0.8)'
-                        : 'transparent',
-                    backdropFilter: scrolled ? 'blur(12px)' : 'none',
-                    WebkitBackdropFilter: scrolled ? 'blur(12px)' : 'none',
-                    borderBottom: scrolled
-                        ? `1px solid ${BORDER_COLOR}`
-                        : '1px solid transparent',
-                    boxShadow: scrolled
-                        ? `0 4px 24px ${BORDER_COLOR}`
-                        : 'none',
-                }}
+                className={`sticky top-0 z-50 transition-all duration-300 ${
+                    scrolled
+                        ? 'bg-background/80 backdrop-blur-xl border-b border-border shadow-lg'
+                        : 'bg-transparent border-b border-transparent'
+                }`}
             >
-                <div className="container mx-auto max-w-7xl px-4">
-                    <div className="flex h-[70px] items-center justify-between">
-                        <Link href="/" className="no-underline">
-                            <div className="flex items-center gap-2 cursor-pointer">
-                                <div
-                                    className="w-10 h-10 rounded-xl flex items-center justify-center animate-floating"
-                                    style={{
-                                        background: PRIMARY_COLOR,
-                                        boxShadow: `0 4px 16px ${BORDER_COLOR}`,
-                                    }}
-                                >
-                                    <Sparkles size={24} color="white" strokeWidth={2.5} />
+                <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div className="flex h-16 md:h-20 items-center justify-between">
+                        {/* Logo */}
+                        <Link href="/" className="no-underline group">
+                            <div className="flex items-center gap-3 cursor-pointer">
+                                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-lg shadow-primary/25 group-hover:shadow-primary/40 transition-all duration-300 group-hover:scale-105">
+                                    <Cloud size={22} className="text-white" />
                                 </div>
-                                <span
-                                    className="text-xl font-extrabold"
-                                    style={{
-                                        color: PRIMARY_COLOR,
-                                        fontFamily: "'Outfit', sans-serif",
-                                        letterSpacing: '-0.5px',
-                                    }}
-                                >
+                                <span className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                                     DriveUnity
                                 </span>
                             </div>
                         </Link>
 
-                        <div className="hidden sm:flex items-center gap-6">
-                            {navItems.map((item, index) => (
+                        {/* Desktop Navigation */}
+                        <nav className="hidden md:flex items-center gap-1">
+                            {navItems.map((item) => (
                                 <Link
                                     key={item.href}
                                     href={item.href}
-                                    className="nav-link text-sm font-medium relative transition-colors hover:text-[#6B9ADF]"
-                                    style={{
-                                        textDecoration: 'none',
-                                        animationDelay: `${index * 0.1}s`,
-                                    }}
+                                    className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-primary rounded-lg hover:bg-primary/5 transition-all duration-200"
                                 >
                                     {item.label}
                                 </Link>
                             ))}
+                        </nav>
 
+                        {/* Desktop CTA */}
+                        <div className="hidden md:flex items-center gap-3">
                             <Button
                                 asChild
-                                size="default"
-                                className="rounded-full font-semibold transition-all hover:-translate-y-0.5"
-                                style={{
-                                    background: PRIMARY_COLOR,
-                                    boxShadow: `0 4px 16px ${BORDER_COLOR}`,
-                                }}
+                                variant="ghost"
+                                className="text-muted-foreground hover:text-primary"
                             >
-                                <Link href="/auth">
-                                    Sign In
-                                </Link>
+                                <Link href="/auth">Sign In</Link>
+                            </Button>
+                            <Button
+                                asChild
+                                className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all duration-300"
+                            >
+                                <Link href="/auth">Get Started</Link>
                             </Button>
                         </div>
 
+                        {/* Mobile Menu Button */}
                         <Button
                             variant="ghost"
                             size="icon"
-                            className="sm:hidden rounded-xl transition-transform hover:scale-105"
-                            style={{
-                                background: PRIMARY_COLOR,
-                                boxShadow: `0 4px 12px ${BORDER_COLOR}`,
-                            }}
+                            className="md:hidden"
                             onClick={() => setOpened(!opened)}
                         >
-                            <Menu size={20} color="white" />
+                            <Menu size={24} className="text-foreground" />
                         </Button>
                     </div>
                 </div>
             </header>
 
+            {/* Mobile Navigation Sheet */}
             <Sheet open={opened} onOpenChange={setOpened}>
-                <SheetContent side="right" className="sm:hidden">
-                    <SheetHeader className="mb-6">
-                        <SheetTitle className="flex items-center gap-2">
-                            <div
-                                className="w-9 h-9 rounded-lg flex items-center justify-center"
-                                style={{
-                                    background: PRIMARY_COLOR,
-                                    boxShadow: `0 4px 16px ${BORDER_COLOR}`,
-                                }}
-                            >
-                                <Sparkles size={20} color="white" strokeWidth={2.5} />
+                <SheetContent side="right" className="w-full max-w-sm p-0">
+                    <SheetHeader className="p-6 bg-gradient-to-br from-primary to-secondary">
+                        <SheetTitle className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+                                <Cloud size={22} className="text-white" />
                             </div>
-                            <span
-                                className="text-lg font-extrabold"
-                                style={{
-                                    color: PRIMARY_COLOR,
-                                    fontFamily: "'Outfit', sans-serif",
-                                }}
-                            >
+                            <span className="text-xl font-bold text-white">
                                 DriveUnity
                             </span>
                         </SheetTitle>
                     </SheetHeader>
 
-                    <div className="flex flex-col gap-4">
-                        {navItems.map((item, index) => (
+                    <div className="p-6 flex flex-col gap-2">
+                        {navItems.map((item) => (
                             <Link
                                 key={item.href}
                                 href={item.href}
                                 onClick={() => setOpened(false)}
-                                className="p-4 rounded-2xl bg-white transition-all hover:translate-x-1 fade-in"
-                                style={{
-                                    textDecoration: 'none',
-                                    border: `1px solid ${BORDER_COLOR}`,
-                                    boxShadow: `0 2px 8px ${BORDER_COLOR}`,
-                                    animationDelay: `${index * 0.1}s`,
-                                }}
+                                className="flex items-center px-4 py-3 rounded-xl text-foreground font-medium hover:bg-primary/5 hover:text-primary transition-all duration-200"
                             >
-                                <span className="font-medium text-foreground">
-                                    {item.label}
-                                </span>
+                                {item.label}
                             </Link>
                         ))}
 
+                        <div className="border-t border-border my-4" />
+
                         <Button
                             asChild
-                            size="lg"
-                            className="w-full rounded-full mt-4 font-semibold"
-                            style={{
-                                background: PRIMARY_COLOR,
-                                boxShadow: `0 4px 16px ${BORDER_COLOR}`,
-                            }}
+                            variant="outline"
+                            className="w-full justify-center"
                         >
-                            <Link href="/auth">
+                            <Link href="/auth" onClick={() => setOpened(false)}>
                                 Sign In
+                            </Link>
+                        </Button>
+
+                        <Button
+                            asChild
+                            className="w-full justify-center bg-gradient-to-r from-primary to-secondary text-white"
+                        >
+                            <Link href="/auth" onClick={() => setOpened(false)}>
+                                Get Started
                             </Link>
                         </Button>
                     </div>
                 </SheetContent>
             </Sheet>
-
-            <style jsx global>{`
-                @keyframes floating {
-                    0%, 100% {
-                        transform: translateY(0px);
-                    }
-                    50% {
-                        transform: translateY(-6px);
-                    }
-                }
-
-                @keyframes fadeIn {
-                    from {
-                        opacity: 0;
-                        transform: translateY(10px);
-                    }
-                    to {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
-            `}</style>
         </>
     );
 }

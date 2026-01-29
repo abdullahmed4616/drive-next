@@ -4,59 +4,56 @@ import { Settings, User, CreditCard, Bell, Shield, Cog } from 'lucide-react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/app/components/ui/card';
 
-const PRIMARY_COLOR = '#6B9ADF';
-const BORDER_COLOR = 'rgba(107, 154, 223, 0.3)';
-
 const settingsCategories = [
   {
     title: 'Profile Settings',
     description: 'Manage your personal information and account details',
     icon: User,
     href: '/settings/profile',
-    color: '#6B9ADF',
+    iconBg: 'bg-blue-500/10',
+    iconColor: 'text-blue-500',
   },
   {
     title: 'Subscription & Billing',
     description: 'View your plan, manage payments, and billing history',
     icon: CreditCard,
     href: '/settings/billing',
-    color: '#10B981',
+    iconBg: 'bg-green-500/10',
+    iconColor: 'text-green-500',
   },
   {
     title: 'Notifications',
     description: 'Configure how and when you receive notifications',
     icon: Bell,
     href: '/settings/notifications',
-    color: '#F59E0B',
+    iconBg: 'bg-amber-500/10',
+    iconColor: 'text-amber-500',
   },
   {
     title: 'Privacy & Security',
     description: 'Manage your security settings and connected apps',
     icon: Shield,
     href: '/settings/privacy-security',
-    color: '#8B5CF6',
+    iconBg: 'bg-purple-500/10',
+    iconColor: 'text-purple-500',
   },
   {
     title: 'General Settings',
     description: 'Customize language, timezone, and appearance',
     icon: Cog,
     href: '/settings/general',
-    color: '#EC4899',
+    iconBg: 'bg-pink-500/10',
+    iconColor: 'text-pink-500',
   },
 ];
 
 export default function SettingsPage() {
   return (
     <div>
-      <Card
-        style={{
-          border: `1px solid ${BORDER_COLOR}`,
-          background: 'rgba(255, 255, 255, 0.95)',
-        }}
-      >
+      <Card className="border border-border bg-card">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Settings size={24} style={{ color: PRIMARY_COLOR }} />
+            <Settings size={24} className="text-primary" />
             Settings Overview
           </CardTitle>
           <CardDescription>
@@ -73,20 +70,11 @@ export default function SettingsPage() {
                   href={category.href}
                   className="block"
                 >
-                  <Card
-                    className="h-full transition-all hover:shadow-lg hover:-translate-y-1 cursor-pointer"
-                    style={{
-                      border: `1px solid ${BORDER_COLOR}`,
-                      background: 'rgba(255, 255, 255, 0.8)',
-                    }}
-                  >
+                  <Card className="h-full transition-all hover:shadow-lg hover:-translate-y-1 cursor-pointer border border-border bg-card">
                     <CardContent className="p-6">
                       <div className="flex items-start gap-4">
-                        <div
-                          className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-                          style={{ background: `${category.color}15` }}
-                        >
-                          <Icon size={24} style={{ color: category.color }} />
+                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${category.iconBg}`}>
+                          <Icon size={24} className={category.iconColor} />
                         </div>
                         <div>
                           <h3 className="font-semibold text-foreground mb-1">

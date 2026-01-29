@@ -59,9 +59,6 @@ import {
   DialogTitle,
 } from '@/app/components/ui/dialog';
 
-const PRIMARY_COLOR = '#6B9ADF';
-const BORDER_COLOR = 'rgba(107, 154, 223, 0.3)';
-
 // Mock data
 const overviewStats = {
   totalFiles: 12847,
@@ -182,14 +179,7 @@ export default function AnalyticsPage() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h1
-              className="text-4xl font-bold mb-2"
-              style={{
-                background: `linear-gradient(135deg, ${PRIMARY_COLOR} 0%, #5080C8 100%)`,
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}
-            >
+            <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               Analytics Dashboard
             </h1>
             <p className="text-muted-foreground">
@@ -198,7 +188,7 @@ export default function AnalyticsPage() {
           </div>
           <div className="flex items-center gap-3">
             <Select value={dateRange} onValueChange={setDateRange}>
-              <SelectTrigger className="w-[180px]" style={{ borderColor: BORDER_COLOR }}>
+              <SelectTrigger className="w-[180px] border-border">
                 <Calendar size={16} className="mr-2" />
                 <SelectValue />
               </SelectTrigger>
@@ -214,7 +204,7 @@ export default function AnalyticsPage() {
               variant="outline"
               onClick={handleRefresh}
               disabled={isRefreshing}
-              style={{ borderColor: BORDER_COLOR }}
+              className="border-border"
             >
               <RefreshCw size={16} className={`mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
               Refresh
@@ -260,10 +250,7 @@ export default function AnalyticsPage() {
 
         {/* Main Content Tabs */}
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList
-            className="grid w-full grid-cols-3 lg:w-auto lg:inline-flex"
-            style={{ background: `${PRIMARY_COLOR}10` }}
-          >
+          <TabsList className="grid w-full grid-cols-3 lg:w-auto lg:inline-flex bg-primary/5">
             <TabsTrigger value="overview" className="data-[state=active]:bg-white">
               <PieChart size={16} className="mr-2" />
               Overview
@@ -282,10 +269,10 @@ export default function AnalyticsPage() {
           <TabsContent value="overview" className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* File Type Distribution */}
-              <Card style={{ border: `1px solid ${BORDER_COLOR}` }}>
+              <Card className="border border-border">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <PieChart size={20} style={{ color: PRIMARY_COLOR }} />
+                    <PieChart size={20} className="text-primary" />
                     File Type Distribution
                   </CardTitle>
                   <CardDescription>Breakdown of files by type across all drives</CardDescription>
@@ -333,10 +320,10 @@ export default function AnalyticsPage() {
               </Card>
 
               {/* File Activity Chart */}
-              <Card style={{ border: `1px solid ${BORDER_COLOR}` }}>
+              <Card className="border border-border">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <BarChart3 size={20} style={{ color: PRIMARY_COLOR }} />
+                    <BarChart3 size={20} className="text-primary" />
                     File Activity
                   </CardTitle>
                   <CardDescription>Files created and modified over time</CardDescription>
@@ -346,17 +333,11 @@ export default function AnalyticsPage() {
                     {/* Legend */}
                     <div className="flex items-center gap-6">
                       <div className="flex items-center gap-2">
-                        <div
-                          className="w-3 h-3 rounded"
-                          style={{ background: PRIMARY_COLOR }}
-                        />
+                        <div className="w-3 h-3 rounded bg-primary" />
                         <span className="text-sm text-muted-foreground">Created</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <div
-                          className="w-3 h-3 rounded"
-                          style={{ background: `${PRIMARY_COLOR}60` }}
-                        />
+                        <div className="w-3 h-3 rounded bg-primary/40" />
                         <span className="text-sm text-muted-foreground">Modified</span>
                       </div>
                     </div>
@@ -373,17 +354,15 @@ export default function AnalyticsPage() {
                           </div>
                           <div className="flex gap-1 h-6">
                             <div
-                              className="rounded-l transition-all"
+                              className="rounded-l transition-all bg-primary"
                               style={{
                                 width: `${(item.created / 1200) * 100}%`,
-                                background: PRIMARY_COLOR,
                               }}
                             />
                             <div
-                              className="rounded-r transition-all"
+                              className="rounded-r transition-all bg-primary/40"
                               style={{
                                 width: `${(item.modified / 1200) * 100}%`,
-                                background: `${PRIMARY_COLOR}60`,
                               }}
                             />
                           </div>
@@ -396,10 +375,10 @@ export default function AnalyticsPage() {
             </div>
 
             {/* Quick Insights */}
-            <Card style={{ border: `1px solid ${BORDER_COLOR}` }}>
+            <Card className="border border-border">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <TrendingUp size={20} style={{ color: PRIMARY_COLOR }} />
+                  <TrendingUp size={20} className="text-primary" />
                   Quick Insights
                 </CardTitle>
               </CardHeader>
@@ -410,21 +389,18 @@ export default function AnalyticsPage() {
                     title="Large Files"
                     description="23 files over 100MB detected"
                     action="Review files"
-                    actionColor="#F59E0B"
                   />
                   <InsightCard
                     icon={<Copy size={20} className="text-blue-500" />}
                     title="Duplicates Found"
                     description={`${duplicateGroups.length} duplicate groups found`}
                     action="Manage duplicates"
-                    actionColor={PRIMARY_COLOR}
                   />
                   <InsightCard
                     icon={<Folder size={20} className="text-green-500" />}
                     title="Empty Folders"
                     description="12 empty folders can be removed"
                     action="Clean up"
-                    actionColor="#10B981"
                   />
                 </div>
               </CardContent>
@@ -435,10 +411,10 @@ export default function AnalyticsPage() {
           <TabsContent value="storage" className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Storage by Drive */}
-              <Card style={{ border: `1px solid ${BORDER_COLOR}` }}>
+              <Card className="border border-border">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <HardDrive size={20} style={{ color: PRIMARY_COLOR }} />
+                    <HardDrive size={20} className="text-primary" />
                     Storage by Drive
                   </CardTitle>
                   <CardDescription>Storage usage across your connected drives</CardDescription>
@@ -480,10 +456,10 @@ export default function AnalyticsPage() {
               </Card>
 
               {/* Storage Summary */}
-              <Card style={{ border: `1px solid ${BORDER_COLOR}` }}>
+              <Card className="border border-border">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <PieChart size={20} style={{ color: PRIMARY_COLOR }} />
+                    <PieChart size={20} className="text-primary" />
                     Storage Summary
                   </CardTitle>
                   <CardDescription>Total storage across all drives</CardDescription>
@@ -497,7 +473,7 @@ export default function AnalyticsPage() {
                             cx="80"
                             cy="80"
                             r="70"
-                            stroke={`${PRIMARY_COLOR}20`}
+                            className="stroke-primary/20"
                             strokeWidth="12"
                             fill="none"
                           />
@@ -505,7 +481,7 @@ export default function AnalyticsPage() {
                             cx="80"
                             cy="80"
                             r="70"
-                            stroke={PRIMARY_COLOR}
+                            className="stroke-primary"
                             strokeWidth="12"
                             fill="none"
                             strokeDasharray={`${(45.8 / 95) * 440} 440`}
@@ -513,7 +489,7 @@ export default function AnalyticsPage() {
                           />
                         </svg>
                         <div className="absolute text-center">
-                          <p className="text-3xl font-bold" style={{ color: PRIMARY_COLOR }}>
+                          <p className="text-3xl font-bold text-primary">
                             45.8 GB
                           </p>
                           <p className="text-sm text-muted-foreground">of 95 GB</p>
@@ -545,10 +521,10 @@ export default function AnalyticsPage() {
             </div>
 
             {/* Size Distribution */}
-            <Card style={{ border: `1px solid ${BORDER_COLOR}` }}>
+            <Card className="border border-border">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <BarChart3 size={20} style={{ color: PRIMARY_COLOR }} />
+                  <BarChart3 size={20} className="text-primary" />
                   File Size Distribution
                 </CardTitle>
                 <CardDescription>Distribution of files by size ranges</CardDescription>
@@ -569,14 +545,11 @@ export default function AnalyticsPage() {
           <TabsContent value="duplicates" className="space-y-6">
             {/* Duplicates Summary */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Card style={{ border: `1px solid ${BORDER_COLOR}` }}>
+              <Card className="border border-border">
                 <CardContent className="p-6">
                   <div className="flex items-center gap-4">
-                    <div
-                      className="w-12 h-12 rounded-xl flex items-center justify-center"
-                      style={{ background: `${PRIMARY_COLOR}15` }}
-                    >
-                      <Copy size={24} style={{ color: PRIMARY_COLOR }} />
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-primary/10">
+                      <Copy size={24} className="text-primary" />
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Duplicate Groups</p>
@@ -585,12 +558,11 @@ export default function AnalyticsPage() {
                   </div>
                 </CardContent>
               </Card>
-              <Card style={{ border: `1px solid ${BORDER_COLOR}` }}>
+              <Card className="border border-border">
                 <CardContent className="p-6">
                   <div className="flex items-center gap-4">
                     <div
-                      className="w-12 h-12 rounded-xl flex items-center justify-center"
-                      style={{ background: 'rgba(245, 158, 11, 0.15)' }}
+                      className="w-12 h-12 rounded-xl flex items-center justify-center bg-amber-500/15"
                     >
                       <HardDrive size={24} className="text-amber-500" />
                     </div>
@@ -601,12 +573,11 @@ export default function AnalyticsPage() {
                   </div>
                 </CardContent>
               </Card>
-              <Card style={{ border: `1px solid ${BORDER_COLOR}` }}>
+              <Card className="border border-border">
                 <CardContent className="p-6">
                   <div className="flex items-center gap-4">
                     <div
-                      className="w-12 h-12 rounded-xl flex items-center justify-center"
-                      style={{ background: 'rgba(16, 185, 129, 0.15)' }}
+                      className="w-12 h-12 rounded-xl flex items-center justify-center bg-green-500/15"
                     >
                       <TrendingUp size={24} className="text-green-500" />
                     </div>
@@ -622,12 +593,12 @@ export default function AnalyticsPage() {
             </div>
 
             {/* Duplicates Table */}
-            <Card style={{ border: `1px solid ${BORDER_COLOR}` }}>
+            <Card className="border border-border">
               <CardHeader>
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                   <div>
                     <CardTitle className="flex items-center gap-2">
-                      <Copy size={20} style={{ color: PRIMARY_COLOR }} />
+                      <Copy size={20} className="text-primary" />
                       Duplicate Files
                     </CardTitle>
                     <CardDescription>
@@ -685,14 +656,11 @@ export default function AnalyticsPage() {
                         <TableCell className="text-center">
                           <Badge
                             variant="secondary"
-                            className="font-semibold"
-                            style={{
-                              background:
-                                group.copies > 3
-                                  ? 'rgba(239, 68, 68, 0.15)'
-                                  : 'rgba(245, 158, 11, 0.15)',
-                              color: group.copies > 3 ? '#EF4444' : '#F59E0B',
-                            }}
+                            className={`font-semibold ${
+                              group.copies > 3
+                                ? 'bg-red-500/15 text-red-500'
+                                : 'bg-amber-500/15 text-amber-500'
+                            }`}
                           >
                             {group.copies}x
                           </Badge>
@@ -756,10 +724,7 @@ export default function AnalyticsPage() {
               file(s)? This will keep the original file and remove all duplicate copies.
             </DialogDescription>
           </DialogHeader>
-          <div
-            className="p-4 rounded-lg"
-            style={{ background: `${PRIMARY_COLOR}10`, border: `1px solid ${BORDER_COLOR}` }}
-          >
+          <div className="p-4 rounded-lg bg-primary/5 border border-border">
             <p className="text-sm">
               <strong>Space to be recovered:</strong>{' '}
               <span className="text-green-600">
@@ -798,13 +763,7 @@ interface StatCardProps {
 
 function StatCard({ title, value, icon, color, warning, positive }: StatCardProps) {
   return (
-    <Card
-      className="transition-all hover:shadow-lg hover:-translate-y-1"
-      style={{
-        border: `1px solid ${BORDER_COLOR}`,
-        background: 'rgba(255, 255, 255, 0.95)',
-      }}
-    >
+    <Card className="transition-all hover:shadow-lg hover:-translate-y-1 border border-border bg-card">
       <CardContent className="p-4">
         <div className="flex items-start justify-between">
           <div
@@ -838,24 +797,17 @@ interface InsightCardProps {
   title: string;
   description: string;
   action: string;
-  actionColor: string;
 }
 
-function InsightCard({ icon, title, description, action, actionColor }: InsightCardProps) {
+function InsightCard({ icon, title, description, action }: InsightCardProps) {
   return (
-    <div
-      className="p-4 rounded-xl transition-all hover:shadow-md"
-      style={{
-        background: `${actionColor}08`,
-        border: `1px solid ${actionColor}20`,
-      }}
-    >
+    <div className="p-4 rounded-xl transition-all hover:shadow-md bg-primary/5 border border-primary/20">
       <div className="flex items-start gap-3">
         {icon}
         <div className="flex-1">
           <p className="font-semibold text-sm">{title}</p>
           <p className="text-xs text-muted-foreground mb-2">{description}</p>
-          <Button variant="link" size="sm" className="h-auto p-0 text-xs" style={{ color: actionColor }}>
+          <Button variant="link" size="sm" className="h-auto p-0 text-xs text-primary">
             {action} &rarr;
           </Button>
         </div>
@@ -872,14 +824,8 @@ interface SizeRangeCardProps {
 
 function SizeRangeCard({ label, count, percentage }: SizeRangeCardProps) {
   return (
-    <div
-      className="p-4 rounded-xl text-center"
-      style={{
-        background: `${PRIMARY_COLOR}08`,
-        border: `1px solid ${BORDER_COLOR}`,
-      }}
-    >
-      <p className="text-2xl font-bold" style={{ color: PRIMARY_COLOR }}>
+    <div className="p-4 rounded-xl text-center bg-primary/5 border border-border">
+      <p className="text-2xl font-bold text-primary">
         {count.toLocaleString()}
       </p>
       <p className="text-sm text-muted-foreground">{label}</p>
