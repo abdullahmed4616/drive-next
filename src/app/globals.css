@@ -155,30 +155,30 @@ body{
     }
 
     .dark {
-        /* Professional Cloud Theme - Dark Mode */
-        --background: 222 47% 6%;
-        --foreground: 210 20% 98%;
+        /* Deep Charcoal Dark Theme - Near-black layered surfaces */
+        --background: 228 18% 5%;
+        --foreground: 220 15% 90%;
 
-        --card: 222 47% 9%;
-        --card-foreground: 210 20% 98%;
+        --card: 225 18% 8%;
+        --card-foreground: 220 15% 90%;
 
-        --popover: 222 47% 9%;
-        --popover-foreground: 210 20% 98%;
+        --popover: 225 18% 8%;
+        --popover-foreground: 220 15% 90%;
 
-        --primary: 234 85% 63%;
+        --primary: 230 80% 62%;
         --primary-foreground: 0 0% 100%;
 
-        --secondary: 217 91% 60%;
+        --secondary: 217 85% 58%;
         --secondary-foreground: 0 0% 100%;
 
-        --muted: 222 30% 15%;
-        --muted-foreground: 215 15% 55%;
+        --muted: 225 15% 12%;
+        --muted-foreground: 220 10% 52%;
 
-        --accent: 222 30% 15%;
-        --accent-foreground: 210 20% 98%;
+        --accent: 225 15% 12%;
+        --accent-foreground: 220 15% 90%;
 
         --destructive: 0 63% 45%;
-        --destructive-foreground: 210 20% 98%;
+        --destructive-foreground: 220 15% 90%;
 
         --success: 142 70% 40%;
         --success-foreground: 0 0% 100%;
@@ -186,43 +186,43 @@ body{
         --warning: 38 85% 55%;
         --warning-foreground: 0 0% 100%;
 
-        --border: 222 30% 18%;
-        --input: 222 30% 18%;
-        --ring: 234 85% 63%;
+        --border: 225 15% 14%;
+        --input: 225 15% 14%;
+        --ring: 230 80% 62%;
 
-        /* Sidebar Dark */
-        --sidebar-background: 222 47% 8%;
-        --sidebar-foreground: 210 20% 98%;
-        --sidebar-primary: 234 85% 63%;
+        /* Sidebar Dark - Slightly elevated surface */
+        --sidebar-background: 228 18% 7%;
+        --sidebar-foreground: 220 15% 90%;
+        --sidebar-primary: 230 80% 62%;
         --sidebar-primary-foreground: 0 0% 100%;
-        --sidebar-accent: 222 30% 15%;
-        --sidebar-accent-foreground: 210 20% 98%;
-        --sidebar-border: 222 30% 18%;
-        --sidebar-ring: 234 85% 63%;
+        --sidebar-accent: 225 15% 12%;
+        --sidebar-accent-foreground: 220 15% 90%;
+        --sidebar-border: 225 15% 14%;
+        --sidebar-ring: 230 80% 62%;
 
         /* Cloud Theme Dark */
-        --cloud-primary: 234 85% 63%;
-        --cloud-secondary: 217 91% 60%;
-        --cloud-light: 222 30% 15%;
+        --cloud-primary: 230 80% 62%;
+        --cloud-secondary: 217 85% 58%;
+        --cloud-light: 225 15% 12%;
         --cloud-accent: 210 100% 60%;
-        --cloud-deep: 234 85% 45%;
+        --cloud-deep: 230 80% 45%;
 
         /* Dark Mode Gradients */
-        --gradient-primary: linear-gradient(135deg, hsl(234 85% 63%) 0%, hsl(217 91% 60%) 100%);
-        --gradient-hero: linear-gradient(180deg, hsl(222 47% 6%) 0%, hsl(222 47% 8%) 100%);
-        --gradient-card: linear-gradient(180deg, hsl(222 47% 9%) 0%, hsl(222 47% 11%) 100%);
-        --gradient-cloud: linear-gradient(135deg, hsl(234 85% 63%) 0%, hsl(210 100% 55%) 50%, hsl(217 91% 60%) 100%);
-        --gradient-sky: linear-gradient(180deg, hsl(222 30% 12%) 0%, hsl(222 47% 6%) 100%);
-        --gradient-subtle: linear-gradient(135deg, hsl(222 47% 9%) 0%, hsl(222 30% 11%) 100%);
+        --gradient-primary: linear-gradient(135deg, hsl(230 80% 62%) 0%, hsl(217 85% 58%) 100%);
+        --gradient-hero: linear-gradient(180deg, hsl(228 18% 5%) 0%, hsl(225 18% 8%) 100%);
+        --gradient-card: linear-gradient(180deg, hsl(225 18% 8%) 0%, hsl(225 18% 10%) 100%);
+        --gradient-cloud: linear-gradient(135deg, hsl(230 80% 62%) 0%, hsl(210 100% 55%) 50%, hsl(217 85% 58%) 100%);
+        --gradient-sky: linear-gradient(180deg, hsl(225 15% 10%) 0%, hsl(228 18% 5%) 100%);
+        --gradient-subtle: linear-gradient(135deg, hsl(225 18% 8%) 0%, hsl(225 15% 10%) 100%);
 
-        /* Dark Shadows */
-        --shadow-xs: 0 1px 2px 0 hsl(0 0% 0% / 0.2);
-        --shadow-sm: 0 1px 3px 0 hsl(0 0% 0% / 0.25), 0 1px 2px -1px hsl(0 0% 0% / 0.15);
-        --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.25), 0 2px 4px -2px hsl(0 0% 0% / 0.15);
-        --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.3), 0 4px 6px -4px hsl(0 0% 0% / 0.2);
-        --shadow-xl: 0 20px 25px -5px hsl(0 0% 0% / 0.35), 0 8px 10px -6px hsl(0 0% 0% / 0.2);
-        --shadow-glow: 0 0 40px hsl(234 85% 63% / 0.2);
-        --shadow-cloud: 0 8px 32px hsl(234 85% 63% / 0.15);
+        /* Dark Shadows - Deeper, more pronounced */
+        --shadow-xs: 0 1px 2px 0 hsl(0 0% 0% / 0.3);
+        --shadow-sm: 0 1px 3px 0 hsl(0 0% 0% / 0.35), 0 1px 2px -1px hsl(0 0% 0% / 0.2);
+        --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.35), 0 2px 4px -2px hsl(0 0% 0% / 0.2);
+        --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.4), 0 4px 6px -4px hsl(0 0% 0% / 0.25);
+        --shadow-xl: 0 20px 25px -5px hsl(0 0% 0% / 0.45), 0 8px 10px -6px hsl(0 0% 0% / 0.25);
+        --shadow-glow: 0 0 40px hsl(230 80% 62% / 0.2);
+        --shadow-cloud: 0 8px 32px hsl(230 80% 62% / 0.15);
     }
 }
 
@@ -353,6 +353,24 @@ body{
     .glass-strong {
         @apply backdrop-blur-2xl;
         background: hsl(var(--card) / 0.9);
+    }
+
+    /* Surface layers for dark theme elevation */
+    .surface-0 {
+        background: hsl(var(--background));
+    }
+
+    .surface-1 {
+        background: hsl(var(--card));
+    }
+
+    .surface-2 {
+        background: hsl(var(--muted));
+    }
+
+    .surface-elevated {
+        background: hsl(var(--card));
+        box-shadow: var(--shadow-md);
     }
 
     /* Cloud Decorative Elements */

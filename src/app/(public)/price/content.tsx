@@ -5,7 +5,6 @@ import { Check, Sparkles, Rocket, Crown, Zap, Shield, TrendingUp, Star, ArrowRig
 import Link from 'next/link';
 import { Button } from "@/app/components/ui/Button";
 import { Badge } from "@/app/components/ui/badge";
-import { Card, CardContent, CardHeader } from "@/app/components/ui/card";
 import { Switch } from "@/app/components/ui/switch";
 import {
     Table,
@@ -108,50 +107,50 @@ export default function PricingPage() {
     const renderValue = (value: boolean | string) => {
         if (typeof value === 'boolean') {
             return value ? (
-                <div className="w-6 h-6 rounded-full flex items-center justify-center mx-auto bg-green-500/10">
-                    <Check size={14} className="text-green-600" />
+                <div className="w-6 h-6 rounded-full flex items-center justify-center mx-auto bg-emerald-500/10">
+                    <Check size={14} className="text-emerald-400" />
                 </div>
             ) : (
-                <div className="w-6 h-6 rounded-full flex items-center justify-center mx-auto bg-muted">
-                    <Minus size={14} className="text-muted-foreground" />
+                <div className="w-6 h-6 rounded-full flex items-center justify-center mx-auto bg-white/[0.03]">
+                    <Minus size={14} className="text-white/20" />
                 </div>
             );
         }
-        return <span className="font-medium text-foreground">{value}</span>;
+        return <span className="font-medium text-white/80">{value}</span>;
     };
 
     return (
         <div className="min-h-screen">
             {/* Hero Section */}
-            <section className="relative overflow-hidden bg-gradient-to-b from-background via-primary/5 to-background py-20 lg:py-28">
+            <section className="relative overflow-hidden py-20 lg:py-28">
                 <div className="absolute inset-0 -z-10">
-                    <div className="absolute right-0 top-0 h-[500px] w-[500px] rounded-full bg-primary/10 blur-3xl" />
-                    <div className="absolute left-0 bottom-0 h-[400px] w-[400px] rounded-full bg-secondary/10 blur-3xl" />
+                    <div className="absolute right-0 top-0 h-[500px] w-[500px] rounded-full bg-primary/[0.06] blur-[120px]" />
+                    <div className="absolute left-0 bottom-0 h-[400px] w-[400px] rounded-full bg-secondary/[0.05] blur-[100px]" />
                 </div>
 
-                <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
                     <div className="flex flex-col items-center text-center">
-                        <Badge className="mb-6 px-4 py-2 bg-primary text-white">
+                        <Badge className="mb-6 px-4 py-1.5 bg-primary/10 text-primary border border-primary/20">
                             <Sparkles className="mr-2 h-4 w-4" />
                             Simple, Transparent Pricing
                         </Badge>
 
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 tracking-tight">
                             Choose the{' '}
-                            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                            <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-blue-500 bg-clip-text text-transparent">
                                 Perfect Plan
                             </span>{' '}
                             for Your Needs
                         </h1>
 
-                        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-10 leading-relaxed">
+                        <p className="text-lg md:text-xl text-white/40 max-w-2xl mb-10 leading-relaxed">
                             Start with a free plan and upgrade as you grow. All plans include
                             our core features with no hidden fees.
                         </p>
 
                         {/* Billing Toggle */}
-                        <div className="flex items-center gap-4 bg-card p-2 px-6 rounded-full border border-border shadow-lg">
-                            <span className={`text-sm font-medium ${billingCycle === 'monthly' ? 'text-primary' : 'text-muted-foreground'}`}>
+                        <div className="flex items-center gap-4 bg-white/[0.03] p-2 px-6 rounded-full border border-white/[0.06]">
+                            <span className={`text-sm font-medium ${billingCycle === 'monthly' ? 'text-primary' : 'text-white/40'}`}>
                                 Monthly
                             </span>
                             <Switch
@@ -159,10 +158,10 @@ export default function PricingPage() {
                                 onCheckedChange={(checked) => setBillingCycle(checked ? 'yearly' : 'monthly')}
                             />
                             <div className="flex items-center gap-2">
-                                <span className={`text-sm font-medium ${billingCycle === 'yearly' ? 'text-primary' : 'text-muted-foreground'}`}>
+                                <span className={`text-sm font-medium ${billingCycle === 'yearly' ? 'text-primary' : 'text-white/40'}`}>
                                     Yearly
                                 </span>
-                                <Badge className="bg-green-500 text-white">Save 17%</Badge>
+                                <Badge className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Save 17%</Badge>
                             </div>
                         </div>
                     </div>
@@ -171,53 +170,65 @@ export default function PricingPage() {
 
             {/* Pricing Cards */}
             <section className="py-16 lg:py-24">
-                <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {pricingPlans.map((plan) => {
                             const Icon = plan.icon;
                             const price = billingCycle === 'monthly' ? plan.monthlyPrice : plan.yearlyPrice;
                             const monthlyPrice = billingCycle === 'yearly' ? (plan.yearlyPrice / 12).toFixed(0) : plan.monthlyPrice;
 
                             return (
-                                <Card
+                                <div
                                     key={plan.id}
-                                    className={`relative overflow-hidden border ${plan.popular ? 'border-primary shadow-xl shadow-primary/10' : 'border-border'} bg-card hover:shadow-xl transition-all duration-300 hover:-translate-y-1`}
+                                    className={`relative overflow-hidden rounded-2xl border ${
+                                        plan.popular
+                                            ? 'border-primary/30 shadow-glow'
+                                            : 'border-white/[0.05]'
+                                    } bg-white/[0.02] hover:bg-white/[0.03] transition-all duration-300 hover:-translate-y-1`}
                                 >
                                     {plan.popular && (
-                                        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-secondary" />
+                                        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary to-transparent" />
                                     )}
 
                                     {/* Header */}
-                                    <div className="p-6 bg-gradient-to-br from-primary to-secondary text-white">
+                                    <div className="p-6 border-b border-white/[0.05]">
                                         {plan.popular && (
-                                            <Badge className="absolute top-4 right-4 bg-white/20 text-white border-white/30">
+                                            <Badge className="absolute top-4 right-4 bg-primary/10 text-primary border border-primary/20 text-xs">
                                                 {plan.badge}
                                             </Badge>
                                         )}
 
-                                        <div className="w-14 h-14 rounded-xl bg-white/20 flex items-center justify-center mb-4">
-                                            <Icon size={28} className="text-white" />
+                                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${
+                                            plan.popular
+                                                ? 'bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg shadow-blue-500/20'
+                                                : 'bg-white/[0.05]'
+                                        }`}>
+                                            <Icon size={24} className={plan.popular ? 'text-white' : 'text-white/50'} />
                                         </div>
 
-                                        <h3 className="text-2xl font-bold">{plan.title}</h3>
-                                        <p className="text-white/80 text-sm">{plan.subtitle}</p>
+                                        <h3 className="text-2xl font-bold text-white">{plan.title}</h3>
+                                        <p className="text-white/40 text-sm">{plan.subtitle}</p>
 
-                                        <div className="mt-4 flex items-baseline gap-2">
-                                            <span className="text-5xl font-bold">${monthlyPrice}</span>
-                                            <div className="flex flex-col">
-                                                <span className="text-lg font-medium">/month</span>
+                                        <div className="mt-4 flex items-baseline gap-1">
+                                            <span className="text-5xl font-bold text-white">${monthlyPrice}</span>
+                                            <div className="flex flex-col ml-1">
+                                                <span className="text-lg font-medium text-white/50">/month</span>
                                                 {billingCycle === 'yearly' && (
-                                                    <span className="text-xs text-white/70">${price}/year</span>
+                                                    <span className="text-xs text-white/30">${price}/year</span>
                                                 )}
                                             </div>
                                         </div>
                                     </div>
 
                                     {/* Content */}
-                                    <CardContent className="p-6">
+                                    <div className="p-6">
                                         <Button
                                             asChild
-                                            className={`w-full mb-6 ${plan.popular ? 'bg-gradient-to-r from-primary to-secondary text-white hover:opacity-90' : 'bg-primary/10 text-primary hover:bg-primary hover:text-white'}`}
+                                            className={`w-full mb-6 ${
+                                                plan.popular
+                                                    ? 'bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 text-white font-semibold shadow-lg shadow-blue-500/20 border-0'
+                                                    : 'bg-white/[0.05] text-white/70 hover:bg-white/[0.08] border border-white/[0.08]'
+                                            }`}
                                         >
                                             <Link href="/auth">
                                                 {plan.id === 'free' ? 'Get Started' : 'Start Free Trial'}
@@ -225,22 +236,22 @@ export default function PricingPage() {
                                             </Link>
                                         </Button>
 
-                                        <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">
-                                            What's Included
+                                        <p className="text-[11px] font-semibold text-white/25 uppercase tracking-wider mb-4">
+                                            What&apos;s Included
                                         </p>
 
                                         <ul className="space-y-3">
                                             {plan.features.map((feature, idx) => (
                                                 <li key={idx} className="flex items-start gap-3">
-                                                    <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center shrink-0 mt-0.5">
-                                                        <Check size={12} className="text-white" />
+                                                    <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                                                        <Check size={12} className="text-primary" />
                                                     </div>
-                                                    <span className="text-sm text-foreground">{feature}</span>
+                                                    <span className="text-sm text-white/60">{feature}</span>
                                                 </li>
                                             ))}
                                         </ul>
-                                    </CardContent>
-                                </Card>
+                                    </div>
+                                </div>
                             );
                         })}
                     </div>
@@ -248,116 +259,123 @@ export default function PricingPage() {
             </section>
 
             {/* Feature Comparison Table */}
-            <section className="py-16 lg:py-24 bg-muted/30">
+            <section className="py-16 lg:py-24 border-y border-white/[0.05]">
                 <div className="container mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-12">
-                        <Badge variant="outline" className="mb-4 border-primary/30 text-primary">COMPARE PLANS</Badge>
-                        <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+                        <Badge variant="outline" className="mb-4 border-primary/20 text-primary bg-primary/5">COMPARE PLANS</Badge>
+                        <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
                             Detailed Feature{' '}
-                            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                            <span className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
                                 Comparison
                             </span>
                         </h2>
                     </div>
 
-                    <Card className="border border-border bg-card overflow-hidden">
+                    <div className="rounded-2xl border border-white/[0.05] bg-white/[0.02] overflow-hidden">
                         <Table>
                             <TableHeader>
-                                <TableRow className="bg-primary/5">
-                                    <TableHead className="w-[280px] font-bold text-foreground">Feature</TableHead>
-                                    <TableHead className="text-center font-bold text-foreground">Free</TableHead>
-                                    <TableHead className="text-center font-bold text-foreground bg-primary/10">
+                                <TableRow className="border-b border-white/[0.05] hover:bg-transparent">
+                                    <TableHead className="w-[280px] font-bold text-white/70">Feature</TableHead>
+                                    <TableHead className="text-center font-bold text-white/70">Free</TableHead>
+                                    <TableHead className="text-center font-bold text-white/70 bg-primary/5">
                                         <div className="flex items-center justify-center gap-2">
                                             Basic
-                                            <Badge className="bg-primary text-white text-xs">Popular</Badge>
+                                            <Badge className="bg-primary/10 text-primary border border-primary/20 text-xs">Popular</Badge>
                                         </div>
                                     </TableHead>
-                                    <TableHead className="text-center font-bold text-foreground">Pro</TableHead>
+                                    <TableHead className="text-center font-bold text-white/70">Pro</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
                                 {comparisonFeatures.map((row, idx) => (
-                                    <TableRow key={idx} className="hover:bg-muted/50">
-                                        <TableCell className="font-medium">{row.feature}</TableCell>
+                                    <TableRow key={idx} className="border-b border-white/[0.04] hover:bg-white/[0.02]">
+                                        <TableCell className="font-medium text-white/60">{row.feature}</TableCell>
                                         <TableCell className="text-center">{renderValue(row.free)}</TableCell>
-                                        <TableCell className="text-center bg-primary/5">{renderValue(row.basic)}</TableCell>
+                                        <TableCell className="text-center bg-primary/[0.02]">{renderValue(row.basic)}</TableCell>
                                         <TableCell className="text-center">{renderValue(row.pro)}</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
                         </Table>
-                    </Card>
+                    </div>
                 </div>
             </section>
 
             {/* Features Section */}
             <section className="py-16 lg:py-24">
-                <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-12">
-                        <Badge variant="outline" className="mb-4 border-primary/30 text-primary">ALL PLANS INCLUDE</Badge>
-                        <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+                        <Badge variant="outline" className="mb-4 border-primary/20 text-primary bg-primary/5">ALL PLANS INCLUDE</Badge>
+                        <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
                             Powerful Features for{' '}
-                            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                            <span className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
                                 Everyone
                             </span>
                         </h2>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                         {features.map((feature, idx) => (
-                            <Card key={idx} className="border border-border bg-card p-6 text-center hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                                <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center mx-auto mb-4 shadow-lg">
-                                    <feature.icon className="w-8 h-8 text-white" />
+                            <div key={idx} className="rounded-2xl border border-white/[0.05] bg-white/[0.02] p-6 text-center hover:bg-white/[0.04] hover:border-white/[0.08] transition-all duration-300">
+                                <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 flex items-center justify-center mx-auto mb-4">
+                                    <feature.icon className="w-8 h-8 text-primary" />
                                 </div>
-                                <h4 className="text-lg font-bold text-foreground mb-2">{feature.title}</h4>
-                                <p className="text-sm text-muted-foreground">{feature.description}</p>
-                            </Card>
+                                <h4 className="text-lg font-bold text-white mb-2">{feature.title}</h4>
+                                <p className="text-sm text-white/40">{feature.description}</p>
+                            </div>
                         ))}
                     </div>
                 </div>
             </section>
 
             {/* FAQ Section */}
-            <section className="py-16 lg:py-24 bg-muted/30">
+            <section className="py-16 lg:py-24 border-t border-white/[0.05]">
                 <div className="container mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-12">
-                        <Badge variant="outline" className="mb-4 border-primary/30 text-primary">FAQ</Badge>
-                        <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+                        <Badge variant="outline" className="mb-4 border-primary/20 text-primary bg-primary/5">FAQ</Badge>
+                        <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
                             Common{' '}
-                            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                            <span className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
                                 Questions
                             </span>
                         </h2>
                     </div>
 
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                         {faqs.map((faq, idx) => (
-                            <Card key={idx} className="border border-border bg-card p-6 hover:shadow-lg hover:border-primary/30 transition-all">
-                                <h4 className="font-bold text-lg text-foreground mb-2">{faq.question}</h4>
-                                <p className="text-muted-foreground leading-relaxed">{faq.answer}</p>
-                            </Card>
+                            <div key={idx} className="rounded-2xl border border-white/[0.05] bg-white/[0.02] p-6 hover:bg-white/[0.03] hover:border-white/[0.08] transition-all">
+                                <h4 className="font-bold text-lg text-white/80 mb-2">{faq.question}</h4>
+                                <p className="text-white/40 leading-relaxed">{faq.answer}</p>
+                            </div>
                         ))}
                     </div>
                 </div>
             </section>
 
             {/* CTA Section */}
-            <section className="py-16 lg:py-24 bg-gradient-to-r from-primary to-secondary">
-                <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-                    <Star className="w-12 h-12 text-white mx-auto mb-6 animate-pulse" />
-                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                        Still Have Questions?
-                    </h2>
-                    <p className="text-lg text-white/90 max-w-2xl mx-auto mb-8">
-                        Our team is here to help you find the perfect plan for your needs.
-                        Get in touch and we'll guide you through the process.
-                    </p>
-                    <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90 shadow-lg">
-                        <Link href="/contact">
-                            Contact Sales
-                            <ArrowRight className="ml-2 h-5 w-5" />
-                        </Link>
-                    </Button>
+            <section className="relative overflow-hidden py-16 lg:py-24">
+                <div className="absolute inset-0 -z-10">
+                    <div className="absolute left-1/4 top-0 h-64 w-64 rounded-full bg-primary/[0.06] blur-[100px]" />
+                    <div className="absolute right-1/4 bottom-0 h-64 w-64 rounded-full bg-secondary/[0.06] blur-[100px]" />
+                </div>
+
+                <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 text-center">
+                    <div className="rounded-3xl border border-white/[0.06] bg-white/[0.02] p-12 backdrop-blur-sm">
+                        <Star className="w-10 h-10 text-primary mx-auto mb-6" />
+                        <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4 tracking-tight">
+                            Still Have Questions?
+                        </h2>
+                        <p className="text-lg text-white/40 max-w-2xl mx-auto mb-8">
+                            Our team is here to help you find the perfect plan for your needs.
+                            Get in touch and we&apos;ll guide you through the process.
+                        </p>
+                        <Button asChild size="lg" className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 text-white font-semibold shadow-lg shadow-blue-500/20 border-0">
+                            <Link href="/contact">
+                                Contact Sales
+                                <ArrowRight className="ml-2 h-5 w-5" />
+                            </Link>
+                        </Button>
+                    </div>
                 </div>
             </section>
         </div>
