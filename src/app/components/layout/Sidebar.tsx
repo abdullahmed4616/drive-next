@@ -98,27 +98,26 @@ export default function Sidebar() {
 
   return (
     <TooltipProvider>
-      <aside className="w-[280px] min-h-full bg-card border-r border-border relative overflow-hidden">
-        {/* Cloud decoration */}
-        <div className="absolute -bottom-16 -left-16 w-48 h-48 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
-        <div className="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-secondary/5 blur-3xl pointer-events-none" />
+      <aside className="w-[260px] min-h-full bg-card/50 border-r border-border relative overflow-hidden">
+        {/* Subtle background decoration */}
+        <div className="absolute -bottom-16 -left-16 w-48 h-48 rounded-full bg-primary/3 blur-3xl pointer-events-none" />
 
         {/* Navigation */}
-        <div className="flex flex-col gap-2 p-6 relative z-10">
+        <div className="flex flex-col gap-2 p-5 relative z-10">
           {/* Brand header */}
-          <div className="flex items-center gap-3 mb-6 pb-6 border-b border-border">
-            <div className="w-10 h-10 rounded-xl bg-gradient-cloud flex items-center justify-center shadow-md">
-              <Cloud size={20} className="text-white" />
+          <div className="flex items-center gap-3 mb-5 pb-5 border-b border-border">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-md shadow-blue-500/15">
+              <Cloud size={18} className="text-white" />
             </div>
             <div>
-              <p className="font-semibold text-foreground">DriveUnity</p>
-              <p className="text-xs text-muted-foreground">Cloud Manager</p>
+              <p className="font-semibold text-foreground text-sm">DriveUnity</p>
+              <p className="text-[11px] text-muted-foreground">Cloud Manager</p>
             </div>
           </div>
 
           {/* Navigation links */}
-          <nav className="flex flex-col gap-1.5">
-            {navLinks.map((link, index) => {
+          <nav className="flex flex-col gap-1">
+            {navLinks.map((link) => {
               const Icon = link.icon;
               const isActive = pathname === link.href || pathname.startsWith(link.href.split('/')[1] === 'settings' ? '/settings' : link.href + '/');
               const isDisabled = link.requiresConnection && !isConnected;
@@ -129,29 +128,23 @@ export default function Sidebar() {
                   onClick={() => !isDisabled && handleNavClick(link)}
                   disabled={isDisabled}
                   className={`
-                    w-full p-3.5 rounded-xl flex items-center gap-3 transition-all duration-200 text-left
+                    w-full p-3 rounded-xl flex items-center gap-3 transition-all duration-200 text-left
                     ${isActive
-                      ? 'bg-primary text-primary-foreground shadow-md'
+                      ? 'bg-primary text-primary-foreground shadow-md shadow-primary/20'
                       : 'hover:bg-accent text-foreground'
                     }
-                    ${isDisabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+                    ${isDisabled ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'}
                     ${!isDisabled && !isActive ? 'hover:translate-x-0.5' : ''}
                   `}
-                  style={{
-                    animationDelay: `${index * 50}ms`,
-                  }}
                 >
                   <div
                     className={`
-                      w-9 h-9 rounded-lg flex items-center justify-center transition-all
-                      ${isActive
-                        ? 'bg-white/20'
-                        : 'bg-primary/10'
-                      }
+                      w-8 h-8 rounded-lg flex items-center justify-center transition-all
+                      ${isActive ? 'bg-white/20' : 'bg-primary/8'}
                     `}
                   >
                     <Icon
-                      size={18}
+                      size={16}
                       className={isActive ? 'text-white' : 'text-primary'}
                     />
                   </div>
@@ -160,13 +153,13 @@ export default function Sidebar() {
                   </span>
 
                   {isDisabled && (
-                    <Badge variant="secondary" className="text-[10px] px-1.5 py-0.5 bg-primary/10 text-primary border-0">
+                    <Badge variant="secondary" className="text-[10px] px-1.5 py-0.5 bg-primary/8 text-primary border-0">
                       Setup
                     </Badge>
                   )}
 
                   {isActive && (
-                    <div className="w-1 h-5 bg-white/60 rounded-full" />
+                    <div className="w-1 h-4 bg-white/50 rounded-full" />
                   )}
                 </button>
               );
@@ -189,13 +182,13 @@ export default function Sidebar() {
 
         {/* Status Card */}
         {!checking && (
-          <div className="p-6 pt-0 relative z-10">
+          <div className="p-5 pt-0 relative z-10">
             <div
               className={`
                 p-4 rounded-xl border transition-all
                 ${isConnected
-                  ? 'bg-primary/5 border-primary/20'
-                  : 'bg-warning/5 border-warning/20'
+                  ? 'bg-primary/5 border-primary/15'
+                  : 'bg-warning/5 border-warning/15'
                 }
               `}
             >
@@ -221,22 +214,6 @@ export default function Sidebar() {
             </div>
           </div>
         )}
-
-        {/* Cloud illustration at bottom */}
-        <div className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none overflow-hidden opacity-30">
-          <svg
-            viewBox="0 0 280 80"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-full h-full text-primary"
-          >
-            <path
-              d="M240 60H50c-22.091 0-40-17.909-40-40S27.909-20 50-20h0c22.091 0 40 17.909 40 40 0-22.091 17.909-40 40-40h0c22.091 0 40 17.909 40 40 0-22.091 17.909-40 40-40h30c22.091 0 40 17.909 40 40s-17.909 40-40 40H50"
-              fill="currentColor"
-              fillOpacity="0.1"
-            />
-          </svg>
-        </div>
       </aside>
     </TooltipProvider>
   );
