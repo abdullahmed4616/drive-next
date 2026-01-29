@@ -1,7 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
-@plugin "tw-animate-css";
+@custom-variant dark (&:is(.dark *));
+body{
+    overflow-x: hidden;
+}
 
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 @theme inline {
     --color-background: hsl(var(--background));
     --color-foreground: hsl(var(--foreground));
