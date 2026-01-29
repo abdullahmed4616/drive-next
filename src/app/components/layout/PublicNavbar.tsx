@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Cloud, Menu, X, ArrowRight } from 'lucide-react';
+import { Cloud, Menu, ArrowRight, Star } from 'lucide-react';
 import { Button } from '@/app/components/ui/Button';
 import {
     Sheet,
@@ -35,7 +35,7 @@ export default function PublicNavbar() {
             <header
                 className={`sticky top-0 z-50 transition-all duration-500 ${
                     scrolled
-                        ? 'bg-background/90 backdrop-blur-2xl border-b border-border/60 shadow-sm'
+                        ? 'bg-[#0a0f1a]/80 backdrop-blur-2xl border-b border-white/[0.06] shadow-lg shadow-black/20'
                         : 'bg-transparent border-b border-transparent'
                 }`}
             >
@@ -43,10 +43,10 @@ export default function PublicNavbar() {
                     <div className="flex h-16 items-center justify-between">
                         {/* Logo */}
                         <Link href="/" className="no-underline group flex items-center gap-2.5">
-                            <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+                            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200 shadow-lg shadow-blue-500/20">
                                 <Cloud size={18} className="text-white" />
                             </div>
-                            <span className="text-lg font-bold text-foreground tracking-tight">
+                            <span className="text-lg font-bold text-white tracking-tight">
                                 DriveUnity
                             </span>
                         </Link>
@@ -57,7 +57,7 @@ export default function PublicNavbar() {
                                 <Link
                                     key={item.href}
                                     href={item.href}
-                                    className="px-3.5 py-2 text-sm font-medium text-muted-foreground hover:text-foreground rounded-lg transition-colors duration-200"
+                                    className="px-3.5 py-2 text-sm font-medium text-white/60 hover:text-white rounded-lg transition-colors duration-200"
                                 >
                                     {item.label}
                                 </Link>
@@ -65,22 +65,22 @@ export default function PublicNavbar() {
                         </nav>
 
                         {/* Desktop CTA */}
-                        <div className="hidden md:flex items-center gap-2">
+                        <div className="hidden md:flex items-center gap-3">
                             <Button
                                 asChild
                                 variant="ghost"
                                 size="sm"
-                                className="text-muted-foreground hover:text-foreground font-medium"
+                                className="text-white/60 hover:text-white hover:bg-white/[0.06] font-medium"
                             >
-                                <Link href="/auth">Sign In</Link>
+                                <Link href="/auth">Sign in</Link>
                             </Button>
                             <Button
                                 asChild
                                 size="sm"
-                                className="bg-primary hover:bg-primary/90 text-white font-medium px-5 shadow-none"
+                                className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 text-white font-medium px-5 shadow-lg shadow-blue-500/25 border-0"
                             >
                                 <Link href="/auth">
-                                    Get Started
+                                    Get started free
                                     <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
                                 </Link>
                             </Button>
@@ -90,10 +90,10 @@ export default function PublicNavbar() {
                         <Button
                             variant="ghost"
                             size="icon"
-                            className="md:hidden h-9 w-9"
+                            className="md:hidden h-9 w-9 text-white/70 hover:text-white hover:bg-white/[0.06]"
                             onClick={() => setOpened(!opened)}
                         >
-                            <Menu size={20} className="text-foreground" />
+                            <Menu size={20} />
                         </Button>
                     </div>
                 </div>
@@ -101,13 +101,13 @@ export default function PublicNavbar() {
 
             {/* Mobile Navigation Sheet */}
             <Sheet open={opened} onOpenChange={setOpened}>
-                <SheetContent side="right" className="w-full max-w-xs p-0">
-                    <SheetHeader className="p-5 border-b border-border">
+                <SheetContent side="right" className="w-full max-w-xs p-0 bg-[#0d1321] border-l border-white/[0.06]">
+                    <SheetHeader className="p-5 border-b border-white/[0.06]">
                         <SheetTitle className="flex items-center gap-2.5">
-                            <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center">
+                            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
                                 <Cloud size={18} className="text-white" />
                             </div>
-                            <span className="text-lg font-bold text-foreground">
+                            <span className="text-lg font-bold text-white">
                                 DriveUnity
                             </span>
                         </SheetTitle>
@@ -119,18 +119,18 @@ export default function PublicNavbar() {
                                 key={item.href}
                                 href={item.href}
                                 onClick={() => setOpened(false)}
-                                className="flex items-center px-3 py-2.5 rounded-lg text-sm text-foreground font-medium hover:bg-muted transition-colors duration-200"
+                                className="flex items-center px-3 py-2.5 rounded-lg text-sm text-white/70 font-medium hover:bg-white/[0.06] hover:text-white transition-colors duration-200"
                             >
                                 {item.label}
                             </Link>
                         ))}
 
-                        <div className="border-t border-border my-3" />
+                        <div className="border-t border-white/[0.06] my-3" />
 
                         <Button
                             asChild
                             variant="outline"
-                            className="w-full justify-center font-medium"
+                            className="w-full justify-center font-medium border-white/[0.1] text-white/70 hover:text-white hover:bg-white/[0.06]"
                         >
                             <Link href="/auth" onClick={() => setOpened(false)}>
                                 Sign In
@@ -139,7 +139,7 @@ export default function PublicNavbar() {
 
                         <Button
                             asChild
-                            className="w-full justify-center bg-primary text-white font-medium mt-1.5"
+                            className="w-full justify-center bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-medium mt-1.5 border-0"
                         >
                             <Link href="/auth" onClick={() => setOpened(false)}>
                                 Get Started
