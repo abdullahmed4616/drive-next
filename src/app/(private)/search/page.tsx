@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   Search,
   Sparkles,
@@ -50,9 +50,6 @@ import {
 } from '@/app/components/ui/collapsible';
 import { ScrollArea } from '@/app/components/ui/scroll-area';
 import { Separator } from '@/app/components/ui/separator';
-
-const PRIMARY_COLOR = '#6B9ADF';
-const BORDER_COLOR = 'rgba(107, 154, 223, 0.3)';
 
 interface SearchResult {
   id: string;
@@ -154,7 +151,6 @@ const highlightMatch = (text: string, terms: string[]) => {
   );
 };
 
-// Mock data for demonstration
 const mockDrives = [
   { id: '1', name: 'Personal Drive', email: 'user@gmail.com' },
   { id: '2', name: 'Work Drive', email: 'user@company.com' },
@@ -187,10 +183,8 @@ export default function AISearchPage() {
     setIsSearching(true);
     setHasSearched(true);
 
-    // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
-    // Mock results
     const mockResults: SearchResult[] = [
       {
         id: '1',
@@ -303,24 +297,11 @@ export default function AISearchPage() {
         {/* Header */}
         <div className="text-center">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <div
-              className="w-14 h-14 rounded-2xl flex items-center justify-center"
-              style={{
-                background: `linear-gradient(135deg, ${PRIMARY_COLOR} 0%, #5A8ACF 100%)`,
-                boxShadow: `0 8px 24px ${BORDER_COLOR}`,
-              }}
-            >
+            <div className="w-14 h-14 rounded-2xl flex items-center justify-center bg-gradient-to-br from-primary to-secondary shadow-lg shadow-primary/25">
               <Sparkles size={28} className="text-white" />
             </div>
           </div>
-          <h1
-            className="text-4xl font-bold mb-2"
-            style={{
-              background: `linear-gradient(135deg, ${PRIMARY_COLOR} 0%, #5080C8 100%)`,
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
-          >
+          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
             AI-Powered Search
           </h1>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
@@ -330,13 +311,7 @@ export default function AISearchPage() {
         </div>
 
         {/* Search Bar */}
-        <Card
-          className="shadow-lg"
-          style={{
-            border: `1px solid ${BORDER_COLOR}`,
-            background: 'rgba(255, 255, 255, 0.95)',
-          }}
-        >
+        <Card className="shadow-lg border border-border bg-card">
           <CardContent className="p-6">
             <div className="flex gap-3">
               <div className="relative flex-1">
@@ -349,10 +324,7 @@ export default function AISearchPage() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  className="pl-12 pr-4 h-14 text-lg rounded-xl"
-                  style={{
-                    border: `2px solid ${BORDER_COLOR}`,
-                  }}
+                  className="pl-12 pr-4 h-14 text-lg rounded-xl border-2 border-border focus:border-primary"
                 />
                 {searchQuery && (
                   <button
@@ -367,11 +339,7 @@ export default function AISearchPage() {
                 size="lg"
                 onClick={handleSearch}
                 disabled={!searchQuery.trim() || isSearching}
-                className="h-14 px-8 rounded-xl"
-                style={{
-                  background: `linear-gradient(135deg, ${PRIMARY_COLOR} 0%, #5A8ACF 100%)`,
-                  boxShadow: `0 4px 12px ${BORDER_COLOR}`,
-                }}
+                className="h-14 px-8 rounded-xl bg-gradient-to-r from-primary to-secondary text-white hover:opacity-90 shadow-lg shadow-primary/25"
               >
                 {isSearching ? (
                   <>
@@ -392,15 +360,11 @@ export default function AISearchPage() {
                   <Button
                     variant="outline"
                     size="lg"
-                    className="h-14 px-4 rounded-xl md:hidden relative"
-                    style={{ borderColor: BORDER_COLOR }}
+                    className="h-14 px-4 rounded-xl md:hidden relative border-border"
                   >
                     <SlidersHorizontal size={20} />
                     {activeFiltersCount > 0 && (
-                      <span
-                        className="absolute -top-2 -right-2 w-5 h-5 rounded-full text-xs text-white flex items-center justify-center"
-                        style={{ background: PRIMARY_COLOR }}
-                      >
+                      <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full text-xs text-white flex items-center justify-center bg-primary">
                         {activeFiltersCount}
                       </span>
                     )}
@@ -434,12 +398,7 @@ export default function AISearchPage() {
                         setSearchQuery(query);
                         setTimeout(() => handleSearch(), 100);
                       }}
-                      className="px-4 py-2 rounded-full text-sm transition-all hover:scale-105"
-                      style={{
-                        background: `${PRIMARY_COLOR}15`,
-                        color: PRIMARY_COLOR,
-                        border: `1px solid ${BORDER_COLOR}`,
-                      }}
+                      className="px-4 py-2 rounded-full text-sm transition-all hover:scale-105 bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20"
                     >
                       {query}
                     </button>
@@ -454,13 +413,7 @@ export default function AISearchPage() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {/* Desktop Filters Sidebar */}
           <div className="hidden md:block">
-            <Card
-              className="sticky top-24"
-              style={{
-                border: `1px solid ${BORDER_COLOR}`,
-                background: 'rgba(255, 255, 255, 0.95)',
-              }}
-            >
+            <Card className="sticky top-24 border border-border bg-card">
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-lg flex items-center gap-2">
@@ -490,20 +443,10 @@ export default function AISearchPage() {
           {/* Results Area */}
           <div className="md:col-span-3">
             {!hasSearched ? (
-              /* Initial State */
-              <Card
-                className="text-center py-16"
-                style={{
-                  border: `2px dashed ${BORDER_COLOR}`,
-                  background: 'rgba(255, 255, 255, 0.5)',
-                }}
-              >
+              <Card className="text-center py-16 border-2 border-dashed border-border bg-card/50">
                 <CardContent>
-                  <div
-                    className="w-20 h-20 rounded-full mx-auto mb-6 flex items-center justify-center"
-                    style={{ background: `${PRIMARY_COLOR}15` }}
-                  >
-                    <Search size={40} style={{ color: PRIMARY_COLOR }} />
+                  <div className="w-20 h-20 rounded-full mx-auto mb-6 flex items-center justify-center bg-primary/10">
+                    <Search size={40} className="text-primary" />
                   </div>
                   <h3 className="text-xl font-semibold mb-2">Start Your Search</h3>
                   <p className="text-muted-foreground max-w-md mx-auto">
@@ -525,8 +468,7 @@ export default function AISearchPage() {
                               setSearchQuery(query);
                               setTimeout(() => handleSearch(), 100);
                             }}
-                            className="px-3 py-1.5 rounded-lg text-sm hover:bg-muted transition-colors"
-                            style={{ background: 'rgba(0,0,0,0.05)' }}
+                            className="px-3 py-1.5 rounded-lg text-sm hover:bg-muted transition-colors bg-muted/50"
                           >
                             {query}
                           </button>
@@ -537,10 +479,9 @@ export default function AISearchPage() {
                 </CardContent>
               </Card>
             ) : isSearching ? (
-              /* Loading State */
               <div className="space-y-4">
                 {[1, 2, 3, 4].map((i) => (
-                  <Card key={i} style={{ border: `1px solid ${BORDER_COLOR}` }}>
+                  <Card key={i} className="border border-border">
                     <CardContent className="p-4">
                       <div className="flex items-start gap-4">
                         <Skeleton className="w-12 h-12 rounded-lg" />
@@ -555,15 +496,14 @@ export default function AISearchPage() {
                 ))}
               </div>
             ) : results.length > 0 ? (
-              /* Results */
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <p className="text-sm text-muted-foreground">
                     Found <span className="font-semibold text-foreground">{results.length}</span>{' '}
-                    results for "{searchQuery}"
+                    results for &quot;{searchQuery}&quot;
                   </p>
                   <Select value={sortBy} onValueChange={setSortBy}>
-                    <SelectTrigger className="w-[180px]" style={{ borderColor: BORDER_COLOR }}>
+                    <SelectTrigger className="w-[180px] border-border">
                       <SelectValue placeholder="Sort by" />
                     </SelectTrigger>
                     <SelectContent>
@@ -580,19 +520,11 @@ export default function AISearchPage() {
                 {results.map((result) => (
                   <Card
                     key={result.id}
-                    className="group hover:shadow-lg transition-all cursor-pointer"
-                    style={{
-                      border: `1px solid ${BORDER_COLOR}`,
-                      background: 'rgba(255, 255, 255, 0.95)',
-                    }}
+                    className="group hover:shadow-lg transition-all cursor-pointer border border-border bg-card"
                   >
                     <CardContent className="p-4">
                       <div className="flex items-start gap-4">
-                        {/* File Icon/Thumbnail */}
-                        <div
-                          className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0"
-                          style={{ background: `${PRIMARY_COLOR}10` }}
-                        >
+                        <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-primary/10">
                           {result.thumbnail ? (
                             <img
                               src={result.thumbnail}
@@ -604,7 +536,6 @@ export default function AISearchPage() {
                           )}
                         </div>
 
-                        {/* File Info */}
                         <div className="flex-1 min-w-0">
                           <div className="flex items-start justify-between gap-4">
                             <div className="min-w-0">
@@ -617,11 +548,7 @@ export default function AISearchPage() {
                             </div>
                             <Badge
                               variant="outline"
-                              className="flex-shrink-0"
-                              style={{
-                                borderColor: PRIMARY_COLOR,
-                                color: PRIMARY_COLOR,
-                              }}
+                              className="flex-shrink-0 border-primary text-primary"
                             >
                               <TrendingUp size={12} className="mr-1" />
                               {result.relevanceScore}%
@@ -637,13 +564,12 @@ export default function AISearchPage() {
                             <span>{formatDate(result.modifiedTime)}</span>
                           </div>
 
-                          {/* Actions */}
                           <div className="flex items-center gap-2 mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <Button variant="outline" size="sm" style={{ borderColor: BORDER_COLOR }}>
+                            <Button variant="outline" size="sm" className="border-border">
                               <Download size={14} className="mr-1" />
                               Download
                             </Button>
-                            <Button variant="outline" size="sm" style={{ borderColor: BORDER_COLOR }}>
+                            <Button variant="outline" size="sm" className="border-border">
                               <ExternalLink size={14} className="mr-1" />
                               Open
                             </Button>
@@ -655,24 +581,14 @@ export default function AISearchPage() {
                 ))}
               </div>
             ) : (
-              /* No Results */
-              <Card
-                className="text-center py-16"
-                style={{
-                  border: `1px solid ${BORDER_COLOR}`,
-                  background: 'rgba(255, 255, 255, 0.95)',
-                }}
-              >
+              <Card className="text-center py-16 border border-border bg-card">
                 <CardContent>
-                  <div
-                    className="w-20 h-20 rounded-full mx-auto mb-6 flex items-center justify-center"
-                    style={{ background: 'rgba(239, 68, 68, 0.1)' }}
-                  >
-                    <Search size={40} className="text-red-500" />
+                  <div className="w-20 h-20 rounded-full mx-auto mb-6 flex items-center justify-center bg-destructive/10">
+                    <Search size={40} className="text-destructive" />
                   </div>
                   <h3 className="text-xl font-semibold mb-2">No Results Found</h3>
                   <p className="text-muted-foreground max-w-md mx-auto mb-6">
-                    We couldn't find any files matching "{searchQuery}". Try adjusting your search
+                    We couldn&apos;t find any files matching &quot;{searchQuery}&quot;. Try adjusting your search
                     or filters.
                   </p>
                   <div className="flex justify-center gap-3">
@@ -681,7 +597,7 @@ export default function AISearchPage() {
                     </Button>
                     <Button
                       onClick={() => setSearchQuery('')}
-                      style={{ background: PRIMARY_COLOR }}
+                      className="bg-primary text-white hover:bg-primary/90"
                     >
                       New Search
                     </Button>
@@ -715,7 +631,6 @@ function FilterContent({
   return (
     <ScrollArea className="h-[calc(100vh-200px)] md:h-auto">
       <div className="space-y-6 pr-4">
-        {/* File Types */}
         <Collapsible defaultOpen>
           <CollapsibleTrigger className="flex items-center justify-between w-full py-2 text-sm font-semibold">
             File Type
@@ -746,7 +661,6 @@ function FilterContent({
 
         <Separator />
 
-        {/* Drives */}
         <Collapsible defaultOpen>
           <CollapsibleTrigger className="flex items-center justify-between w-full py-2 text-sm font-semibold">
             Drives
@@ -774,14 +688,13 @@ function FilterContent({
 
         <Separator />
 
-        {/* Date Range */}
         <div>
           <Label className="text-sm font-semibold">Modified Date</Label>
           <Select
             value={filters.dateRange}
             onValueChange={(value) => setFilters((prev) => ({ ...prev, dateRange: value }))}
           >
-            <SelectTrigger className="mt-2" style={{ borderColor: BORDER_COLOR }}>
+            <SelectTrigger className="mt-2 border-border">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -796,14 +709,13 @@ function FilterContent({
 
         <Separator />
 
-        {/* Size Range */}
         <div>
           <Label className="text-sm font-semibold">File Size</Label>
           <Select
             value={filters.sizeRange}
             onValueChange={(value) => setFilters((prev) => ({ ...prev, sizeRange: value }))}
           >
-            <SelectTrigger className="mt-2" style={{ borderColor: BORDER_COLOR }}>
+            <SelectTrigger className="mt-2 border-border">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>

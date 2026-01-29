@@ -1,24 +1,20 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Check, Sparkles, Rocket, Crown, Zap, Shield, TrendingUp, Star, ArrowRight, X, Minus } from 'lucide-react';
+import { Check, Sparkles, Rocket, Crown, Zap, Shield, TrendingUp, Star, ArrowRight, Minus } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from "@/app/components/ui/Button";
 import { Badge } from "@/app/components/ui/badge";
-import { Card } from "@/app/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/app/components/ui/card";
 import { Switch } from "@/app/components/ui/switch";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
 } from "@/app/components/ui/table";
-
-const PRIMARY_COLOR = '#6B9ADF';
-const ACCENT_BG_COLOR = 'rgba(0,0,0, 0.2)';
-const BORDER_COLOR = 'rgba(107, 154, 223, 0.3)';
 
 const pricingPlans = [
     {
@@ -28,8 +24,6 @@ const pricingPlans = [
         monthlyPrice: 0,
         yearlyPrice: 0,
         icon: Sparkles,
-        iconColor: PRIMARY_COLOR,
-        borderColor: BORDER_COLOR,
         features: [
             '1 Connected Google Drive',
             'Basic File Organization',
@@ -38,7 +32,6 @@ const pricingPlans = [
             '5GB Storage Analytics',
             'Email Support',
         ],
-        limitations: ['Limited to 1 drive', 'Basic features only'],
         popular: false,
     },
     {
@@ -48,8 +41,6 @@ const pricingPlans = [
         monthlyPrice: 9.99,
         yearlyPrice: 99.99,
         icon: Rocket,
-        iconColor: PRIMARY_COLOR,
-        borderColor: BORDER_COLOR,
         features: [
             'Up to 3 Connected Drives',
             'Unlimited File Indexing',
@@ -60,7 +51,6 @@ const pricingPlans = [
             'Priority Email Support',
             'Duplicate File Detection',
         ],
-        limitations: [],
         popular: true,
         badge: 'Most Popular',
     },
@@ -71,8 +61,6 @@ const pricingPlans = [
         monthlyPrice: 19.99,
         yearlyPrice: 199.99,
         icon: Crown,
-        iconColor: PRIMARY_COLOR,
-        borderColor: BORDER_COLOR,
         features: [
             'Unlimited Connected Drives',
             'Unlimited File Indexing',
@@ -83,758 +71,295 @@ const pricingPlans = [
             'Priority Support (24/7)',
             'Duplicate File Detection',
         ],
-        limitations: [],
         popular: false,
     },
 ];
 
 const features = [
-    {
-        icon: Zap,
-        title: 'Lightning Fast',
-        description: 'Instant file search across all drives',
-    },
-    {
-        icon: Shield,
-        title: 'Bank-Level Security',
-        description: 'Your data is encrypted and secure',
-    },
-    {
-        icon: TrendingUp,
-        title: 'Smart Analytics',
-        description: 'Detailed insights into your storage',
-    },
-    {
-        icon: Zap,
-        title: 'AI-Powered',
-        description: 'Intelligent file organization',
-    },
+    { icon: Zap, title: 'Lightning Fast', description: 'Instant file search across all drives' },
+    { icon: Shield, title: 'Bank-Level Security', description: 'Your data is encrypted and secure' },
+    { icon: TrendingUp, title: 'Smart Analytics', description: 'Detailed insights into your storage' },
+    { icon: Sparkles, title: 'AI-Powered', description: 'Intelligent file organization' },
+];
+
+const faqs = [
+    { question: "Can I change my plan later?", answer: "Yes! You can upgrade or downgrade your plan at any time. Changes take effect immediately and we'll prorate the difference." },
+    { question: "What payment methods do you accept?", answer: "We accept all major credit cards (Visa, MasterCard, American Express) and PayPal. All payments are processed securely." },
+    { question: "Is there a free trial?", answer: "Yes! Our Free plan is completely free forever. You can also try Basic or Pro plans with a 14-day money-back guarantee." },
+    { question: "Can I cancel anytime?", answer: "Absolutely. You can cancel your subscription at any time with no questions asked. Your data remains accessible until the end of your billing period." },
+];
+
+const comparisonFeatures = [
+    { feature: "Connected Drives", free: "1", basic: "3", pro: "Unlimited" },
+    { feature: "File Indexing", free: "Unlimited", basic: "Unlimited", pro: "Unlimited" },
+    { feature: "Advanced Filtration", free: true, basic: true, pro: true },
+    { feature: "AI Semantic Search", free: false, basic: true, pro: true },
+    { feature: "Move Files Between Drives", free: false, basic: "1,000/month", pro: "Unlimited" },
+    { feature: "Duplicate Detection", free: false, basic: true, pro: true },
+    { feature: "Storage Analytics", free: "5 GB", basic: "Unlimited", pro: "Unlimited" },
+    { feature: "API Access", free: false, basic: false, pro: true },
+    { feature: "Priority Support", free: false, basic: "Email", pro: "24/7" },
+    { feature: "Team Collaboration", free: false, basic: false, pro: true },
 ];
 
 export default function PricingPage() {
     const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
 
-    return (
-        <div style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden' }}>
-            <div
-                style={{
-                    position: 'fixed',
-                    top: '-10%',
-                    right: '-5%',
-                    width: '600px',
-                    height: '600px',
-                    background: ACCENT_BG_COLOR,
-                    borderRadius: '50%',
-                    filter: 'blur(60px)',
-                    animation: 'floating 8s ease-in-out infinite',
-                    zIndex: 0,
-                }}
-            />
-            <div
-                style={{
-                    position: 'fixed',
-                    bottom: '-10%',
-                    left: '-5%',
-                    width: '500px',
-                    height: '500px',
-                    background: ACCENT_BG_COLOR,
-                    borderRadius: '50%',
-                    filter: 'blur(60px)',
-                    animation: 'floating 10s ease-in-out infinite reverse',
-                    zIndex: 0,
-                }}
-            />
+    const renderValue = (value: boolean | string) => {
+        if (typeof value === 'boolean') {
+            return value ? (
+                <div className="w-6 h-6 rounded-full flex items-center justify-center mx-auto bg-green-500/10">
+                    <Check size={14} className="text-green-600" />
+                </div>
+            ) : (
+                <div className="w-6 h-6 rounded-full flex items-center justify-center mx-auto bg-muted">
+                    <Minus size={14} className="text-muted-foreground" />
+                </div>
+            );
+        }
+        return <span className="font-medium text-foreground">{value}</span>;
+    };
 
-            <div
-                className="py-20"
-                style={{
-                    background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(245, 247, 250, 0.9) 100%)',
-                    position: 'relative',
-                    zIndex: 1,
-                }}
-            >
-                <div className="container mx-auto px-4 max-w-5xl">
-                    <div className="flex flex-col gap-8 items-center">
-                        <Badge
-                            className="text-white border-none font-semibold"
-                            style={{
-                                background: PRIMARY_COLOR,
-                                padding: '8px 20px',
-                                boxShadow: `0 4px 16px ${BORDER_COLOR}`,
-                                animation: 'pulse 2s ease-in-out infinite',
-                            }}
-                        >
-                            <Sparkles className="inline mr-2" size={16} />
+    return (
+        <div className="min-h-screen">
+            {/* Hero Section */}
+            <section className="relative overflow-hidden bg-gradient-to-b from-background via-primary/5 to-background py-20 lg:py-28">
+                <div className="absolute inset-0 -z-10">
+                    <div className="absolute right-0 top-0 h-[500px] w-[500px] rounded-full bg-primary/10 blur-3xl" />
+                    <div className="absolute left-0 bottom-0 h-[400px] w-[400px] rounded-full bg-secondary/10 blur-3xl" />
+                </div>
+
+                <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div className="flex flex-col items-center text-center">
+                        <Badge className="mb-6 px-4 py-2 bg-primary text-white">
+                            <Sparkles className="mr-2 h-4 w-4" />
                             Simple, Transparent Pricing
                         </Badge>
 
-                        <h1
-                            className="text-5xl font-bold text-center max-w-2xl"
-                            style={{
-                                fontFamily: "'Outfit', sans-serif",
-                                lineHeight: 1.2,
-                            }}
-                        >
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
                             Choose the{' '}
-                            <span style={{ color: PRIMARY_COLOR }}>
+                            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                                 Perfect Plan
                             </span>{' '}
                             for Your Needs
                         </h1>
 
-                        <p className="text-xl text-gray-600 text-center max-w-2xl" style={{ lineHeight: 1.8 }}>
+                        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-10 leading-relaxed">
                             Start with a free plan and upgrade as you grow. All plans include
                             our core features with no hidden fees.
                         </p>
 
-                        <div
-                            className="flex items-center gap-4 bg-white p-2 px-6 rounded-full border"
-                            style={{
-                                border: `1px solid ${BORDER_COLOR}`,
-                                boxShadow: `0 4px 16px ${BORDER_COLOR}`,
-                            }}
-                        >
-                            <span
-                                className="text-sm"
-                                style={{
-                                    fontWeight: billingCycle === 'monthly' ? 700 : 500,
-                                    color: billingCycle === 'monthly' ? PRIMARY_COLOR : '#9ca3af',
-                                }}
-                            >
+                        {/* Billing Toggle */}
+                        <div className="flex items-center gap-4 bg-card p-2 px-6 rounded-full border border-border shadow-lg">
+                            <span className={`text-sm font-medium ${billingCycle === 'monthly' ? 'text-primary' : 'text-muted-foreground'}`}>
                                 Monthly
                             </span>
                             <Switch
                                 checked={billingCycle === 'yearly'}
-                                onCheckedChange={(checked) =>
-                                    setBillingCycle(checked ? 'yearly' : 'monthly')
-                                }
+                                onCheckedChange={(checked) => setBillingCycle(checked ? 'yearly' : 'monthly')}
                             />
                             <div className="flex items-center gap-2">
-                                <span
-                                    className="text-sm"
-                                    style={{
-                                        fontWeight: billingCycle === 'yearly' ? 700 : 500,
-                                        color: billingCycle === 'yearly' ? PRIMARY_COLOR : '#9ca3af',
-                                    }}
-                                >
+                                <span className={`text-sm font-medium ${billingCycle === 'yearly' ? 'text-primary' : 'text-muted-foreground'}`}>
                                     Yearly
                                 </span>
-                                <Badge
-                                    className="text-white border-none"
-                                    style={{
-                                        background: PRIMARY_COLOR,
-                                    }}
-                                >
-                                    Save 17%
-                                </Badge>
+                                <Badge className="bg-green-500 text-white">Save 17%</Badge>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <div className="container mx-auto px-4 py-16" style={{ position: 'relative', zIndex: 1 }}>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-                    {pricingPlans.map((plan, index) => (
-                        <PricingCard
-                            key={plan.id}
-                            plan={plan}
-                            billingCycle={billingCycle}
-                            index={index}
-                        />
-                    ))}
+            {/* Pricing Cards */}
+            <section className="py-16 lg:py-24">
+                <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {pricingPlans.map((plan) => {
+                            const Icon = plan.icon;
+                            const price = billingCycle === 'monthly' ? plan.monthlyPrice : plan.yearlyPrice;
+                            const monthlyPrice = billingCycle === 'yearly' ? (plan.yearlyPrice / 12).toFixed(0) : plan.monthlyPrice;
+
+                            return (
+                                <Card
+                                    key={plan.id}
+                                    className={`relative overflow-hidden border ${plan.popular ? 'border-primary shadow-xl shadow-primary/10' : 'border-border'} bg-card hover:shadow-xl transition-all duration-300 hover:-translate-y-1`}
+                                >
+                                    {plan.popular && (
+                                        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-secondary" />
+                                    )}
+
+                                    {/* Header */}
+                                    <div className="p-6 bg-gradient-to-br from-primary to-secondary text-white">
+                                        {plan.popular && (
+                                            <Badge className="absolute top-4 right-4 bg-white/20 text-white border-white/30">
+                                                {plan.badge}
+                                            </Badge>
+                                        )}
+
+                                        <div className="w-14 h-14 rounded-xl bg-white/20 flex items-center justify-center mb-4">
+                                            <Icon size={28} className="text-white" />
+                                        </div>
+
+                                        <h3 className="text-2xl font-bold">{plan.title}</h3>
+                                        <p className="text-white/80 text-sm">{plan.subtitle}</p>
+
+                                        <div className="mt-4 flex items-baseline gap-2">
+                                            <span className="text-5xl font-bold">${monthlyPrice}</span>
+                                            <div className="flex flex-col">
+                                                <span className="text-lg font-medium">/month</span>
+                                                {billingCycle === 'yearly' && (
+                                                    <span className="text-xs text-white/70">${price}/year</span>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Content */}
+                                    <CardContent className="p-6">
+                                        <Button
+                                            asChild
+                                            className={`w-full mb-6 ${plan.popular ? 'bg-gradient-to-r from-primary to-secondary text-white hover:opacity-90' : 'bg-primary/10 text-primary hover:bg-primary hover:text-white'}`}
+                                        >
+                                            <Link href="/auth">
+                                                {plan.id === 'free' ? 'Get Started' : 'Start Free Trial'}
+                                                <ArrowRight className="ml-2 h-4 w-4" />
+                                            </Link>
+                                        </Button>
+
+                                        <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">
+                                            What's Included
+                                        </p>
+
+                                        <ul className="space-y-3">
+                                            {plan.features.map((feature, idx) => (
+                                                <li key={idx} className="flex items-start gap-3">
+                                                    <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center shrink-0 mt-0.5">
+                                                        <Check size={12} className="text-white" />
+                                                    </div>
+                                                    <span className="text-sm text-foreground">{feature}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </CardContent>
+                                </Card>
+                            );
+                        })}
+                    </div>
                 </div>
-            </div>
+            </section>
 
             {/* Feature Comparison Table */}
-            <div className="container mx-auto px-4 py-16" style={{ position: 'relative', zIndex: 1 }}>
-                <div className="flex flex-col gap-8 max-w-5xl mx-auto">
-                    <div className="text-center">
-                        <Badge
-                            variant="outline"
-                            className="text-lg font-semibold mb-4"
-                            style={{
-                                background: ACCENT_BG_COLOR,
-                                color: PRIMARY_COLOR,
-                                border: `1px solid ${BORDER_COLOR}`,
-                                padding: '8px 20px',
-                            }}
-                        >
-                            COMPARE PLANS
-                        </Badge>
-                        <h2 className="text-4xl font-bold" style={{ fontFamily: "'Outfit', sans-serif" }}>
+            <section className="py-16 lg:py-24 bg-muted/30">
+                <div className="container mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-12">
+                        <Badge variant="outline" className="mb-4 border-primary/30 text-primary">COMPARE PLANS</Badge>
+                        <h2 className="text-3xl md:text-4xl font-bold text-foreground">
                             Detailed Feature{' '}
-                            <span style={{ color: PRIMARY_COLOR }}>Comparison</span>
+                            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                                Comparison
+                            </span>
                         </h2>
                     </div>
 
-                    <Card
-                        className="overflow-hidden"
-                        style={{
-                            border: `1px solid ${BORDER_COLOR}`,
-                            borderRadius: '16px',
-                        }}
-                    >
+                    <Card className="border border-border bg-card overflow-hidden">
                         <Table>
                             <TableHeader>
-                                <TableRow style={{ background: `${PRIMARY_COLOR}10` }}>
+                                <TableRow className="bg-primary/5">
                                     <TableHead className="w-[280px] font-bold text-foreground">Feature</TableHead>
                                     <TableHead className="text-center font-bold text-foreground">Free</TableHead>
-                                    <TableHead className="text-center font-bold text-foreground">
+                                    <TableHead className="text-center font-bold text-foreground bg-primary/10">
                                         <div className="flex items-center justify-center gap-2">
                                             Basic
-                                            <Badge className="text-white border-none text-xs" style={{ background: PRIMARY_COLOR }}>
-                                                Popular
-                                            </Badge>
+                                            <Badge className="bg-primary text-white text-xs">Popular</Badge>
                                         </div>
                                     </TableHead>
                                     <TableHead className="text-center font-bold text-foreground">Pro</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                <ComparisonRow
-                                    feature="Connected Drives"
-                                    free="1"
-                                    basic="3"
-                                    pro="Unlimited"
-                                />
-                                <ComparisonRow
-                                    feature="File Indexing"
-                                    free="Unlimited"
-                                    basic="Unlimited"
-                                    pro="Unlimited"
-                                />
-                                <ComparisonRow
-                                    feature="Advanced Filtration"
-                                    free={true}
-                                    basic={true}
-                                    pro={true}
-                                />
-                                <ComparisonRow
-                                    feature="AI Semantic Search"
-                                    free={false}
-                                    basic={true}
-                                    pro={true}
-                                />
-                                <ComparisonRow
-                                    feature="Move Files Between Drives"
-                                    free={false}
-                                    basic="1,000/month"
-                                    pro="Unlimited"
-                                />
-                                <ComparisonRow
-                                    feature="Duplicate Detection"
-                                    free={false}
-                                    basic={true}
-                                    pro={true}
-                                />
-                                <ComparisonRow
-                                    feature="Storage Analytics"
-                                    free="5 GB"
-                                    basic="Unlimited"
-                                    pro="Unlimited"
-                                />
-                                <ComparisonRow
-                                    feature="API Access"
-                                    free={false}
-                                    basic={false}
-                                    pro={true}
-                                />
-                                <ComparisonRow
-                                    feature="Priority Support"
-                                    free={false}
-                                    basic="Email"
-                                    pro="24/7"
-                                />
-                                <ComparisonRow
-                                    feature="Team Collaboration"
-                                    free={false}
-                                    basic={false}
-                                    pro={true}
-                                />
-                                <ComparisonRow
-                                    feature="Custom Integrations"
-                                    free={false}
-                                    basic={false}
-                                    pro={true}
-                                />
-                                <ComparisonRow
-                                    feature="Export Reports"
-                                    free={false}
-                                    basic="CSV"
-                                    pro="CSV, PDF, Excel"
-                                />
+                                {comparisonFeatures.map((row, idx) => (
+                                    <TableRow key={idx} className="hover:bg-muted/50">
+                                        <TableCell className="font-medium">{row.feature}</TableCell>
+                                        <TableCell className="text-center">{renderValue(row.free)}</TableCell>
+                                        <TableCell className="text-center bg-primary/5">{renderValue(row.basic)}</TableCell>
+                                        <TableCell className="text-center">{renderValue(row.pro)}</TableCell>
+                                    </TableRow>
+                                ))}
                             </TableBody>
                         </Table>
                     </Card>
                 </div>
-            </div>
+            </section>
 
-            <div
-                className="py-20"
-                style={{
-                    background: ACCENT_BG_COLOR,
-                    position: 'relative',
-                    zIndex: 1,
-                }}
-            >
-                <div className="container mx-auto px-4">
-                    <div className="flex flex-col gap-8 mb-16">
-                        <div className="flex justify-center">
-                            <Badge
-                                variant="outline"
-                                className="text-lg font-semibold"
-                                style={{
-                                    background: 'rgba(255, 255, 255, 0.9)',
-                                    color: PRIMARY_COLOR,
-                                    border: `1px solid ${BORDER_COLOR}`,
-                                    padding: '8px 20px',
-                                }}
-                            >
-                                ALL PLANS INCLUDE
-                            </Badge>
-                        </div>
-                        <h2 className="text-center text-5xl font-bold" style={{ fontFamily: "'Outfit', sans-serif" }}>
+            {/* Features Section */}
+            <section className="py-16 lg:py-24">
+                <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-12">
+                        <Badge variant="outline" className="mb-4 border-primary/30 text-primary">ALL PLANS INCLUDE</Badge>
+                        <h2 className="text-3xl md:text-4xl font-bold text-foreground">
                             Powerful Features for{' '}
-                            <span style={{ color: PRIMARY_COLOR }}>
+                            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                                 Everyone
                             </span>
                         </h2>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-                        {features.map((feature, index) => {
-                            const Icon = feature.icon;
-                            return (
-                                <Card
-                                    key={index}
-                                    className="shadow-sm p-8 rounded-xl border bg-white"
-                                    style={{
-                                        border: `1px solid ${BORDER_COLOR}`,
-                                        transition: 'all 0.3s ease',
-                                        cursor: 'pointer',
-                                    }}
-                                    onMouseEnter={(e) => {
-                                        e.currentTarget.style.transform = 'translateY(-8px)';
-                                        e.currentTarget.style.boxShadow = `0 20px 40px ${BORDER_COLOR}`;
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.currentTarget.style.transform = 'translateY(0)';
-                                        e.currentTarget.style.boxShadow = '';
-                                    }}
-                                >
-                                    <div className="flex flex-col gap-6 items-center text-center">
-                                        <div
-                                            className="flex items-center justify-center rounded-2xl"
-                                            style={{
-                                                width: 70,
-                                                height: 70,
-                                                background: PRIMARY_COLOR,
-                                                boxShadow: `0 8px 24px ${BORDER_COLOR}`,
-                                            }}
-                                        >
-                                            <Icon size={32} color="white" strokeWidth={2} />
-                                        </div>
-                                        <h4 className="text-lg font-bold" style={{ fontFamily: "'Outfit', sans-serif" }}>
-                                            {feature.title}
-                                        </h4>
-                                        <p className="text-sm text-gray-600">
-                                            {feature.description}
-                                        </p>
-                                    </div>
-                                </Card>
-                            );
-                        })}
-                    </div>
-                </div>
-            </div>
-
-            <div className="container mx-auto px-4 py-20" style={{ position: 'relative', zIndex: 1 }}>
-                <div className="flex flex-col gap-8 max-w-3xl mx-auto">
-                    <div className="flex justify-center">
-                        <Badge
-                            variant="outline"
-                            className="text-lg font-semibold"
-                            style={{
-                                background: ACCENT_BG_COLOR,
-                                color: PRIMARY_COLOR,
-                                border: `1px solid ${BORDER_COLOR}`,
-                                padding: '8px 20px',
-                            }}
-                        >
-                            FAQ
-                        </Badge>
-                    </div>
-                    <h2 className="text-center text-5xl font-bold" style={{ fontFamily: "'Outfit', sans-serif" }}>
-                        Common{' '}
-                        <span style={{ color: PRIMARY_COLOR }}>
-                            Questions
-                        </span>
-                    </h2>
-
-                    <div className="flex flex-col gap-4 mt-8">
-                        <FAQItem
-                            question="Can I change my plan later?"
-                            answer="Yes! You can upgrade or downgrade your plan at any time. Changes take effect immediately and we'll prorate the difference."
-                        />
-                        <FAQItem
-                            question="What payment methods do you accept?"
-                            answer="We accept all major credit cards (Visa, MasterCard, American Express) and PayPal. All payments are processed securely."
-                        />
-                        <FAQItem
-                            question="Is there a free trial?"
-                            answer="Yes! Our Free plan is completely free forever. You can also try Basic or Pro plans with a 14-day money-back guarantee."
-                        />
-                        <FAQItem
-                            question="Can I cancel anytime?"
-                            answer="Absolutely. You can cancel your subscription at any time with no questions asked. Your data remains accessible until the end of your billing period."
-                        />
-                    </div>
-                </div>
-            </div>
-
-            <div
-                className="py-24"
-                style={{
-                    background: PRIMARY_COLOR,
-                    position: 'relative',
-                    overflow: 'hidden',
-                }}
-            >
-                <div
-                    style={{
-                        position: 'absolute',
-                        top: '-20%',
-                        right: '-10%',
-                        width: '400px',
-                        height: '400px',
-                        background: 'rgba(255, 255, 255, 0.1)',
-                        borderRadius: '50%',
-                        filter: 'blur(60px)',
-                    }}
-                />
-
-                <div className="container mx-auto px-4" style={{ position: 'relative', zIndex: 1 }}>
-                    <div className="flex flex-col gap-8 items-center text-center">
-                        <Star size={48} color="white" style={{ animation: 'pulse 2s ease-in-out infinite' }} />
-                        <h2 className="text-white text-5xl font-bold" style={{ fontFamily: "'Outfit', sans-serif" }}>
-                            Still Have Questions?
-                        </h2>
-                        <p className="text-xl text-white max-w-2xl" style={{ opacity: 0.95 }}>
-                            Our team is here to help you find the perfect plan for your needs.
-                            Get in touch and we'll guide you through the process.
-                        </p>
-
-                        <div className="flex gap-4 mt-4">
-                            <Button
-                                asChild
-                                size="lg"
-                                className="text-lg px-10"
-                                style={{
-                                    background: 'white',
-                                    color: PRIMARY_COLOR,
-                                    borderRadius: '9999px',
-                                    boxShadow: '0 8px 24px rgba(0, 0, 0, 0.2)',
-                                    fontWeight: 700,
-                                    transition: 'all 0.3s ease',
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(-3px) scale(1.05)';
-                                    e.currentTarget.style.boxShadow = '0 12px 32px rgba(0, 0, 0, 0.3)';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                                    e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.2)';
-                                }}
-                            >
-                                <Link href="/contact" className="flex items-center gap-2">
-                                    Contact Sales
-                                    <ArrowRight size={20} />
-                                </Link>
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <style jsx global>{`
-                @keyframes floating {
-                    0%, 100% {
-                        transform: translateY(0px);
-                    }
-                    50% {
-                        transform: translateY(-20px);
-                    }
-                }
-
-                @keyframes pulse {
-                    0%, 100% {
-                        opacity: 1;
-                        transform: scale(1);
-                    }
-                    50% {
-                        opacity: 0.8;
-                        transform: scale(1.05);
-                    }
-                }
-
-                @keyframes shimmer {
-                    0% {
-                        background-position: -200% center;
-                    }
-                    100% {
-                        background-position: 200% center;
-                    }
-                }
-            `}</style>
-        </div>
-    );
-}
-
-interface PricingCardProps {
-    plan: typeof pricingPlans[0];
-    billingCycle: 'monthly' | 'yearly';
-    index: number;
-}
-
-function PricingCard({ plan, billingCycle, index }: PricingCardProps) {
-    const Icon = plan.icon;
-    const price = billingCycle === 'monthly' ? plan.monthlyPrice : plan.yearlyPrice;
-    const monthlyPrice = billingCycle === 'yearly' ? (plan.yearlyPrice / 12).toFixed(0) : plan.monthlyPrice;
-
-    return (
-        <Card
-            className="shadow-sm rounded-xl border overflow-hidden bg-white"
-            style={{
-                border: plan.popular ? `2px solid ${plan.borderColor}` : `1px solid ${BORDER_COLOR}`,
-                transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                cursor: 'pointer',
-                position: 'relative',
-                animationDelay: `${index * 0.1}s`,
-            }}
-            onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-12px) scale(1.02)';
-                e.currentTarget.style.boxShadow = `0 24px 48px ${BORDER_COLOR}`;
-            }}
-            onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                e.currentTarget.style.boxShadow = '';
-            }}
-        >
-            <div
-                style={{
-                    background: PRIMARY_COLOR,
-                    padding: '32px 24px',
-                    position: 'relative',
-                    overflow: 'hidden',
-                }}
-            >
-                {plan.popular && (
-                    <div
-                        style={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)',
-                            backgroundSize: '200% 100%',
-                            animation: 'shimmer 3s infinite',
-                        }}
-                    />
-                )}
-
-                {plan.popular && (
-                    <Badge
-                        className="absolute top-4 right-4 z-10 text-white border-white/50"
-                        style={{
-                            background: 'rgba(255, 255, 255, 0.3)',
-                            backdropFilter: 'blur(10px)',
-                            fontWeight: 700,
-                        }}
-                    >
-                        ⭐ {plan.badge}
-                    </Badge>
-                )}
-
-                <div className="flex flex-col gap-4 relative z-10">
-                    <div
-                        className="flex items-center justify-center rounded-2xl border-2 border-white/30"
-                        style={{
-                            width: 60,
-                            height: 60,
-                            background: 'rgba(255, 255, 255, 0.2)',
-                            backdropFilter: 'blur(10px)',
-                        }}
-                    >
-                        <Icon size={32} color="white" strokeWidth={2} />
-                    </div>
-
-                    <div className="flex flex-col gap-1">
-                        <h3 className="text-white text-3xl font-bold" style={{ fontFamily: "'Outfit', sans-serif" }}>
-                            {plan.title}
-                        </h3>
-                        <p className="text-sm text-white" style={{ opacity: 0.9 }}>
-                            {plan.subtitle}
-                        </p>
-                    </div>
-
-                    <div className="flex items-baseline gap-2">
-                        <span className="text-white text-6xl font-bold leading-none" style={{ fontFamily: "'Outfit', sans-serif" }}>
-                            ${monthlyPrice}
-                        </span>
-                        <div className="flex flex-col">
-                            <span className="text-lg text-white font-semibold">
-                                /month
-                            </span>
-                            {billingCycle === 'yearly' && (
-                                <span className="text-xs text-white" style={{ opacity: 0.8 }}>
-                                    ${price}/year
-                                </span>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div className="flex flex-col gap-8 p-8">
-                <Button
-                    asChild
-                    size="lg"
-                    className="w-full rounded-xl font-bold"
-                    style={{
-                        background: plan.popular ? PRIMARY_COLOR : 'white',
-                        color: plan.popular ? 'white' : plan.iconColor,
-                        border: plan.popular ? 'none' : `2px solid ${plan.iconColor}`,
-                        boxShadow: plan.popular ? `0 8px 24px ${BORDER_COLOR}` : 'none',
-                        transition: 'all 0.3s ease',
-                    }}
-                    onMouseEnter={(e) => {
-                        if (!plan.popular) {
-                            e.currentTarget.style.background = PRIMARY_COLOR;
-                            e.currentTarget.style.color = 'white';
-                            e.currentTarget.style.borderColor = 'transparent';
-                        }
-                        e.currentTarget.style.transform = 'translateY(-2px)';
-                        e.currentTarget.style.boxShadow = `0 12px 32px ${BORDER_COLOR}`;
-                    }}
-                    onMouseLeave={(e) => {
-                        if (!plan.popular) {
-                            e.currentTarget.style.background = 'white';
-                            e.currentTarget.style.color = plan.iconColor;
-                            e.currentTarget.style.borderColor = plan.iconColor;
-                        }
-                        e.currentTarget.style.transform = 'translateY(0)';
-                        e.currentTarget.style.boxShadow = plan.popular ? `0 8px 24px ${BORDER_COLOR}` : 'none';
-                    }}
-                >
-                    <Link href="/auth" className="flex items-center justify-center gap-2">
-                        {plan.id === 'free' ? 'Get Started' : 'Start Free Trial'}
-                        <ArrowRight size={18} />
-                    </Link>
-                </Button>
-
-                <div className="flex flex-col gap-4">
-                    <p className="text-sm font-bold text-gray-500 uppercase" style={{ letterSpacing: '0.5px' }}>
-                        What's Included
-                    </p>
-                    <ul className="flex flex-col gap-3">
-                        {plan.features.map((feature, idx) => (
-                            <li key={idx} className="flex items-start gap-3">
-                                <div
-                                    className="flex items-center justify-center rounded-full flex-shrink-0"
-                                    style={{
-                                        width: 20,
-                                        height: 20,
-                                        background: PRIMARY_COLOR,
-                                    }}
-                                >
-                                    <Check size={12} color="white" strokeWidth={3} />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {features.map((feature, idx) => (
+                            <Card key={idx} className="border border-border bg-card p-6 text-center hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                                <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center mx-auto mb-4 shadow-lg">
+                                    <feature.icon className="w-8 h-8 text-white" />
                                 </div>
-                                <span className="text-sm font-medium">
-                                    {feature}
-                                </span>
-                            </li>
+                                <h4 className="text-lg font-bold text-foreground mb-2">{feature.title}</h4>
+                                <p className="text-sm text-muted-foreground">{feature.description}</p>
+                            </Card>
                         ))}
-                    </ul>
+                    </div>
                 </div>
-            </div>
-        </Card>
-    );
-}
+            </section>
 
-interface FAQItemProps {
-    question: string;
-    answer: string;
-}
+            {/* FAQ Section */}
+            <section className="py-16 lg:py-24 bg-muted/30">
+                <div className="container mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-12">
+                        <Badge variant="outline" className="mb-4 border-primary/30 text-primary">FAQ</Badge>
+                        <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+                            Common{' '}
+                            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                                Questions
+                            </span>
+                        </h2>
+                    </div>
 
-function FAQItem({ question, answer }: FAQItemProps) {
-    return (
-        <Card
-            className="shadow-sm p-8 rounded-xl border bg-white"
-            style={{
-                border: `1px solid ${BORDER_COLOR}`,
-                transition: 'all 0.3s ease',
-                cursor: 'pointer',
-            }}
-            onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow = `0 12px 32px ${BORDER_COLOR}`;
-                e.currentTarget.style.borderColor = PRIMARY_COLOR;
-            }}
-            onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow = '';
-                e.currentTarget.style.borderColor = BORDER_COLOR;
-            }}
-        >
-            <div className="flex flex-col gap-2">
-                <p className="font-bold text-lg" style={{ fontFamily: "'Outfit', sans-serif" }}>
-                    {question}
-                </p>
-                <p className="text-sm text-gray-600" style={{ lineHeight: 1.7 }}>
-                    {answer}
-                </p>
-            </div>
-        </Card>
-    );
-}
-
-interface ComparisonRowProps {
-    feature: string;
-    free: boolean | string;
-    basic: boolean | string;
-    pro: boolean | string;
-}
-
-function ComparisonRow({ feature, free, basic, pro }: ComparisonRowProps) {
-    const renderValue = (value: boolean | string) => {
-        if (typeof value === 'boolean') {
-            return value ? (
-                <div
-                    className="w-6 h-6 rounded-full flex items-center justify-center mx-auto"
-                    style={{ background: 'rgba(16, 185, 129, 0.15)' }}
-                >
-                    <Check size={14} className="text-green-600" />
+                    <div className="space-y-4">
+                        {faqs.map((faq, idx) => (
+                            <Card key={idx} className="border border-border bg-card p-6 hover:shadow-lg hover:border-primary/30 transition-all">
+                                <h4 className="font-bold text-lg text-foreground mb-2">{faq.question}</h4>
+                                <p className="text-muted-foreground leading-relaxed">{faq.answer}</p>
+                            </Card>
+                        ))}
+                    </div>
                 </div>
-            ) : (
-                <div
-                    className="w-6 h-6 rounded-full flex items-center justify-center mx-auto"
-                    style={{ background: 'rgba(156, 163, 175, 0.15)' }}
-                >
-                    <Minus size={14} className="text-gray-400" />
-                </div>
-            );
-        }
-        return <span className="font-medium">{value}</span>;
-    };
+            </section>
 
-    return (
-        <TableRow className="hover:bg-muted/50">
-            <TableCell className="font-medium">{feature}</TableCell>
-            <TableCell className="text-center">{renderValue(free)}</TableCell>
-            <TableCell className="text-center" style={{ background: `${PRIMARY_COLOR}05` }}>
-                {renderValue(basic)}
-            </TableCell>
-            <TableCell className="text-center">{renderValue(pro)}</TableCell>
-        </TableRow>
+            {/* CTA Section */}
+            <section className="py-16 lg:py-24 bg-gradient-to-r from-primary to-secondary">
+                <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+                    <Star className="w-12 h-12 text-white mx-auto mb-6 animate-pulse" />
+                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                        Still Have Questions?
+                    </h2>
+                    <p className="text-lg text-white/90 max-w-2xl mx-auto mb-8">
+                        Our team is here to help you find the perfect plan for your needs.
+                        Get in touch and we'll guide you through the process.
+                    </p>
+                    <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90 shadow-lg">
+                        <Link href="/contact">
+                            Contact Sales
+                            <ArrowRight className="ml-2 h-5 w-5" />
+                        </Link>
+                    </Button>
+                </div>
+            </section>
+        </div>
     );
 }

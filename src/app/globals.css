@@ -14,11 +14,11 @@
         --popover-foreground: 220 25% 10%;
 
         /* Cloud Blue Primary - Professional and Clean */
-        --primary: 210 100% 50%;
+        --primary: 217 91% 60%;
         --primary-foreground: 0 0% 100%;
 
         /* Sky Blue Secondary */
-        --secondary: 200 80% 60%;
+        --secondary: 199 89% 48%;
         --secondary-foreground: 0 0% 100%;
 
         --muted: 210 20% 96%;
@@ -38,23 +38,23 @@
 
         --border: 210 20% 90%;
         --input: 210 20% 90%;
-        --ring: 210 100% 50%;
+        --ring: 217 91% 60%;
 
         --radius: 0.75rem;
 
         /* Sidebar Variables */
         --sidebar-background: 0 0% 100%;
         --sidebar-foreground: 220 25% 10%;
-        --sidebar-primary: 210 100% 50%;
+        --sidebar-primary: 217 91% 60%;
         --sidebar-primary-foreground: 0 0% 100%;
         --sidebar-accent: 210 30% 96%;
         --sidebar-accent-foreground: 220 25% 10%;
         --sidebar-border: 210 20% 92%;
-        --sidebar-ring: 210 100% 50%;
+        --sidebar-ring: 217 91% 60%;
 
         /* Cloud Theme Colors */
-        --cloud-primary: 210 100% 50%;
-        --cloud-secondary: 200 80% 60%;
+        --cloud-primary: 217 91% 60%;
+        --cloud-secondary: 199 89% 48%;
         --cloud-light: 200 60% 94%;
         --cloud-accent: 195 90% 70%;
         --cloud-deep: 215 90% 40%;
@@ -69,10 +69,10 @@
         --space-3xl: 4rem;
 
         /* Professional Gradients */
-        --gradient-primary: linear-gradient(135deg, hsl(210 100% 50%) 0%, hsl(200 80% 55%) 100%);
-        --gradient-hero: linear-gradient(180deg, hsl(210 25% 98%) 0%, hsl(210 30% 95%) 100%);
+        --gradient-primary: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(199 89% 48%) 100%);
+        --gradient-hero: linear-gradient(180deg, hsl(210 25% 98%) 0%, hsl(217 91% 60% / 0.05) 100%);
         --gradient-card: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(210 20% 99%) 100%);
-        --gradient-cloud: linear-gradient(135deg, hsl(210 100% 50%) 0%, hsl(195 90% 60%) 50%, hsl(200 80% 60%) 100%);
+        --gradient-cloud: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(199 89% 48%) 50%, hsl(195 90% 60%) 100%);
         --gradient-sky: linear-gradient(180deg, hsl(200 60% 94%) 0%, hsl(210 30% 98%) 100%);
         --gradient-subtle: linear-gradient(135deg, hsl(210 30% 98%) 0%, hsl(200 25% 96%) 100%);
 
@@ -82,8 +82,8 @@
         --shadow-md: 0 4px 6px -1px hsl(220 25% 10% / 0.07), 0 2px 4px -2px hsl(220 25% 10% / 0.05);
         --shadow-lg: 0 10px 15px -3px hsl(220 25% 10% / 0.08), 0 4px 6px -4px hsl(220 25% 10% / 0.05);
         --shadow-xl: 0 20px 25px -5px hsl(220 25% 10% / 0.08), 0 8px 10px -6px hsl(220 25% 10% / 0.04);
-        --shadow-glow: 0 0 40px hsl(210 100% 50% / 0.12);
-        --shadow-cloud: 0 8px 32px hsl(210 100% 50% / 0.1);
+        --shadow-glow: 0 0 40px hsl(217 91% 60% / 0.15);
+        --shadow-cloud: 0 8px 32px hsl(217 91% 60% / 0.12);
     }
 
     .dark {
