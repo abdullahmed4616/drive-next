@@ -131,9 +131,9 @@ export default function HomePage() {
                     <div className="absolute bottom-0 left-1/4 w-[300px] h-[300px] rounded-full bg-primary/[0.03] blur-[80px]" />
                 </div>
 
-                <div className="container mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
-                    <div className="mx-auto max-w-3xl text-center">
-                        <div className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-1.5 text-sm font-medium text-white/60 mb-10 backdrop-blur-sm">
+                <div className="container content-wide space-container">
+                    <div className="content-default text-center">
+                        <div className="inline-flex items-center inline-sm rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-1.5 text-sm font-medium text-white/60 mb-10 backdrop-blur-sm">
                             <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                             Trusted by 25,000+ users worldwide
                         </div>
@@ -145,7 +145,7 @@ export default function HomePage() {
                             </span>
                         </h1>
 
-                        <p className="mx-auto mb-12 max-w-xl text-lg text-white/45 leading-relaxed">
+                        <p className="content-narrow mb-12 text-lg text-white/45 leading-relaxed">
                             Connect multiple Google Drive accounts, search across all files, detect duplicates, and get actionable insights — from a single dashboard.
                         </p>
 
@@ -177,7 +177,7 @@ export default function HomePage() {
 
                                 {/* Search suggestions dropdown */}
                                 {searchFocused && (
-                                    <div className="border-t border-white/[0.06] px-5 py-3 space-y-1">
+                                    <div className="border-t border-white/[0.06] px-5 py-3 stack-sm">
                                         <p className="text-[11px] font-medium text-white/25 uppercase tracking-wider mb-2">Try asking</p>
                                         {searchSuggestions.map((suggestion) => (
                                             <button
@@ -194,7 +194,7 @@ export default function HomePage() {
                             </div>
                         </div>
 
-                        <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+                        <div className="flex flex-col items-center justify-center inline-md sm:flex-row">
                             <Button
                                 asChild
                                 size="lg"
@@ -225,7 +225,7 @@ export default function HomePage() {
                         <div className="absolute -inset-4 bg-gradient-to-r from-primary/8 via-secondary/8 to-primary/8 rounded-3xl blur-xl" />
                         <div className="relative rounded-2xl border border-white/[0.06] bg-card/80 p-4 shadow-2xl backdrop-blur-sm">
                             {/* Browser chrome */}
-                            <div className="flex items-center gap-2 px-2 pb-4">
+                            <div className="flex items-center inline-sm px-2 pb-4">
                                 <div className="h-2.5 w-2.5 rounded-full bg-white/10" />
                                 <div className="h-2.5 w-2.5 rounded-full bg-white/10" />
                                 <div className="h-2.5 w-2.5 rounded-full bg-white/10" />
@@ -236,13 +236,13 @@ export default function HomePage() {
                             </div>
 
                             {/* Dashboard content mockup */}
-                            <div className="grid gap-4 md:grid-cols-3">
+                            <div className="grid gap-grid md:grid-cols-3">
                                 {[
                                     { name: "Personal Drive", files: 250, used: 5, pct: 50, color: "from-blue-500 to-blue-600" },
                                     { name: "Work Drive", files: 1200, used: 12, pct: 70, color: "from-indigo-500 to-indigo-600" },
                                     { name: "Client Drive", files: 480, used: 8, pct: 40, color: "from-cyan-500 to-cyan-600" },
                                 ].map((drive) => (
-                                    <div key={drive.name} className="rounded-xl bg-white/[0.02] border border-white/[0.05] p-5 hover:bg-white/[0.04] transition-colors">
+                                    <div key={drive.name} className="rounded-xl bg-white/[0.02] border border-white/[0.05] space-card-sm hover:bg-white/[0.04] transition-colors">
                                         <div className="mb-4 flex items-center gap-3">
                                             <div className={`w-9 h-9 rounded-lg bg-gradient-to-br ${drive.color} flex items-center justify-center`}>
                                                 <Cloud className="h-4 w-4 text-white" />
@@ -252,7 +252,7 @@ export default function HomePage() {
                                                 Active
                                             </span>
                                         </div>
-                                        <div className="space-y-2">
+                                        <div className="stack-sm">
                                             <div className="h-1.5 w-full rounded-full bg-white/[0.05] overflow-hidden">
                                                 <div className={`h-full bg-gradient-to-r ${drive.color} rounded-full`} style={{ width: `${drive.pct}%` }} />
                                             </div>
@@ -266,12 +266,12 @@ export default function HomePage() {
                             </div>
 
                             {/* Recent files row */}
-                            <div className="mt-4 rounded-xl bg-white/[0.02] border border-white/[0.05] p-5">
+                            <div className="mt-4 rounded-xl bg-white/[0.02] border border-white/[0.05] space-card-sm">
                                 <div className="flex items-center justify-between mb-4">
                                     <span className="text-xs font-semibold text-white/50 uppercase tracking-wider">Recent Files</span>
                                     <span className="text-xs text-primary/60">View all</span>
                                 </div>
-                                <div className="space-y-3">
+                                <div className="stack-sm">
                                     {[
                                         { name: "Q4 Budget Report.xlsx", icon: FileSpreadsheet, color: "text-emerald-400", size: "2.4 MB" },
                                         { name: "Brand Guidelines.pdf", icon: FileText, color: "text-red-400", size: "8.1 MB" },
@@ -291,8 +291,8 @@ export default function HomePage() {
             </section>
 
             {/* Stats Section */}
-            <section className="py-20 lg:py-24 border-y border-white/[0.05]">
-                <div className="container mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
+            <section className="space-section border-y border-white/[0.05]">
+                <div className="container content-wide space-container">
                     <div className="grid grid-cols-2 gap-10 md:grid-cols-4 md:gap-12">
                         {stats.map((stat) => (
                             <div key={stat.label} className="text-center">
@@ -307,9 +307,9 @@ export default function HomePage() {
             </section>
 
             {/* Features Section */}
-            <section className="py-24 lg:py-32" id="features">
-                <div className="container mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
-                    <div className="mx-auto mb-16 max-w-xl text-center">
+            <section className="space-section-lg" id="features">
+                <div className="container content-wide space-container">
+                    <div className="content-narrow space-heading text-center">
                         <p className="text-sm font-semibold text-primary uppercase tracking-wider mb-4">Features</p>
                         <h2 className="mb-5 text-3xl font-extrabold text-white md:text-4xl tracking-tight">
                             Everything you need to manage your drives
@@ -319,11 +319,11 @@ export default function HomePage() {
                         </p>
                     </div>
 
-                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    <div className="grid gap-grid-lg md:grid-cols-2 lg:grid-cols-3">
                         {features.map((feature) => (
                             <div
                                 key={feature.title}
-                                className="group rounded-2xl border border-white/[0.05] bg-white/[0.02] p-8 hover:bg-white/[0.04] hover:border-white/[0.08] transition-all duration-300"
+                                className="group rounded-2xl border border-white/[0.05] bg-white/[0.02] space-card hover:bg-white/[0.04] hover:border-white/[0.08] transition-all duration-300"
                             >
                                 <div className={`mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${feature.gradient}`}>
                                     <feature.icon className={`h-5 w-5 ${feature.iconColor}`} />
@@ -339,9 +339,9 @@ export default function HomePage() {
             </section>
 
             {/* How It Works Section */}
-            <section className="py-24 lg:py-32 border-y border-white/[0.05]">
-                <div className="container mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
-                    <div className="mx-auto mb-16 max-w-xl text-center">
+            <section className="space-section-lg border-y border-white/[0.05]">
+                <div className="container content-wide space-container">
+                    <div className="content-narrow space-heading text-center">
                         <p className="text-sm font-semibold text-primary uppercase tracking-wider mb-4">How It Works</p>
                         <h2 className="mb-5 text-3xl font-extrabold text-white md:text-4xl tracking-tight">
                             Get started in minutes
@@ -351,13 +351,13 @@ export default function HomePage() {
                         </p>
                     </div>
 
-                    <div className="grid gap-8 md:grid-cols-3">
+                    <div className="grid gap-grid-lg md:grid-cols-3">
                         {steps.map((step, index) => (
                             <div key={step.number} className="relative">
                                 {index < steps.length - 1 && (
                                     <div className="absolute left-full top-12 hidden h-px w-full bg-gradient-to-r from-white/[0.06] to-transparent md:block" style={{ width: 'calc(100% - 3rem)' }} />
                                 )}
-                                <div className="relative rounded-2xl border border-white/[0.05] bg-white/[0.02] p-8 hover:bg-white/[0.04] transition-colors">
+                                <div className="relative rounded-2xl border border-white/[0.05] bg-white/[0.02] space-card hover:bg-white/[0.04] transition-colors">
                                     <div className="mb-4 text-5xl font-extrabold bg-gradient-to-b from-white/8 to-transparent bg-clip-text text-transparent">
                                         {step.number}
                                     </div>
@@ -373,9 +373,9 @@ export default function HomePage() {
             </section>
 
             {/* Testimonials Section */}
-            <section className="py-24 lg:py-32">
-                <div className="container mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
-                    <div className="mx-auto mb-16 max-w-xl text-center">
+            <section className="space-section-lg">
+                <div className="container content-wide space-container">
+                    <div className="content-narrow space-heading text-center">
                         <p className="text-sm font-semibold text-primary uppercase tracking-wider mb-4">Testimonials</p>
                         <h2 className="mb-5 text-3xl font-extrabold text-white md:text-4xl tracking-tight">
                             Loved by thousands of users
@@ -385,9 +385,9 @@ export default function HomePage() {
                         </p>
                     </div>
 
-                    <div className="grid gap-6 md:grid-cols-3">
+                    <div className="grid gap-grid-lg md:grid-cols-3">
                         {testimonials.map((testimonial) => (
-                            <div key={testimonial.author} className="rounded-2xl border border-white/[0.05] bg-white/[0.02] p-8 hover:bg-white/[0.03] transition-colors">
+                            <div key={testimonial.author} className="rounded-2xl border border-white/[0.05] bg-white/[0.02] space-card hover:bg-white/[0.03] transition-colors">
                                 <div className="mb-5 flex gap-1">
                                     {[...Array(5)].map((_, i) => (
                                         <Star key={i} className="h-4 w-4 fill-amber-400/80 text-amber-400/80" />
@@ -412,22 +412,22 @@ export default function HomePage() {
             </section>
 
             {/* CTA Section */}
-            <section className="relative overflow-hidden py-24 lg:py-32">
+            <section className="relative overflow-hidden space-section-lg">
                 <div className="absolute inset-0 -z-10">
                     <div className="absolute left-1/4 top-0 h-64 w-64 rounded-full bg-primary/[0.06] blur-[100px]" />
                     <div className="absolute bottom-0 right-1/4 h-64 w-64 rounded-full bg-secondary/[0.06] blur-[100px]" />
                 </div>
 
-                <div className="container mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
-                    <div className="mx-auto max-w-2xl text-center rounded-3xl border border-white/[0.06] bg-white/[0.02] px-8 py-16 sm:px-14 backdrop-blur-sm">
+                <div className="container content-wide space-container">
+                    <div className="mx-auto max-w-2xl text-center rounded-3xl border border-white/[0.06] bg-white/[0.02] space-card-lg backdrop-blur-sm">
                         <h2 className="mb-5 text-3xl font-extrabold text-white md:text-4xl tracking-tight">
                             Ready to simplify your cloud storage?
                         </h2>
-                        <p className="mx-auto mb-10 max-w-lg text-lg text-white/40">
+                        <p className="content-narrow mb-10 text-lg text-white/40">
                             Join 25,000+ users who manage their drives smarter with DriveUnity.
                         </p>
 
-                        <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+                        <div className="flex flex-col items-center justify-center inline-md sm:flex-row">
                             <Button
                                 asChild
                                 size="lg"
@@ -440,14 +440,14 @@ export default function HomePage() {
                             </Button>
                         </div>
 
-                        <div className="mt-10 flex flex-wrap items-center justify-center gap-8 text-sm text-white/30">
-                            <span className="flex items-center gap-2">
+                        <div className="mt-10 flex flex-wrap items-center justify-center inline-lg text-sm text-white/30">
+                            <span className="flex items-center inline-sm">
                                 <Check className="h-3.5 w-3.5 text-emerald-400/60" /> No credit card required
                             </span>
-                            <span className="flex items-center gap-2">
+                            <span className="flex items-center inline-sm">
                                 <Check className="h-3.5 w-3.5 text-emerald-400/60" /> Free forever with 2 drives
                             </span>
-                            <span className="flex items-center gap-2">
+                            <span className="flex items-center inline-sm">
                                 <Check className="h-3.5 w-3.5 text-emerald-400/60" /> Cancel anytime
                             </span>
                         </div>

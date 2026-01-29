@@ -384,17 +384,98 @@ body{
         background: hsl(var(--cloud-secondary));
     }
 
-    /* Spacing Utilities */
+    /* ===== Spacing & Layout Utilities ===== */
+
+    /* Section vertical rhythm - consistent padding between page sections */
     .space-section {
-        @apply py-8 md:py-12 lg:py-16;
+        @apply py-16 md:py-20 lg:py-24;
     }
 
+    .space-section-lg {
+        @apply py-20 md:py-28 lg:py-32;
+    }
+
+    .space-section-sm {
+        @apply py-10 md:py-14 lg:py-16;
+    }
+
+    /* Container horizontal padding - consistent edge spacing */
     .space-container {
-        @apply px-4 sm:px-6 lg:px-8;
+        @apply px-6 sm:px-8 lg:px-12;
     }
 
+    /* Card internal padding - breathing room inside cards */
     .space-card {
-        @apply p-4 sm:p-6 lg:p-8;
+        @apply p-6 sm:p-7 lg:p-8;
+    }
+
+    .space-card-sm {
+        @apply p-4 sm:p-5;
+    }
+
+    .space-card-lg {
+        @apply p-8 sm:p-10 lg:p-12;
+    }
+
+    /* Section heading spacing - gap between heading block and content */
+    .space-heading {
+        @apply mb-12 md:mb-14 lg:mb-16;
+    }
+
+    .space-heading-sm {
+        @apply mb-8 md:mb-10;
+    }
+
+    /* Grid gap presets - consistent gap across grids */
+    .gap-grid {
+        @apply gap-5 md:gap-6;
+    }
+
+    .gap-grid-lg {
+        @apply gap-6 md:gap-8;
+    }
+
+    .gap-grid-sm {
+        @apply gap-3 md:gap-4;
+    }
+
+    /* Stack spacing - vertical flow within cards/sections */
+    .stack-sm {
+        @apply space-y-2;
+    }
+
+    .stack-md {
+        @apply space-y-4;
+    }
+
+    .stack-lg {
+        @apply space-y-6;
+    }
+
+    /* Inline spacing - horizontal flow for buttons, badges, tags */
+    .inline-sm {
+        @apply gap-2;
+    }
+
+    .inline-md {
+        @apply gap-4;
+    }
+
+    .inline-lg {
+        @apply gap-6 md:gap-8;
+    }
+
+    /* Max-width content wrappers */
+    .content-narrow {
+        @apply mx-auto max-w-xl;
+    }
+
+    .content-default {
+        @apply mx-auto max-w-3xl;
+    }
+
+    .content-wide {
+        @apply mx-auto max-w-6xl;
     }
 
     /* Border Utilities */
