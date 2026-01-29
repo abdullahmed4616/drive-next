@@ -13,7 +13,7 @@ import {
     AccordionContent,
     AccordionItem,
     AccordionTrigger,
-} from "@/app/components/ui/accordion";
+} from "@/app/components/ui/Accordion";
 import { Alert, AlertDescription } from "@/app/components/ui/alert";
 
 const contactInfo = [
