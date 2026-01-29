@@ -1,12 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Check, Mail, MapPin, Clock, Twitter, Linkedin, MessageSquare, Send } from 'lucide-react';
+import { Check, Mail, MapPin, Clock, Twitter, Linkedin, MessageSquare, Send, Search } from 'lucide-react';
 import { Button } from "@/app/components/ui/Button";
 import { Input } from "@/app/components/ui/input";
 import { Textarea } from "@/app/components/ui/textarea";
 import { Label } from "@/app/components/ui/label";
-import { Card, CardContent } from "@/app/components/ui/card";
 import { Badge } from "@/app/components/ui/badge";
 import {
     Accordion,
@@ -87,26 +86,27 @@ export default function ContactUsPage() {
     return (
         <div className="min-h-screen">
             {/* Hero Section */}
-            <section className="relative overflow-hidden bg-gradient-to-b from-background via-primary/5 to-background py-20 lg:py-28">
+            <section className="relative overflow-hidden py-20 lg:py-28">
                 <div className="absolute inset-0 -z-10">
-                    <div className="absolute right-0 top-0 h-[400px] w-[400px] rounded-full bg-primary/10 blur-3xl" />
-                    <div className="absolute left-0 bottom-0 h-[300px] w-[300px] rounded-full bg-secondary/10 blur-3xl" />
+                    <div className="absolute right-0 top-0 h-[400px] w-[400px] rounded-full bg-primary/[0.06] blur-[120px]" />
+                    <div className="absolute left-0 bottom-0 h-[300px] w-[300px] rounded-full bg-secondary/[0.05] blur-[100px]" />
                 </div>
 
-                <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
                     <div className="flex flex-col items-center text-center max-w-3xl mx-auto">
-                        <Badge className="mb-6 px-4 py-2 bg-primary text-white">
+                        <Badge className="mb-6 px-4 py-1.5 bg-primary/10 text-primary border border-primary/20">
                             <MessageSquare className="mr-2 h-4 w-4" />
                             Contact Us
                         </Badge>
 
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
-                            Get in <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Touch</span>
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 tracking-tight">
+                            Get in{' '}
+                            <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-blue-500 bg-clip-text text-transparent">Touch</span>
                         </h1>
 
-                        <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+                        <p className="text-lg md:text-xl text-white/40 leading-relaxed">
                             Have questions, feedback, or want to collaborate? Fill out the form below
-                            and we'll get back to you as soon as possible.
+                            and we&apos;ll get back to you as soon as possible.
                         </p>
                     </div>
                 </div>
@@ -115,12 +115,12 @@ export default function ContactUsPage() {
             {/* Contact Form Section */}
             <section className="py-16 lg:py-24">
                 <div className="container mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-                    <Card className="border border-border bg-card shadow-xl">
-                        <CardContent className="p-6 md:p-8">
+                    <div className="rounded-2xl border border-white/[0.05] bg-white/[0.02] shadow-xl">
+                        <div className="p-6 md:p-8">
                             <form onSubmit={handleSubmit} className="space-y-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
-                                        <Label htmlFor="name">Name</Label>
+                                        <Label htmlFor="name" className="text-white/70">Name</Label>
                                         <Input
                                             id="name"
                                             placeholder="Your Name"
@@ -128,11 +128,11 @@ export default function ContactUsPage() {
                                             required
                                             value={formData.name}
                                             onChange={handleChange}
-                                            className="h-12"
+                                            className="h-12 bg-white/[0.03] border-white/[0.08] text-white placeholder:text-white/25 focus:border-primary/40"
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label htmlFor="email">Email</Label>
+                                        <Label htmlFor="email" className="text-white/70">Email</Label>
                                         <Input
                                             id="email"
                                             placeholder="your@email.com"
@@ -141,25 +141,25 @@ export default function ContactUsPage() {
                                             required
                                             value={formData.email}
                                             onChange={handleChange}
-                                            className="h-12"
+                                            className="h-12 bg-white/[0.03] border-white/[0.08] text-white placeholder:text-white/25 focus:border-primary/40"
                                         />
                                     </div>
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label htmlFor="subject">Subject</Label>
+                                    <Label htmlFor="subject" className="text-white/70">Subject</Label>
                                     <Input
                                         id="subject"
                                         placeholder="What's this about?"
                                         name="subject"
                                         value={formData.subject}
                                         onChange={handleChange}
-                                        className="h-12"
+                                        className="h-12 bg-white/[0.03] border-white/[0.08] text-white placeholder:text-white/25 focus:border-primary/40"
                                     />
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label htmlFor="message">Message</Label>
+                                    <Label htmlFor="message" className="text-white/70">Message</Label>
                                     <Textarea
                                         id="message"
                                         placeholder="Tell us more about your inquiry..."
@@ -168,7 +168,7 @@ export default function ContactUsPage() {
                                         required
                                         value={formData.message}
                                         onChange={handleChange}
-                                        className="resize-none"
+                                        className="resize-none bg-white/[0.03] border-white/[0.08] text-white placeholder:text-white/25 focus:border-primary/40"
                                     />
                                 </div>
 
@@ -176,7 +176,7 @@ export default function ContactUsPage() {
                                     type="submit"
                                     size="lg"
                                     disabled={loading}
-                                    className="w-full h-12 bg-gradient-to-r from-primary to-secondary text-white hover:opacity-90"
+                                    className="w-full h-12 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 text-white font-semibold border-0 shadow-lg shadow-blue-500/20"
                                 >
                                     {loading ? (
                                         <span className="flex items-center gap-2">
@@ -193,81 +193,81 @@ export default function ContactUsPage() {
                             </form>
 
                             {submitted && (
-                                <Alert className="mt-6 bg-green-500/10 border-green-500/30 text-green-600">
+                                <Alert className="mt-6 bg-emerald-500/10 border-emerald-500/20 text-emerald-400">
                                     <Check className="h-4 w-4" />
                                     <AlertDescription>
-                                        <span className="font-semibold">Success!</span> Your message has been sent. We'll get back to you soon!
+                                        <span className="font-semibold">Success!</span> Your message has been sent. We&apos;ll get back to you soon!
                                     </AlertDescription>
                                 </Alert>
                             )}
-                        </CardContent>
-                    </Card>
+                        </div>
+                    </div>
 
                     {/* Contact Info Cards */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-12">
                         {contactInfo.map((info, idx) => (
-                            <Card key={idx} className="border border-border bg-card text-center p-6 hover:shadow-lg transition-shadow">
+                            <div key={idx} className="rounded-2xl border border-white/[0.05] bg-white/[0.02] text-center p-6 hover:bg-white/[0.04] transition-colors">
                                 <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
                                     <info.icon className="w-6 h-6 text-primary" />
                                 </div>
-                                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">
+                                <p className="text-xs font-semibold text-white/30 uppercase tracking-wider mb-1">
                                     {info.title}
                                 </p>
-                                <p className="font-bold text-lg text-foreground">{info.content}</p>
-                                <p className="text-sm text-muted-foreground">{info.subtitle}</p>
-                            </Card>
+                                <p className="font-bold text-lg text-white/85">{info.content}</p>
+                                <p className="text-sm text-white/40">{info.subtitle}</p>
+                            </div>
                         ))}
                     </div>
 
                     {/* Social Links */}
-                    <div className="flex justify-center gap-4 mt-8">
+                    <div className="flex justify-center gap-3 mt-8">
                         <a
                             href="https://twitter.com/driveunity"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all duration-300"
+                            className="w-12 h-12 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center text-white/40 hover:bg-primary/10 hover:text-primary hover:border-primary/20 transition-all duration-300"
                         >
-                            <Twitter size={22} />
+                            <Twitter size={20} />
                         </a>
                         <a
                             href="https://linkedin.com/company/driveunity"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all duration-300"
+                            className="w-12 h-12 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center text-white/40 hover:bg-primary/10 hover:text-primary hover:border-primary/20 transition-all duration-300"
                         >
-                            <Linkedin size={22} />
+                            <Linkedin size={20} />
                         </a>
                     </div>
                 </div>
             </section>
 
             {/* FAQ Section */}
-            <section className="py-16 lg:py-24 bg-muted/30">
+            <section className="py-16 lg:py-24 border-t border-white/[0.05]">
                 <div className="container mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-12">
-                        <Badge variant="outline" className="mb-4 border-primary/30 text-primary">FAQ</Badge>
-                        <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-2">
+                        <Badge variant="outline" className="mb-4 border-primary/20 text-primary bg-primary/5">FAQ</Badge>
+                        <h2 className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent mb-2 tracking-tight">
                             Frequently Asked Questions
                         </h2>
-                        <p className="text-muted-foreground">
+                        <p className="text-white/40">
                             Quick answers to common questions
                         </p>
                     </div>
 
-                    <Card className="border border-border bg-card">
+                    <div className="rounded-2xl border border-white/[0.05] bg-white/[0.02]">
                         <Accordion type="single" collapsible className="w-full">
                             {faqs.map((faq, idx) => (
-                                <AccordionItem key={idx} value={`item-${idx}`} className="border-b border-border last:border-b-0 px-6">
+                                <AccordionItem key={idx} value={`item-${idx}`} className="border-b border-white/[0.05] last:border-b-0 px-6">
                                     <AccordionTrigger className="text-left hover:no-underline py-6">
-                                        <span className="font-semibold text-foreground">{faq.question}</span>
+                                        <span className="font-semibold text-white/80">{faq.question}</span>
                                     </AccordionTrigger>
-                                    <AccordionContent className="pb-6 text-muted-foreground leading-relaxed">
+                                    <AccordionContent className="pb-6 text-white/40 leading-relaxed">
                                         {faq.answer}
                                     </AccordionContent>
                                 </AccordionItem>
                             ))}
                         </Accordion>
-                    </Card>
+                    </div>
                 </div>
             </section>
         </div>
