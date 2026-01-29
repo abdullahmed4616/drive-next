@@ -41,25 +41,24 @@ const socialLinks = [
 
 export function Footer() {
     return (
-        <footer className="w-full bg-gradient-to-t from-muted/50 to-background border-t border-border">
-            <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+        <footer className="w-full bg-background border-t border-border/50">
+            <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
                 {/* Main Footer Content */}
-                <div className="grid grid-cols-2 md:grid-cols-6 gap-8 lg:gap-12 mb-12">
+                <div className="grid grid-cols-2 md:grid-cols-6 gap-8 lg:gap-12 mb-10">
                     {/* Brand Section */}
                     <div className="col-span-2">
-                        <Link href="/" className="flex items-center gap-3 mb-6 group">
-                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-lg shadow-primary/20 group-hover:shadow-primary/30 transition-all">
-                                <Cloud size={22} className="text-white" />
+                        <Link href="/" className="flex items-center gap-2.5 mb-5 group">
+                            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center group-hover:scale-105 transition-transform">
+                                <Cloud size={16} className="text-white" />
                             </div>
-                            <span className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                            <span className="text-base font-bold text-foreground">
                                 DriveUnity
                             </span>
                         </Link>
-                        <p className="text-sm text-muted-foreground mb-6 max-w-xs leading-relaxed">
-                            Manage all your Google Drives in one place. Connect, organize, and access your files
-                            effortlessly with intelligent tools.
+                        <p className="text-sm text-muted-foreground mb-5 max-w-[240px] leading-relaxed">
+                            Manage all your Google Drives in one place. Connect, organize, and access your files effortlessly.
                         </p>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1.5">
                             {socialLinks.map((social) => {
                                 const Icon = social.icon;
                                 return (
@@ -68,10 +67,10 @@ export function Footer() {
                                         href={social.href}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300"
+                                        className="w-8 h-8 rounded-lg text-muted-foreground flex items-center justify-center hover:text-foreground hover:bg-muted transition-all duration-200"
                                         aria-label={social.label}
                                     >
-                                        <Icon size={18} />
+                                        <Icon size={16} />
                                     </a>
                                 );
                             })}
@@ -80,13 +79,13 @@ export function Footer() {
 
                     {/* Product Links */}
                     <div>
-                        <h4 className="font-semibold text-foreground mb-4">Product</h4>
-                        <ul className="space-y-3">
+                        <h4 className="text-sm font-semibold text-foreground mb-3">Product</h4>
+                        <ul className="space-y-2.5">
                             {footerLinks.product.map((link) => (
                                 <li key={link.label}>
                                     <Link
                                         href={link.href}
-                                        className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                                        className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                                     >
                                         {link.label}
                                     </Link>
@@ -97,13 +96,13 @@ export function Footer() {
 
                     {/* Company Links */}
                     <div>
-                        <h4 className="font-semibold text-foreground mb-4">Company</h4>
-                        <ul className="space-y-3">
+                        <h4 className="text-sm font-semibold text-foreground mb-3">Company</h4>
+                        <ul className="space-y-2.5">
                             {footerLinks.company.map((link) => (
                                 <li key={link.label}>
                                     <Link
                                         href={link.href}
-                                        className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                                        className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                                     >
                                         {link.label}
                                     </Link>
@@ -114,13 +113,13 @@ export function Footer() {
 
                     {/* Resources Links */}
                     <div>
-                        <h4 className="font-semibold text-foreground mb-4">Resources</h4>
-                        <ul className="space-y-3">
+                        <h4 className="text-sm font-semibold text-foreground mb-3">Resources</h4>
+                        <ul className="space-y-2.5">
                             {footerLinks.resources.map((link) => (
                                 <li key={link.label}>
                                     <Link
                                         href={link.href}
-                                        className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                                        className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                                     >
                                         {link.label}
                                     </Link>
@@ -131,13 +130,13 @@ export function Footer() {
 
                     {/* Legal Links */}
                     <div>
-                        <h4 className="font-semibold text-foreground mb-4">Legal</h4>
-                        <ul className="space-y-3">
+                        <h4 className="text-sm font-semibold text-foreground mb-3">Legal</h4>
+                        <ul className="space-y-2.5">
                             {footerLinks.legal.map((link) => (
                                 <li key={link.label}>
                                     <Link
                                         href={link.href}
-                                        className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                                        className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                                     >
                                         {link.label}
                                     </Link>
@@ -147,29 +146,29 @@ export function Footer() {
                     </div>
                 </div>
 
-                <Separator className="mb-8" />
+                <Separator className="mb-6 bg-border/50" />
 
                 {/* Bottom Section */}
-                <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-                    <p className="text-sm text-muted-foreground">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-3">
+                    <p className="text-xs text-muted-foreground">
                         &copy; {new Date().getFullYear()} DriveUnity. All rights reserved.
                     </p>
-                    <div className="flex items-center gap-6">
+                    <div className="flex items-center gap-5">
                         <Link
                             href="/privacy"
-                            className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                            className="text-xs text-muted-foreground hover:text-foreground transition-colors"
                         >
                             Privacy
                         </Link>
                         <Link
                             href="/terms"
-                            className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                            className="text-xs text-muted-foreground hover:text-foreground transition-colors"
                         >
                             Terms
                         </Link>
                         <Link
                             href="/cookies"
-                            className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                            className="text-xs text-muted-foreground hover:text-foreground transition-colors"
                         >
                             Cookies
                         </Link>
