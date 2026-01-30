@@ -166,8 +166,8 @@ export const Content: React.FC<ContentProps> = ({ userId }) => {
                 }}
             />
 
-            <div className="container mx-auto px-4 py-8" style={{ position: "relative", zIndex: 1 }}>
-                <div className="flex flex-col gap-6">
+            <div className="container mx-auto px-6 py-10" style={{ position: "relative", zIndex: 1 }}>
+                <div className="flex flex-col gap-8">
 
                     <Card
                         className="shadow-xl p-8 rounded-lg"

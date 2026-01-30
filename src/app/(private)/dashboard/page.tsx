@@ -23,7 +23,7 @@ const Dashboard = () => {
 
   return (
     <div className="container max-w-7xl mx-auto">
-      <div className="flex flex-col gap-8 md:gap-10">
+      <div className="flex flex-col gap-10 md:gap-12">
         {/* Header Section */}
         <PageHeader
           title="Dashboard"
@@ -65,18 +65,18 @@ const Dashboard = () => {
 
         {/* Stats Cards */}
         <section>
-          <div className="flex items-center gap-3 mb-6">
+          <div className="flex items-center gap-3 mb-8">
             <h2 className="text-lg font-semibold text-foreground">Overview</h2>
             <div className="flex-1 h-px bg-border" />
           </div>
-          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
             <StatsPanel />
           </div>
         </section>
 
         {/* Mime Type Overview */}
         <section>
-          <div className="flex items-center gap-3 mb-6">
+          <div className="flex items-center gap-3 mb-8">
             <h2 className="text-lg font-semibold text-foreground">File Distribution</h2>
             <div className="flex-1 h-px bg-border" />
           </div>
@@ -85,7 +85,7 @@ const Dashboard = () => {
 
         {/* Recent Activity */}
         <section>
-          <div className="flex items-center gap-3 mb-6">
+          <div className="flex items-center gap-3 mb-8">
             <h2 className="text-lg font-semibold text-foreground">Recent Activity</h2>
             <div className="flex-1 h-px bg-border" />
           </div>

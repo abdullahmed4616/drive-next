@@ -292,8 +292,8 @@ export default function AISearchPage() {
     (filters.sizeRange !== 'any' ? 1 : 0);
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
-      <div className="flex flex-col gap-8">
+    <div className="container mx-auto px-6 py-10 max-w-6xl">
+      <div className="flex flex-col gap-10">
         {/* Header */}
         <div className="text-center">
           <div className="flex items-center justify-center gap-3 mb-4">
@@ -313,7 +313,7 @@ export default function AISearchPage() {
         {/* Search Bar */}
         <Card className="shadow-lg border border-border bg-card">
           <CardContent className="p-6">
-            <div className="flex gap-3">
+            <div className="flex gap-4">
               <div className="relative flex-1">
                 <Search
                   className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"
@@ -410,7 +410,7 @@ export default function AISearchPage() {
         </Card>
 
         {/* Main Content Area */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Desktop Filters Sidebar */}
           <div className="hidden md:block">
             <Card className="sticky top-24 border border-border bg-card">

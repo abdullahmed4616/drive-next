@@ -122,13 +122,13 @@ export default function PricingPage() {
     return (
         <div className="min-h-screen">
             {/* Hero Section */}
-            <section className="relative overflow-hidden py-20 lg:py-28">
+            <section className="relative overflow-hidden py-24 lg:py-32">
                 <div className="absolute inset-0 -z-10">
                     <div className="absolute right-0 top-0 h-[500px] w-[500px] rounded-full bg-primary/[0.06] blur-[120px]" />
                     <div className="absolute left-0 bottom-0 h-[400px] w-[400px] rounded-full bg-secondary/[0.05] blur-[100px]" />
                 </div>
 
-                <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+                <div className="container mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
                     <div className="flex flex-col items-center text-center">
                         <Badge className="mb-6 px-4 py-1.5 bg-primary/10 text-primary border border-primary/20">
                             <Sparkles className="mr-2 h-4 w-4" />
@@ -143,7 +143,7 @@ export default function PricingPage() {
                             for Your Needs
                         </h1>
 
-                        <p className="text-lg md:text-xl text-white/40 max-w-2xl mb-10 leading-relaxed">
+                        <p className="text-lg md:text-xl text-white/40 max-w-2xl mb-12 leading-relaxed">
                             Start with a free plan and upgrade as you grow. All plans include
                             our core features with no hidden fees.
                         </p>
@@ -169,9 +169,9 @@ export default function PricingPage() {
             </section>
 
             {/* Pricing Cards */}
-            <section className="py-16 lg:py-24">
-                <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <section className="py-20 lg:py-28">
+                <div className="container mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {pricingPlans.map((plan) => {
                             const Icon = plan.icon;
                             const price = billingCycle === 'monthly' ? plan.monthlyPrice : plan.yearlyPrice;
@@ -259,8 +259,8 @@ export default function PricingPage() {
             </section>
 
             {/* Feature Comparison Table */}
-            <section className="py-16 lg:py-24 border-y border-white/[0.05]">
-                <div className="container mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+            <section className="py-20 lg:py-28 border-y border-white/[0.05]">
+                <div className="container mx-auto max-w-5xl px-6 sm:px-8 lg:px-12">
                     <div className="text-center mb-12">
                         <Badge variant="outline" className="mb-4 border-primary/20 text-primary bg-primary/5">COMPARE PLANS</Badge>
                         <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
@@ -302,8 +302,8 @@ export default function PricingPage() {
             </section>
 
             {/* Features Section */}
-            <section className="py-16 lg:py-24">
-                <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <section className="py-20 lg:py-28">
+                <div className="container mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
                     <div className="text-center mb-12">
                         <Badge variant="outline" className="mb-4 border-primary/20 text-primary bg-primary/5">ALL PLANS INCLUDE</Badge>
                         <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
@@ -314,7 +314,7 @@ export default function PricingPage() {
                         </h2>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         {features.map((feature, idx) => (
                             <div key={idx} className="rounded-2xl border border-white/[0.05] bg-white/[0.02] p-6 text-center hover:bg-white/[0.04] hover:border-white/[0.08] transition-all duration-300">
                                 <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 flex items-center justify-center mx-auto mb-4">
@@ -329,8 +329,8 @@ export default function PricingPage() {
             </section>
 
             {/* FAQ Section */}
-            <section className="py-16 lg:py-24 border-t border-white/[0.05]">
-                <div className="container mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+            <section className="py-20 lg:py-28 border-t border-white/[0.05]">
+                <div className="container mx-auto max-w-3xl px-6 sm:px-8 lg:px-12">
                     <div className="text-center mb-12">
                         <Badge variant="outline" className="mb-4 border-primary/20 text-primary bg-primary/5">FAQ</Badge>
                         <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
@@ -341,7 +341,7 @@ export default function PricingPage() {
                         </h2>
                     </div>
 
-                    <div className="space-y-3">
+                    <div className="space-y-4">
                         {faqs.map((faq, idx) => (
                             <div key={idx} className="rounded-2xl border border-white/[0.05] bg-white/[0.02] p-6 hover:bg-white/[0.03] hover:border-white/[0.08] transition-all">
                                 <h4 className="font-bold text-lg text-white/80 mb-2">{faq.question}</h4>
@@ -353,13 +353,13 @@ export default function PricingPage() {
             </section>
 
             {/* CTA Section */}
-            <section className="relative overflow-hidden py-16 lg:py-24">
+            <section className="relative overflow-hidden py-20 lg:py-28">
                 <div className="absolute inset-0 -z-10">
                     <div className="absolute left-1/4 top-0 h-64 w-64 rounded-full bg-primary/[0.06] blur-[100px]" />
                     <div className="absolute right-1/4 bottom-0 h-64 w-64 rounded-full bg-secondary/[0.06] blur-[100px]" />
                 </div>
 
-                <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 text-center">
+                <div className="container mx-auto max-w-6xl px-6 sm:px-8 lg:px-12 text-center">
                     <div className="rounded-3xl border border-white/[0.06] bg-white/[0.02] p-12 backdrop-blur-sm">
                         <Star className="w-10 h-10 text-primary mx-auto mb-6" />
                         <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4 tracking-tight">

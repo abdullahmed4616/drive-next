@@ -73,7 +73,7 @@ export default function NotificationsPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Notification Preferences */}
       <Card style={{ border: `1px solid ${BORDER_COLOR}` }}>
         <CardHeader>
@@ -149,7 +149,7 @@ export default function NotificationsPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <EmailFrequencyCard
               title="Instant"
               description="Get notified immediately"

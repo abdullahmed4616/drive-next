@@ -123,7 +123,7 @@ export default function HomePage() {
     return (
         <div className="flex flex-col">
             {/* Hero Section */}
-            <section className="relative overflow-hidden pt-24 pb-32 lg:pt-36 lg:pb-44">
+            <section className="relative overflow-hidden pt-28 pb-36 lg:pt-40 lg:pb-48">
                 {/* Background effects */}
                 <div className="absolute inset-0 -z-10">
                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[600px] rounded-full bg-primary/[0.06] blur-[120px]" />
@@ -133,7 +133,7 @@ export default function HomePage() {
 
                 <div className="container mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
                     <div className="mx-auto max-w-3xl text-center">
-                        <div className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-1.5 text-sm font-medium text-white/60 mb-10 backdrop-blur-sm">
+                        <div className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-1.5 text-sm font-medium text-white/60 mb-12 backdrop-blur-sm">
                             <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                             Trusted by 25,000+ users worldwide
                         </div>
@@ -145,7 +145,7 @@ export default function HomePage() {
                             </span>
                         </h1>
 
-                        <p className="mx-auto mb-12 max-w-xl text-lg text-white/45 leading-relaxed">
+                        <p className="mx-auto mb-14 max-w-xl text-lg text-white/45 leading-relaxed">
                             Connect multiple Google Drive accounts, search across all files, detect duplicates, and get actionable insights — from a single dashboard.
                         </p>
 
@@ -291,9 +291,9 @@ export default function HomePage() {
             </section>
 
             {/* Stats Section */}
-            <section className="py-20 lg:py-24 border-y border-white/[0.05]">
+            <section className="py-24 lg:py-28 border-y border-white/[0.05]">
                 <div className="container mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
-                    <div className="grid grid-cols-2 gap-10 md:grid-cols-4 md:gap-12">
+                    <div className="grid grid-cols-2 gap-12 md:grid-cols-4 md:gap-16">
                         {stats.map((stat) => (
                             <div key={stat.label} className="text-center">
                                 <div className="text-3xl font-extrabold text-white md:text-4xl">
@@ -319,7 +319,7 @@ export default function HomePage() {
                         </p>
                     </div>
 
-                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                         {features.map((feature) => (
                             <div
                                 key={feature.title}
@@ -351,7 +351,7 @@ export default function HomePage() {
                         </p>
                     </div>
 
-                    <div className="grid gap-8 md:grid-cols-3">
+                    <div className="grid gap-10 md:grid-cols-3">
                         {steps.map((step, index) => (
                             <div key={step.number} className="relative">
                                 {index < steps.length - 1 && (
@@ -385,7 +385,7 @@ export default function HomePage() {
                         </p>
                     </div>
 
-                    <div className="grid gap-6 md:grid-cols-3">
+                    <div className="grid gap-8 md:grid-cols-3">
                         {testimonials.map((testimonial) => (
                             <div key={testimonial.author} className="rounded-2xl border border-white/[0.05] bg-white/[0.02] p-8 hover:bg-white/[0.03] transition-colors">
                                 <div className="mb-5 flex gap-1">

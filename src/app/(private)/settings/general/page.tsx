@@ -84,7 +84,7 @@ export default function GeneralSettingsPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Language & Region */}
       <Card style={{ border: `1px solid ${BORDER_COLOR}` }}>
         <CardHeader>
@@ -97,7 +97,7 @@ export default function GeneralSettingsPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-2">
               <Label htmlFor="language" className="flex items-center gap-2">
                 <Globe size={16} />
@@ -186,7 +186,7 @@ export default function GeneralSettingsPage() {
         </CardHeader>
         <CardContent>
           <Label className="mb-4 block">Theme</Label>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-3 gap-6">
             {themes.map((theme) => {
               const Icon = theme.icon;
               const isSelected = settings.theme === theme.value;

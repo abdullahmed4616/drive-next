@@ -10,8 +10,8 @@ export default function SettingsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '24px' }}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+    <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '32px 24px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
         <div>
           <h1
             style={{

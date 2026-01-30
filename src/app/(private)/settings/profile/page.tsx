@@ -71,7 +71,7 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Profile Information */}
       <Card style={{ border: `1px solid ${BORDER_COLOR}` }}>
         <CardHeader>

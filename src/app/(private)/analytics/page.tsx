@@ -174,8 +174,8 @@ export default function AnalyticsPage() {
   }, 0);
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
-      <div className="flex flex-col gap-8">
+    <div className="container mx-auto px-6 py-10 max-w-7xl">
+      <div className="flex flex-col gap-10">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
@@ -213,7 +213,7 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Overview Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
           <StatCard
             title="Total Files"
             value={overviewStats.totalFiles.toLocaleString()}
@@ -266,8 +266,8 @@ export default function AnalyticsPage() {
           </TabsList>
 
           {/* Overview Tab */}
-          <TabsContent value="overview" className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <TabsContent value="overview" className="space-y-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* File Type Distribution */}
               <Card className="border border-border">
                 <CardHeader>
@@ -408,8 +408,8 @@ export default function AnalyticsPage() {
           </TabsContent>
 
           {/* Storage Tab */}
-          <TabsContent value="storage" className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <TabsContent value="storage" className="space-y-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* Storage by Drive */}
               <Card className="border border-border">
                 <CardHeader>
@@ -542,9 +542,9 @@ export default function AnalyticsPage() {
           </TabsContent>
 
           {/* Duplicates Tab */}
-          <TabsContent value="duplicates" className="space-y-6">
+          <TabsContent value="duplicates" className="space-y-8">
             {/* Duplicates Summary */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <Card className="border border-border">
                 <CardContent className="p-6">
                   <div className="flex items-center gap-4">

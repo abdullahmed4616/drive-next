@@ -69,13 +69,13 @@ export default function AboutPage() {
     return (
         <div className="min-h-screen">
             {/* Hero Section */}
-            <section className="relative overflow-hidden py-20 lg:py-28">
+            <section className="relative overflow-hidden py-24 lg:py-32">
                 <div className="absolute inset-0 -z-10">
                     <div className="absolute right-0 top-0 h-[500px] w-[500px] rounded-full bg-primary/[0.06] blur-[120px]" />
                     <div className="absolute left-0 bottom-0 h-[400px] w-[400px] rounded-full bg-secondary/[0.05] blur-[100px]" />
                 </div>
 
-                <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+                <div className="container mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
                     <div className="flex flex-col items-center text-center">
                         <Badge className="mb-6 px-4 py-1.5 bg-primary/10 text-primary border border-primary/20">
                             About DriveUnity
@@ -97,9 +97,9 @@ export default function AboutPage() {
             </section>
 
             {/* Mission & Vision Section */}
-            <section className="py-16 lg:py-24">
-                <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <section className="py-20 lg:py-28">
+                <div className="container mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         <div className="rounded-2xl border border-white/[0.05] bg-white/[0.02] p-8">
                             <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent mb-4">
                                 Our Mission & Vision
@@ -128,8 +128,8 @@ export default function AboutPage() {
             </section>
 
             {/* Challenges & Solutions Section */}
-            <section className="py-16 lg:py-24 border-y border-white/[0.05]">
-                <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <section className="py-20 lg:py-28 border-y border-white/[0.05]">
+                <div className="container mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
                     <div className="text-center mb-12">
                         <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
                             Challenges &{' '}
@@ -137,7 +137,7 @@ export default function AboutPage() {
                         </h2>
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         {/* Challenges */}
                         <div className="rounded-2xl border border-white/[0.05] bg-white/[0.02] p-6">
                             <h3 className="text-xl font-bold text-white mb-6">The Challenges You Face</h3>
@@ -178,8 +178,8 @@ export default function AboutPage() {
             </section>
 
             {/* Core Values Section */}
-            <section className="py-16 lg:py-24">
-                <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <section className="py-20 lg:py-28">
+                <div className="container mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
                     <div className="text-center mb-12">
                         <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
                             Our Core{' '}
@@ -202,8 +202,8 @@ export default function AboutPage() {
             </section>
 
             {/* Team Section */}
-            <section className="py-16 lg:py-24 border-y border-white/[0.05]">
-                <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <section className="py-20 lg:py-28 border-y border-white/[0.05]">
+                <div className="container mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
                     <div className="text-center mb-12">
                         <h2 className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent mb-4 tracking-tight">
                             Meet Our Team
@@ -231,8 +231,8 @@ export default function AboutPage() {
             </section>
 
             {/* Story Section */}
-            <section className="py-16 lg:py-24">
-                <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <section className="py-20 lg:py-28">
+                <div className="container mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                         <div>
                             <Badge className="mb-4 bg-primary/10 text-primary border border-primary/20">Our Story</Badge>
@@ -275,8 +275,8 @@ export default function AboutPage() {
             </section>
 
             {/* CTA Section */}
-            <section className="py-16 lg:py-24">
-                <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <section className="py-20 lg:py-28">
+                <div className="container mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
                     <div className="relative overflow-hidden rounded-3xl border border-white/[0.06] bg-gradient-to-r from-primary/10 to-secondary/10 p-8 md:p-12 text-center">
                         <div className="absolute inset-0 -z-10">
                             <div className="absolute left-1/4 top-0 h-64 w-64 rounded-full bg-primary/[0.08] blur-[100px]" />
