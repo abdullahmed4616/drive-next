@@ -58,7 +58,7 @@ export default function ConnectionsContent() {
 
   return (
     <div className="container max-w-7xl mx-auto">
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-10">
         {/* Header */}
         <PageHeader
           title="Connected Drives"
@@ -201,7 +201,7 @@ export default function ConnectionsContent() {
 
         {/* Connected Drives */}
         {viewMode === "grid" ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {data?.drives.map((drive) => (
               <ConnectedDriveCard
                 key={drive.id}

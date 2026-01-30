@@ -162,7 +162,7 @@ export default function PrivateLayout({
 
         {/* Main Content */}
         <main className="flex-1 min-h-[calc(100vh-73px)]">
-          <div className="p-4 sm:p-6 lg:p-8">
+          <div className="p-6 sm:p-8 lg:p-10">
             {children}
           </div>
         </main>

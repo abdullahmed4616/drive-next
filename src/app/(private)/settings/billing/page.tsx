@@ -94,7 +94,7 @@ const paymentMethods = [
 
 export default function BillingPage() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Current Plan */}
       <Card
         style={{
@@ -150,7 +150,7 @@ export default function BillingPage() {
           </div>
 
           {/* Plan Features */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t">
             <div>
               <p className="text-sm font-semibold mb-3">Plan Features</p>
               <ul className="space-y-2">

@@ -9,7 +9,7 @@ export default function PublicLayout({
   return (
     <div className="dark">
       <PublicNavbar />
-      <main className="min-h-screen bg-background text-foreground">
+      <main className="min-h-screen bg-background text-foreground pt-4 pb-12">
         {children}
       </main>
       <Footer />

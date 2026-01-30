@@ -86,13 +86,13 @@ export default function ContactUsPage() {
     return (
         <div className="min-h-screen">
             {/* Hero Section */}
-            <section className="relative overflow-hidden py-20 lg:py-28">
+            <section className="relative overflow-hidden py-24 lg:py-32">
                 <div className="absolute inset-0 -z-10">
                     <div className="absolute right-0 top-0 h-[400px] w-[400px] rounded-full bg-primary/[0.06] blur-[120px]" />
                     <div className="absolute left-0 bottom-0 h-[300px] w-[300px] rounded-full bg-secondary/[0.05] blur-[100px]" />
                 </div>
 
-                <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+                <div className="container mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
                     <div className="flex flex-col items-center text-center max-w-3xl mx-auto">
                         <Badge className="mb-6 px-4 py-1.5 bg-primary/10 text-primary border border-primary/20">
                             <MessageSquare className="mr-2 h-4 w-4" />
@@ -113,11 +113,11 @@ export default function ContactUsPage() {
             </section>
 
             {/* Contact Form Section */}
-            <section className="py-16 lg:py-24">
-                <div className="container mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+            <section className="py-20 lg:py-28">
+                <div className="container mx-auto max-w-3xl px-6 sm:px-8 lg:px-12">
                     <div className="rounded-2xl border border-white/[0.05] bg-white/[0.02] shadow-xl">
                         <div className="p-6 md:p-8">
-                            <form onSubmit={handleSubmit} className="space-y-6">
+                            <form onSubmit={handleSubmit} className="space-y-7">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
                                         <Label htmlFor="name" className="text-white/70">Name</Label>
@@ -204,7 +204,7 @@ export default function ContactUsPage() {
                     </div>
 
                     {/* Contact Info Cards */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-12">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-14">
                         {contactInfo.map((info, idx) => (
                             <div key={idx} className="rounded-2xl border border-white/[0.05] bg-white/[0.02] text-center p-6 hover:bg-white/[0.04] transition-colors">
                                 <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
@@ -220,7 +220,7 @@ export default function ContactUsPage() {
                     </div>
 
                     {/* Social Links */}
-                    <div className="flex justify-center gap-3 mt-8">
+                    <div className="flex justify-center gap-4 mt-10">
                         <a
                             href="https://twitter.com/driveunity"
                             target="_blank"
@@ -242,8 +242,8 @@ export default function ContactUsPage() {
             </section>
 
             {/* FAQ Section */}
-            <section className="py-16 lg:py-24 border-t border-white/[0.05]">
-                <div className="container mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+            <section className="py-20 lg:py-28 border-t border-white/[0.05]">
+                <div className="container mx-auto max-w-3xl px-6 sm:px-8 lg:px-12">
                     <div className="text-center mb-12">
                         <Badge variant="outline" className="mb-4 border-primary/20 text-primary bg-primary/5">FAQ</Badge>
                         <h2 className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent mb-2 tracking-tight">
