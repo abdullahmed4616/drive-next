@@ -109,7 +109,7 @@ export default function PrivateNavbar() {
 
     if (checkingConnection) {
         return (
-            <header className="w-full bg-card/80 backdrop-blur-xl border-b border-border">
+            <header className="w-full bg-background border-b border-border">
                 <div className="flex h-[72px] items-center justify-between w-full px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-xl bg-gradient-cloud flex items-center justify-center shadow-md">
@@ -134,7 +134,7 @@ export default function PrivateNavbar() {
 
     return (
         <TooltipProvider>
-            <header className="relative w-full bg-card/80 backdrop-blur-xl border-b border-border">
+            <header className="relative w-full bg-background border-b border-border">
                 <div className="flex h-[72px] items-center justify-between w-full px-4 sm:px-6 lg:px-8">
                     {/* Logo */}
                     <div className="flex items-center gap-3">
